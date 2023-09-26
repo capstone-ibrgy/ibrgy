@@ -1,6 +1,8 @@
+import Homepage from "./pages/Homepage"
+
 function App() {
   return (
-    <h1 className="">iBRGY</h1>
+    <Homepage />
   )
 }
 
