@@ -1,19 +1,23 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import Navbar from '../components/Navbar'
 import logo from '../assets/images/logo.png'
 import brand from '../assets/images/branding.png'
 import backg from '../assets/images/background.svg'
 
+
 function Homepage() {
+
+  const navigate = useNavigate();
+
   return (
     <div>
       <Navbar />
-      <div className='w-full h-screen flex flex-col justify-between'>
-        <div className='flex flex-row max-w-[1248px] m-auto'>
+      <div className='w-full h-screen flex flex-row items-center justify-center'>
           <div>
-            <img src={brand}/>
+            <img className='w-[300px]' src={brand}/>
           </div>
-          <div className='text-[#1F2F3D] font-arimo flex flex-col justify-center md:items-start w-full'>
+          <div className='text-[#1F2F3D] font-arimo flex flex-col justify-center md:items-start'>
             <h1 className='text-4xl font-bold ml-12'>WELCOME TO</h1>
             <img src={logo} class='scale-75 -ml-10 -mt-7'/>
             <p class='italic text-xl ml-12 -mt-8'>True service, tailored to your needs!</p>
@@ -21,14 +25,19 @@ function Homepage() {
               <button className='bg-[#1F2F3D] text-white rounded-[50px] ml-12 py-2 px-20 shadow-2xl'>
                     SIGN UP
               </button>
-              <button className='bg-[#FFFFFF] text-[#1F2F3D] border-2 border-[#1F2F3D] rounded-[50px] ml-12 py-2 px-20 shadow-2xl'>
+              <button 
+              onClick={
+                () => {
+                  navigate('/login')
+                }
+              }
+              className='bg-[#FFFFFF] text-[#1F2F3D] border-2 border-[#1F2F3D] rounded-[50px] ml-8 py-[6px] px-20 shadow-2xl'>
                     LOG IN
               </button>
             </div>
           </div>
         </div>
-      </div>
-      <img src={backg} className='fixed bottom-0'/>
+      <img src={backg} className='absolute z-[-10] bottom-0'/>
     </div>
   )
 }
