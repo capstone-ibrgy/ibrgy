@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import bg from '../assets/images/background.svg'
 import google from '../assets/images/google.png'
 import fb from '../assets/images/fb.png'
+import brand from '../assets/images/branding.png'
 
 function Login() {
 
@@ -25,6 +26,9 @@ function Login() {
                     <div className='flex justify-end'>
                         <h1 className=''>Tuhod sa Kinahanglanon!</h1>
                     </div>
+                </div>
+                <div>
+                    <img className='w-[400px] ml-[280px] mt-[50px]' src={brand}/>
                 </div>
             </div>
             <div className='bg-white w-[65%] h-screen rounded-l-[24px]'>
