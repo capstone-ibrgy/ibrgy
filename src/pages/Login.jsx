@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase';
 import bg from '../assets/images/background.svg'
 import google from '../assets/images/google.png'
 import fb from '../assets/images/fb.png'
@@ -8,6 +10,15 @@ function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    signInWithEmailAndPassword(auth, email, password).then((val)=>{
+        console.log(val)
+    })
+
+  }
 
   return (
     <div className='relative h-screen w-full bg-[#FEC51C]'>
@@ -31,7 +42,7 @@ function Login() {
                 <div className='flex flex-col items-center pt-14'>
                     <h1 className='font-arimo font-bold text-[#1F2F3D] text-[26px]'>ENTER ACCOUNT</h1>
                     <div className='flex flex-col w-[500px] items-center'>
-                        <form className='flex flex-col z-10 w-[350px] py-4 font-arimo text-[#1F2F3D]'>
+                        <form onSubmit={handleSubmit} className='flex flex-col z-10 w-[350px] py-4 font-arimo text-[#1F2F3D]'>
                             <label className='py-1 text-sm font-bold'>Username / Email</label>
                             <input type='text' value={email} className='px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-9 rounded-lg' name='username' 
                             onChange={(e)=>{
@@ -49,9 +60,9 @@ function Login() {
                                 </div>
                                 <p className='text-sm font-bold text-[#1B75BC]'>Forgot Password?</p>
                             </div>
-                            <div className='mt-2 flex w-full h-9 bg-[#1F2F3D] rounded-lg justify-center items-center'>
+                            <button type='submit' className='mt-2 flex w-full h-9 bg-[#1F2F3D] rounded-lg justify-center items-center'>
                                 <p className='text-white text-sm font-bold'>Log In</p>
-                            </div>
+                            </button>
                         </form>
                         <div className='mt-4 w-full flex flex-row items-center'>
                             <div className='flex-1 h-[2px] bg-[#1F2F3D]'></div>
