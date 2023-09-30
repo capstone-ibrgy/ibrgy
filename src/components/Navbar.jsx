@@ -17,7 +17,9 @@ function Navbar() {
                 <Link to='/login'>
                   <p className='text-[#1B75BC]'>LOGIN</p>
                 </Link>
+                <Link to='/signup'>
                 <p className='bg-[#1F2F3D] text-white rounded-[10px] py-2 px-5'>SIGN UP</p>
+                </Link>
             </div>
         </div>
     </div>

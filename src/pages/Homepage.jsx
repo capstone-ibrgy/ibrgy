@@ -22,7 +22,11 @@ function Homepage() {
             True service, tailored to your needs!
           </p>
           <div className="flex flex-row items-center gap-1 mt-8">
-            <button className="bg-[#1F2F3D] text-white rounded-[50px] ml-12 py-2 px-20 shadow-2xl">
+            <button 
+            onClick={() => {
+              navigate("/signup");
+            }}
+            className="bg-[#1F2F3D] text-white rounded-[50px] ml-12 py-2 px-20 shadow-2xl">
               SIGN UP
             </button>
             <button
