@@ -1,4 +1,5 @@
 import Homepage from "./pages/Homepage"
+import Landingpage from "./pages/Landingpage";
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -25,6 +26,12 @@ function App() {
           path='/signup'
           element={
             <Signup/>
+          }
+        />
+        <Route
+          path='/landingpage'
+          element={
+            <Landingpage/>
           }
         />
       </Routes>
