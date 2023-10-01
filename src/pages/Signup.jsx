@@ -150,6 +150,7 @@ function CustomInput({textField, submit}) {
     <div className='w-full flex flex-col'>
       <label className='py-1 text-sm font-bold'>{textField.name}</label>
       <input type={textField.obscured ? "password": "text"} value={textField.value} className='px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-9 rounded-lg'
+        
         onChange={(e) => {
           var value = e.target.value;
 

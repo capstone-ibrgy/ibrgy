@@ -17,9 +17,10 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    signInWithEmailAndPassword(auth, email, password).then((val)=>{
-        console.log(val)
-    })
+    console.log('ye')
+    // signInWithEmailAndPassword(auth, email, password).then((val)=>{
+    //     console.log(val)
+    // })
 
   }
 
@@ -48,11 +49,15 @@ function Login() {
                         <form onSubmit={handleSubmit} className='flex flex-col z-10 w-[350px] py-4 font-arimo text-[#1F2F3D]'>
                             <label className='py-1 text-sm font-bold'>Email Address</label>
                             <input type='text' value={email} className='px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-9 rounded-lg' name='username' 
+                            pattern="([A-Za-z0-9][._]?)+[A-Za-z0-9]@[A-Za-z0-9]+(\.?[A-Za-z0-9]){2}\.(com?|net|org)+(\.[A-Za-z0-9]{2,4})?"
+                            title='Please enter a valid email'
+                            required={true}
                             onChange={(e)=>{
                                 setEmail(e.target.value)
                             }}/>
                             <label className='mt-2 py-1 text-sm font-bold'>Password</label>
                             <input type='password' value={password} className='px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-9 rounded-lg' name='username' 
+                            required={true}
                             onChange={(e)=>{
                                 setPassword(e.target.value)
                             }}/>
