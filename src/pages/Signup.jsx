@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { useAuth } from '../auth/AuthContext';
 import { CircularProgress } from '@mui/material';
 import bg from '../assets/images/background.svg'
 import google from '../assets/images/google.png'
@@ -14,7 +13,7 @@ function Signup() {
 
       const [value, setValue] = useState('');
       const [error, setError] = useState(null);
-      
+
       this.name = name;
       this.value = value;
       this.setValue = setValue;
@@ -29,52 +28,46 @@ function Signup() {
   const cpassword = new TextField('Confirm Password', true, null);
   const [isSigning, setIsSigning] = useState(false);
   const [submit, setSubmit] = useState(false);
- 
+
   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     setSubmit(true);
     handleInputValidation();
   }
 
-  const handleInputValidation = () => {
+  const handleInputValidation = async () => {
 
     const _email = email.value.trim();
     const _password = password.value.trim();
     const _cpassword = cpassword.value.trim();
 
-    if(!_email){
-      email.setError('Email address is required')
-    }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(_email)) {
-      email.setError('Invalid email address')
-    }else{
-      email.setError(null);
+    if (!_email) {
+      return email.setError('Email address is required')
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(_email)) {
+      return email.setError('Invalid email address')
     }
 
-    if(!_password){
+    if (!_password) {
       return password.setError('Password is required')
-    }else if(_password.length < 6){
+    } else if (_password.length < 6) {
       return password.setError('Password must be at least 6 characters')
-    }else{
-      password.setError(null);
     }
 
-    if(!_cpassword){
-      cpassword.setError('Please confirm your password')
-    }else if(_password !== _cpassword){
-      cpassword.setError('Password does not match')
-    }else{
-      password.setError(null);
+    if (!_cpassword) {
+      return cpassword.setError('Please confirm your password')
+    } else if (_password != _cpassword) {
+      return cpassword.setError('Password does not match')
     }
 
-    if(!email.error && !password.error && !cpassword.error){
-      console.log('proceed')
+    setIsSigning(true);
+    await signup(_email, _password);
+    setIsSigning(false);
 
-      setIsSigning(true);
-      setTimeout(() => {navigate('/userinfo');}, 3000);
-    }
+    navigate('/userinfo');
 
   }
 
@@ -101,9 +94,9 @@ function Signup() {
             <h1 className='font-arimo font-bold text-[#1F2F3D] text-[26px]'>CREATE ACCOUNT</h1>
             <div className='z-10 flex flex-col w-[500px] items-center'>
               <form onSubmit={handleSubmit} className='flex flex-col z-10 w-[350px] py-2 font-arimo text-[#1F2F3D]'>
-                <CustomInput textField = {email} submit={submit} />
-                <CustomInput textField = {password} submit={submit}/>
-                <CustomInput textField = {cpassword} submit={submit}/>
+                <CustomInput textField={email} submit={submit} />
+                <CustomInput textField={password} submit={submit} />
+                <CustomInput textField={cpassword} submit={submit} />
                 <button type='submit' className={`${isSigning ? 'bg-[#1F2F3D]/90' : 'bg-[#1F2F3D]'} mt-6 w-full h-9  rounded-lg`}>
                   {
                     isSigning ? (<div className='flex justify-center items-center gap-4'>
@@ -144,20 +137,20 @@ function Signup() {
   )
 }
 
-function CustomInput({textField, submit}) {
+function CustomInput({ textField, submit }) {
 
   return (
     <div className='w-full flex flex-col'>
       <label className='py-1 text-sm font-bold'>{textField.name}</label>
-      <input type={textField.obscured ? "password": "text"} value={textField.value} className='px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-9 rounded-lg'
-        
+      <input type={textField.obscured ? "password" : "text"} value={textField.value} className='px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-9 rounded-lg'
+
         onChange={(e) => {
           var value = e.target.value;
 
-          if(submit){
-            if(!value){
+          if (submit) {
+            if (!value) {
               textField.setError('Required field')
-            }else{
+            } else {
               textField.setError(null);
             }
           }

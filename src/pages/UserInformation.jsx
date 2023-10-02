@@ -3,6 +3,8 @@ import bg from '../assets/images/background.svg'
 import { Link } from 'react-router-dom'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
 import DatePicker from "react-datepicker";
+import { addUserProfile } from '../api/services'
+import { useAuth } from '../auth/AuthContext'
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -11,6 +13,9 @@ function UserInformation() {
   const [startDate, setStartDate] = useState();
   const [agree, setAgree] = useState(false);
   const [notAgree, setNotAgree] = useState('');
+
+  const { currentUser } = useAuth();
+
   const [profile, updateProfile] = useReducer((prev, next) => {
     return { ...prev, ...next }
   },
@@ -36,6 +41,9 @@ function UserInformation() {
       return setNotAgree('Please accept the terms of service and privacy policy.')
     }
 
+    console.log(currentUser)
+
+    // addUserProfile()
   }
 
   return (
