@@ -49,7 +49,7 @@ function Homepage() {
             </div>
           </div>
         </div>
-      <img src={backg} className='absolute z-[-10] bottom-0'/>
+      <img src={backg} className='absolute w-full z-[-10] bottom-0'/>
     </div>
   )
 }
