@@ -15,7 +15,7 @@ import triangle from '../assets/images/triangle.png'
 const Sidebar = () => {
 
     const [side, setSide] = useState(false)
-    const [highlight, setHighlight] = useState(false)
+    const [highlight, setHighlight] = useState(true)
     const [highlight2, setHighlight2] = useState(false)
     const [highlight3, setHighlight3] = useState(false)
     const [highlight4, setHighlight4] = useState(false)
@@ -26,7 +26,7 @@ const Sidebar = () => {
     }
 
     const handleHighlight = () => {
-        setHighlight(!highlight)
+        setHighlight(true)
         setHighlight2(false)
         setHighlight3(false)
         setHighlight4(false)
@@ -34,7 +34,7 @@ const Sidebar = () => {
     }
     const handleHighlight2 = () => {
         setHighlight(false)
-        setHighlight2(!highlight2)
+        setHighlight2(true)
         setHighlight3(false)
         setHighlight4(false)
         setHighlight5(false)
@@ -42,7 +42,7 @@ const Sidebar = () => {
     const handleHighlight3 = () => {
         setHighlight(false)
         setHighlight2(false)
-        setHighlight3(!highlight3)
+        setHighlight3(true)
         setHighlight4(false)
         setHighlight5(false)
     }
@@ -50,7 +50,7 @@ const Sidebar = () => {
         setHighlight(false)
         setHighlight2(false)
         setHighlight3(false)
-        setHighlight4(!highlight4)
+        setHighlight4(true)
         setHighlight5(false)
     }
     const handleHighlight5 = () => {
@@ -58,7 +58,7 @@ const Sidebar = () => {
         setHighlight2(false)
         setHighlight3(false)
         setHighlight4(false)
-        setHighlight5(!highlight5)
+        setHighlight5(true)
     }
 
   return (
