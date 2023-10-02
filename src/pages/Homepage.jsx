@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react'
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import logo from "../assets/images/logo.png";
-import brand from "../assets/images/branding.png";
-import backg from "../assets/images/background.svg";
+import Navbar from '../components/Navbar'
+import logo from '../assets/images/logo.png'
+import brand from '../assets/images/branding.png'
+import backg from '../assets/images/background.svg'
+
 
 function Homepage() {
+
   const navigate = useNavigate();
 
   return (
@@ -49,7 +51,7 @@ function Homepage() {
         </div>
       <img src={backg} className='absolute w-full z-[-10] bottom-0'/>
     </div>
-  );
+  )
 }
 
 export default Homepage
