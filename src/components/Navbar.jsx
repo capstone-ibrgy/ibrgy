@@ -1,6 +1,6 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-import logo from '../assets/images/logo.png'
+import React from "react";
+import { Link } from "react-router-dom";
+import logo from "../assets/images/logo.png";
 
 function Navbar() {
   return (
@@ -22,8 +22,9 @@ function Navbar() {
                 </Link>
             </div>
         </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

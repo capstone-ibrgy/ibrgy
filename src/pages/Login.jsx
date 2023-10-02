@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthContext'
 import bg from '../assets/images/background.svg'
 import google from '../assets/images/google.png'
 import fb from '../assets/images/fb.png'
+import brand from '../assets/images/branding.png'
 
 function Login() {
 
@@ -97,6 +98,9 @@ function Login() {
                             }} className='text-[#1B75BC] cursor-pointer'>Sign up</span></p>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <img className='w-[400px] ml-[280px] mt-[50px]' src={brand}/>
                 </div>
             </div>
 

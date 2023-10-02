@@ -1,3 +1,5 @@
+import Homepage from "./pages/Homepage"
+import Landingpage from "./pages/Landingpage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext";
 
