@@ -16,7 +16,7 @@ function Navbar2() {
                 <div className="w-[48px] h-[48px]">
                     <img src={profile} alt="" />
                 </div>
-                <p>Precious_Hope</p>
+                <p className="font-arimo">Precious_Hope</p>
                 <div className="h-auto w-[20px]">
                     <img src={arrow} alt="" />
                 </div>
