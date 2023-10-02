@@ -1,4 +1,3 @@
-import Homepage from "./pages/Homepage"
 import Landingpage from "./pages/Landingpage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext";
@@ -8,7 +7,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import UserInformation from "./pages/UserInformation";
 import PrivateRoute from "./components/PrivateRoute";
-import { Dashboard } from "@mui/icons-material";
 
 function App() {
   return (
