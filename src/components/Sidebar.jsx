@@ -80,9 +80,6 @@ const Sidebar = () => {
                         <div className={!side ? `font-bold w-[220px] font-arimo ${!highlight ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                             DASHBOARD
                         </div>
-                        <div className={!side ? `${!highlight ? 'hidden' : 'fixed object-scale-down h-[50px] w-[50px] left-[257px] top-[141.5px]'}` : 'hidden'}>
-                            <img src={triangle} alt="" />
-                        </div> 
                     </div>
                 </li>
                 <li
@@ -92,9 +89,6 @@ const Sidebar = () => {
                         <img className={!side ? 'object-scale-down h-5 w-5 mx-auto' : 'object-scale-down h-5 w-5 ml-1'} src={!highlight2 ? about : about2} alt="" />
                         <div className={!side ? `font-bold w-[220px] font-arimo ${!highlight2 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                             ABOUT US
-                        </div>
-                        <div className={!side ? `${!highlight2 ? 'hidden' : 'fixed object-scale-down h-[50px] w-[50px] left-[257px] top-[199px]'}` : 'hidden'}>
-                            <img src={triangle} alt="" />
                         </div>
                     </div>
                 </li>
@@ -106,9 +100,6 @@ const Sidebar = () => {
                         <div className={!side ? `font-bold w-[220px] font-arimo ${!highlight3 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                             CITIZEN'S CHARTER
                         </div>
-                        <div className={!side ? `${!highlight3 ? 'hidden' : 'fixed object-scale-down h-[50px] w-[50px] left-[257px] top-[256.5px]'}` : 'hidden'}>
-                            <img src={triangle} alt="" />
-                        </div>
                     </div>
                 </li>
                 <li
@@ -119,9 +110,6 @@ const Sidebar = () => {
                         <div className={!side ? `font-bold w-[220px] font-arimo ${!highlight4 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                             SERVICES
                         </div>
-                        <div className={!side ? `${!highlight4 ? 'hidden' : 'fixed object-scale-down h-[50px] w-[50px] left-[257px] top-[314px]'}` : 'hidden'}>
-                            <img src={triangle} alt="" />
-                        </div>
                     </div>
                 </li>
                 <li
@@ -131,9 +119,6 @@ const Sidebar = () => {
                         <img className={!side ? 'object-scale-down h-5 w-5 mx-auto' : 'object-scale-down h-5 w-5 ml-1'} src={!highlight5 ? call : call2} alt="" />
                         <div className={!side ? `font-bold w-[220px] font-arimo ${!highlight5 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                             CONTACT US
-                        </div>
-                        <div className={!side ? `${!highlight5 ? 'hidden' : 'fixed object-scale-down h-[50px] w-[50px] left-[257px] top-[371.5px]'}` : 'hidden'}>
-                            <img src={triangle} alt="" />
                         </div>
                     </div>
                 </li>
