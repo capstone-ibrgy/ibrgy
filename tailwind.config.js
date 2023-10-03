@@ -7,6 +7,9 @@ export default {
     extend: {
       fontFamily: {
         'arimo': ['Arimo'],
+      },
+      scale: {
+        '-100': '-1',
       }
     },
   },
