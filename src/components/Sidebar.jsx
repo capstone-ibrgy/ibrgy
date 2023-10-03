@@ -10,7 +10,6 @@ import hands from '../assets/images/f.png'
 import hands2 from '../assets/images/8.png'
 import call from '../assets/images/g.png'
 import call2 from '../assets/images/10.png'
-import triangle from '../assets/images/triangle.png'
 
 const Sidebar = () => {
 
