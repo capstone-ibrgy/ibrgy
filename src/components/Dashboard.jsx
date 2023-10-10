@@ -6,7 +6,7 @@ import call from '../assets/images/g.png'
 
 function Dashboard() {
   return (
-    <div className='w-auto h-auto mt-[85px] ml-[85px]'>
+    <div className='w-auto h-screen mt-[85px] ml-[85px]'>
         <p className='mb-4 font-arimo'>{'Hello > Dashboard'}</p>
         <h1 className='text-3xl font-bold font-arimo mb-8'>Welcome back, <span className='text-[#1B75BC]'>Precious Hope</span></h1>
         <div className='flex flex-row'>

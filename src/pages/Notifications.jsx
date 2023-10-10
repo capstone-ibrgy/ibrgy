@@ -9,13 +9,14 @@ const Notifications = () => {
     const high2 = true
 
   return (
-    <div className='relative'>
-        <Navbar2 drop={drop} high={high} high2={high2} className='z-50' />
+    <div className=''>
         <div className='flex flex-row'>
-            <Sidebar className='z-40' />
-            <p className='mt-[100px]'>Notifications</p>
+            <Sidebar className='' />
+            <div className='w-[70%] h-screen mt-[85px] ml-[85px]'>
+              <p className=''>Notifications</p>
+            </div>
         </div>
-        
+        <Navbar2 drop={drop} high={high} high2={high2} className='' />
     </div>
   )
 }

@@ -63,8 +63,8 @@ const Sidebar = (props) => {
     }
 
   return (
-    <div className={!side ? 'w-[20%] h-screen bg-[#1F2F3D]' : 'w-[4%] h-screen bg-[#1F2F3D] ease-out duration-500'}>
-        <div className='h-[20%] w-full relative'>
+    <div className={!side ? 'w-[20%] h-auto bg-[#1F2F3D]' : 'w-[4%] h-auto bg-[#1F2F3D] ease-out duration-500'}>
+        <div className='h-[20%] w-full relative '>
             <div className='bottom-8 xl:right-5 right-2 absolute'>
                 <img 
                 onClick={handleSide}

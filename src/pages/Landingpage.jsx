@@ -11,13 +11,12 @@ const Landingpage = () => {
   const data4 = false
   const data5 = false
   return (
-    <div className='relative'>
-        <Navbar2 className='z-50' />
+    <div className=''>
         <div className='flex flex-row'>
-            <Sidebar data={data} data2={data2} data3={data3} data4={data4} data5={data5} className='z-40' />
-            <Dashboard className='z-30' />
+            <Sidebar data={data} data2={data2} data3={data3} data4={data4} data5={data5} className='' />
+            <Dashboard className='' />
         </div>
-        
+        <Navbar2 className='' />
     </div>
   )
 }

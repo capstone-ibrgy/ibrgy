@@ -9,13 +9,14 @@ const Profile = () => {
     const high2 = false
 
   return (
-    <div className='relative'>
-        <Navbar2 drop={drop} high={high} high2={high2} className='z-50' />
+    <div className=''>
         <div className='flex flex-row'>
-            <Sidebar className='z-40' />
-            <p className='mt-[100px]'>My Profile</p>
+            <Sidebar className='' />
+            <div className='w-[70%] h-screen mt-[85px] ml-[85px]'>
+              <p className=''>My Profile</p>
+            </div>
         </div>
-        
+        <Navbar2 drop={drop} high={high} high2={high2} className='' />
     </div>
   )
 }
