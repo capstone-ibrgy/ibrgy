@@ -14,7 +14,7 @@ const AboutUs = () => {
         <div className='flex flex-row'>
         <Sidebar data={data} data2={data2} data3={data3} data4={data4} data5={data5} className='z-40' />
             <div className='w-[70%] h-screen mt-[85px] ml-[85px]'>
-              <p className='mb-4 font-arimo'>{'Hello > The Barangay'}</p>
+              <p className='mb-4 font-arimo'>{'Home > About Us'}</p>
               <h1 className='text-3xl font-bold font-arimo mb-8'>iBRGY: Barangay Management System</h1>
               <div className='mb-6'>
                 iBRGY is a Barangay Management System, a computer-based software that streamlines the management of barangays, 
