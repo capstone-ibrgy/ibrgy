@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthContext'
 import bg from '../assets/images/background.svg'
 import google from '../assets/images/google.png'
 import fb from '../assets/images/fb.png'
+import brand from '../assets/images/branding.png'
 
 function Login() {
 
@@ -100,7 +101,7 @@ function Login() {
                 </div>
             </div>
 
-            <img src={bg} className='absolute bottom-0' />
+            <img src={bg} className='absolute bottom-0 w-full' />
         </div>
     )
 }
