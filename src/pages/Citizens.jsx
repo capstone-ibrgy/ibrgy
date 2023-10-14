@@ -4,16 +4,16 @@ import Sidebar from '../components/Sidebar'
 
 const Citizens = () => {
     const data = false
-    const data2 = false
-    const data3 = true
+    const data2 = true
+    const data3 = false
     const data4 = false
     const data5 = false
   return (
     <div className=''>
         <div className='flex flex-row'>
             <Sidebar data={data} data2={data2} data3={data3} data4={data4} data5={data5} className='z-40' />
-            <div className='w-[70%] h-screen mt-[85px] ml-[85px]'>
-              <p className='mb-4 font-arimo'>{'Hello > The Barangay'}</p>
+            <div className='w-[70%] min-h-screen mt-[85px] ml-[85px]'>
+              <p className='mb-4 font-arimo'>{'Home > The Barangay'}</p>
               <h1 className='text-3xl font-bold font-arimo mb-8'>Barangay [Name]</h1>
               <h1 className='text-2xl font-bold font-arimo mb-2 pb-2 border-b-2 border-[#1F2F3D]'>Vision</h1>
               <div className='mb-6'>

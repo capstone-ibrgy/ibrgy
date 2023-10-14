@@ -12,7 +12,7 @@ const Notifications = () => {
     <div className=''>
         <div className='flex flex-row'>
             <Sidebar className='' />
-            <div className='w-[70%] h-screen mt-[85px] ml-[85px]'>
+            <div className='w-[70%] min-h-screen mt-[85px] ml-[85px]'>
               <p className=''>Notifications</p>
             </div>
         </div>

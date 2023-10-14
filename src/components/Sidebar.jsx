@@ -25,10 +25,10 @@ const Sidebar = (props) => {
     const [highlight3, setHighlight3] = useState(props.data3)
     const [highlight4, setHighlight4] = useState(props.data4)
     const [highlight5, setHighlight5] = useState(props.data5)
-    const [highlight41, setHighlight41] = useState(props.data41)
-    const [highlight42, setHighlight42] = useState(props.data42)
-    const [highlight43, setHighlight43] = useState(props.data43)
-    const [highlight44, setHighlight44] = useState(props.data44)
+    const [highlight31, setHighlight31] = useState(props.data31)
+    const [highlight32, setHighlight32] = useState(props.data32)
+    const [highlight33, setHighlight33] = useState(props.data33)
+    const [highlight34, setHighlight34] = useState(props.data34)
 
     const handleSide = () =>{
         setSide(!side)
@@ -38,27 +38,27 @@ const Sidebar = (props) => {
         navigate('/landingpage')
     }
     const handleHighlight2 = () => {
-        navigate('/about-us')
-    }
-    const handleHighlight3 = () => {
         navigate('/citizens-charter')
     }
-    const handleHighlight4 = () => {
+    const handleHighlight3 = () => {
         navigate('/services')
+    }
+    const handleHighlight4 = () => {
+        navigate('/about-us')
     }
     const handleHighlight5 = () => {
         navigate('/contact-us')
     }
-    const handleHighlight41 = () => {
+    const handleHighlight31 = () => {
         navigate('/services/community-tax-certificate')
     }
-    const handleHighlight42 = () => {
+    const handleHighlight32 = () => {
         navigate('/services/barangay-clearance')
     }
-    const handleHighlight43 = () => {
+    const handleHighlight33 = () => {
         navigate('/services/certificate-of-residency')
     }
-    const handleHighlight44 = () => {
+    const handleHighlight34 = () => {
         navigate('/services/certificate-of-indigency')
     }
 
@@ -83,13 +83,14 @@ const Sidebar = (props) => {
                         </div>
                     </div>
                 </li>
+                
                 <li
                 onClick={handleHighlight2}
                 className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3 border-b-2 ${!highlight2 ? 'border-white cursor-pointer' : 'border-[#FEC51C] bg-[#FEC51C] cursor-default'}`}> 
                     <div className='flex flex-row'>
-                        <img className={!side ? 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' : 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 ml-0 md:ml-1'} src={!highlight2 ? about : about2} alt="" />
+                        <img className={!side ? 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' : 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 ml-0 md:ml-1'} src={!highlight2 ? flag : flag2} alt="" />
                         <div className={!side ? `font-bold w-[220px] text-xs md:text-sm lg:text-base font-arimo ${!highlight2 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
-                            ABOUT US
+                            CITIZEN'S CHARTER
                         </div>
                     </div>
                 </li>
@@ -97,64 +98,64 @@ const Sidebar = (props) => {
                 onClick={handleHighlight3}
                 className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3 border-b-2 ${!highlight3 ? 'border-white cursor-pointer' : 'border-[#FEC51C] bg-[#FEC51C] cursor-default'}`}> 
                     <div className='flex flex-row'>
-                        <img className={!side ? 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' : 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 ml-0 md:ml-1'} src={!highlight3 ? flag : flag2} alt="" />
+                        <img className={!side ? 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' : 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 ml-0 md:ml-1'} src={!highlight3 ? hands : hands2} alt="" />
                         <div className={!side ? `font-bold w-[220px] text-xs md:text-sm lg:text-base font-arimo ${!highlight3 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
-                            CITIZEN'S CHARTER
-                        </div>
-                    </div>
-                </li>
-                <li
-                onClick={handleHighlight4}
-                className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3 border-b-2 ${!highlight4 ? 'border-white cursor-pointer' : 'border-[#FEC51C] bg-[#FEC51C] cursor-default'}`}> 
-                    <div className='flex flex-row'>
-                        <img className={!side ? 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' : 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 ml-0 md:ml-1'} src={!highlight4 ? hands : hands2} alt="" />
-                        <div className={!side ? `font-bold w-[220px] text-xs md:text-sm lg:text-base font-arimo ${!highlight4 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                             SERVICES
                         </div>
                     </div>
                 </li>
                 <ul className={!open ? 'hidden' : `${!side ? 'border-b-2 border-white' : 'hidden'} `}>
                     <li
-                    onClick={handleHighlight41}
-                    className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3  ${!highlight41 ? 'cursor-pointer bg-[#192732]' : 'bg-[#d7aa23] cursor-default'}`}> 
+                    onClick={handleHighlight31}
+                    className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3  ${!highlight31 ? 'cursor-pointer bg-[#192732]' : 'bg-[#d7aa23] cursor-default'}`}> 
                         <div className='flex flex-row'>
-                            <img className='object-scale-down h-2 w-2 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' src={!highlight41 ? arrow : arrow2} alt="" />
-                            <div className={!side ? `w-[220px] font-bold text-xs md:text-sm font-arimo ${!highlight41 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
+                            <img className='object-scale-down h-2 w-2 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' src={!highlight31 ? arrow : arrow2} alt="" />
+                            <div className={!side ? `w-[220px] font-bold text-xs md:text-sm font-arimo ${!highlight31 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                                 Community Tax Certificate (Cedula)
                             </div>
                         </div>
                     </li>
                     <li 
-                    onClick={handleHighlight42}
-                    className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3  ${!highlight42 ? 'cursor-pointer bg-[#192732]' : 'bg-[#d7aa23] cursor-default'}`}>
+                    onClick={handleHighlight32}
+                    className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3  ${!highlight32 ? 'cursor-pointer bg-[#192732]' : 'bg-[#d7aa23] cursor-default'}`}>
                         <div className='flex flex-row'>
-                            <img className='object-scale-down h-2 w-2 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' src={!highlight42 ? arrow : arrow2} alt="" />
-                            <div className={!side ? `w-[220px] font-bold text-xs md:text-sm font-arimo ${!highlight42 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
+                            <img className='object-scale-down h-2 w-2 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' src={!highlight32 ? arrow : arrow2} alt="" />
+                            <div className={!side ? `w-[220px] font-bold text-xs md:text-sm font-arimo ${!highlight32 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                                 Barangay Clearance
                             </div>
                         </div>
                     </li>
                     <li 
-                    onClick={handleHighlight43}
-                    className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3  ${!highlight43 ? 'cursor-pointer bg-[#192732]' : 'bg-[#d7aa23] cursor-default'}`}>
+                    onClick={handleHighlight33}
+                    className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3  ${!highlight33 ? 'cursor-pointer bg-[#192732]' : 'bg-[#d7aa23] cursor-default'}`}>
                         <div className='flex flex-row'>
-                            <img className='object-scale-down h-2 w-2 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' src={!highlight43 ? arrow : arrow2} alt="" />
-                            <div className={!side ? `w-[220px] font-bold text-xs md:text-sm font-arimo ${!highlight43 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
+                            <img className='object-scale-down h-2 w-2 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' src={!highlight33 ? arrow : arrow2} alt="" />
+                            <div className={!side ? `w-[220px] font-bold text-xs md:text-sm font-arimo ${!highlight33 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                                 Certificate of Residency
                             </div>
                         </div>
                     </li>
                     <li 
-                    onClick={handleHighlight44}
-                    className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3  ${!highlight44 ? 'cursor-pointer bg-[#192732]' : 'bg-[#d7aa23] cursor-default'}`}>
+                    onClick={handleHighlight34}
+                    className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3  ${!highlight34 ? 'cursor-pointer bg-[#192732]' : 'bg-[#d7aa23] cursor-default'}`}>
                         <div className='flex flex-row'>
-                            <img className='object-scale-down h-2 w-2 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' src={!highlight44 ? arrow : arrow2} alt="" />
-                            <div className={!side ? `w-[220px] font-bold text-xs md:text-sm font-arimo ${!highlight44 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
+                            <img className='object-scale-down h-2 w-2 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' src={!highlight34 ? arrow : arrow2} alt="" />
+                            <div className={!side ? `w-[220px] font-bold text-xs md:text-sm font-arimo ${!highlight34 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
                                 Certificate of Indigency
                             </div>
                         </div>
                     </li>
-                </ul>    
+                </ul>
+                <li
+                onClick={handleHighlight4}
+                className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3 border-b-2 ${!highlight4 ? 'border-white cursor-pointer' : 'border-[#FEC51C] bg-[#FEC51C] cursor-default'}`}> 
+                    <div className='flex flex-row'>
+                        <img className={!side ? 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 mx-auto' : 'object-scale-down h-2 w-2 lg:h-5 lg:w-5 md:h-4 md:w-4 sm:h-3 sm:w-3 ml-0 md:ml-1'} src={!highlight4 ? about : about2} alt="" />
+                        <div className={!side ? `font-bold w-[220px] text-xs md:text-sm lg:text-base font-arimo ${!highlight4 ? 'text-white' : 'text-[#1F2F3D]'}` : 'hidden'}>
+                            ABOUT US
+                        </div>
+                    </div>
+                </li>  
                 <li
                 onClick={handleHighlight5}
                 className={`px-1 py-4 sm:px-2 lg:px-4 md:px-3 border-b-2 ${!highlight5 ? 'border-white cursor-pointer' : 'border-[#FEC51C] bg-[#FEC51C] cursor-default'}`}> 

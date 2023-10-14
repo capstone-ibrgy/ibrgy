@@ -50,7 +50,7 @@ const Navbar2 = (props) => {
                     onClick={handleDrop}
                     className="h-auto w-[20px]">
                         <img 
-                        src={!drop ? arrow2 : arrow} alt=""
+                        src={!drop ? arrow : arrow2} alt=""
                         className="cursor-pointer" />
                     </div>
                 </div>

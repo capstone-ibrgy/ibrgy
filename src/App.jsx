@@ -5,7 +5,7 @@ import Signup from "./pages/Signup"
 import AboutUs from "./pages/AboutUs";
 import Citizens from "./pages/Citizens";
 import Services from "./pages/Services";
-import Tax from "./pages/Tax";
+import Cedula from "./pages/Cedula";
 import Clearance from "./pages/Clearance";
 import Residency from "./pages/Residency";
 import Indigency from "./pages/Indigency";
@@ -71,7 +71,7 @@ function App() {
         <Route
           path="/services/community-tax-certificate"
           element={
-            <Tax />
+            <Cedula />
           }
         />
         <Route

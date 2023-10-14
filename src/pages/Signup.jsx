@@ -6,7 +6,7 @@ import fb from "../assets/images/fb.png";
 
 function Signup() {
   return (
-    <div className="relative h-screen w-full bg-[#FEC51C]">
+    <div className="relative min-h-screen w-full bg-[#FEC51C]">
       <div className="flex flex-row">
         <div></div>
         <div className="w-[35%] flex flex-col">
