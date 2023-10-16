@@ -10,7 +10,7 @@ function Navbar() {
           <img src={logo} className='h-[45px] w-[145px] cursor-pointer' />
         </Link>
         <div className="flex items-center text-[#1F2F3D] font-arimo font-bold cursor-pointer gap-12">
-          <Link to="about-us"><p>ABOUT US</p></Link>
+          <Link to="/about-us"><p>ABOUT US</p></Link>
           <Link to="/citizens-charter"><p>CITIZEN'S CHARTER</p></Link>
           <Link to="/services"><p>SERVICES</p></Link>
           <Link to="/contact-us"><p>CONTACT US</p></Link>

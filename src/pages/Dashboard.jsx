@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import UserDashboard from '../screens/user/UserDashboard';
-import Citizens from '../screens/user/Citizens';
+import Citizens from './Citizens';
 import Services from './Services';
 import AboutUs from './AboutUs';
 import Contact from './Contact';

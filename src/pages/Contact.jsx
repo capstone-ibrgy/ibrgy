@@ -3,11 +3,6 @@ import Navbar2 from '../components/Navbar2'
 import Sidebar from '../components/Sidebar'
 
 const Contact = () => {
-  const data = false
-  const data2 = false
-  const data3 = false
-  const data4 = false
-  const data5 = true
   return (
     <div className=''>
 
