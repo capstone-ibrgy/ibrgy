@@ -99,9 +99,7 @@ function Login() {
                         </div>
                     </div>
                 </div>
-                <div>
-                    <img className='w-[400px] ml-[280px] mt-[50px]' src={brand}/>
-                </div>
+
             </div>
 
             <img src={bg} className='absolute bottom-0 w-full' />
