@@ -2,7 +2,7 @@ import Homepage from "./pages/Homepage"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import AboutUs from "./pages/AboutUs";
-import Citizens from "./pages/Citizens";
+import Citizens from "./screens/user/Citizens";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
