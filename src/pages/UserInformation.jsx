@@ -40,7 +40,6 @@ function UserInformation(props) {
     if (!agree) {
       return setNotAgree('Please accept the terms of service and privacy policy.')
     }
-
     setIsSigning(true);
     await addUserProfile(currentUser.uid, profile).then((_) => {
       setSuccess(true)
@@ -85,7 +84,6 @@ function UserInformation(props) {
                         updateProfile({ birthdate: e })
                       }}
                       className='z-10 w-full px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-8 rounded-lg' selected={startDate} />
-
                   </div>
                   <CalendarTodayRoundedIcon className='px-[3px] cursor-pointer right-2 top-7 absolute opacity-90' />
                 </div>
@@ -154,7 +152,6 @@ function UserInformation(props) {
       </div>
 
       <img src={bg} className='absolute bottom-0 transform -scale-x-100' />
-
     </div>
   )
 }
