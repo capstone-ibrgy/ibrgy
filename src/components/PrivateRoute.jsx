@@ -1,20 +1,63 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useAuth } from "../auth/AuthContext"
-import Homepage from "../pages/Homepage";
-import Dashboard from "../pages/Dashboard";
-import { checkUserProfile } from '../api/services'
+import { useLocation, Navigate } from "react-router-dom";
+import Landingpage from "../pages/Landingpage";
+import { UserAlert } from '../models/UserAlert'
+import { UserProfile } from '../models/UserProfile';
+import { getUser } from '../api/services'
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import Loader from '../components/Loader'
+import UserInformation from "../pages/UserInformation";
 
 export default function PrivateRoute({ children }) {
     const { currentUser } = useAuth();
+    const { pathname } = useLocation();
 
-    if (currentUser) {
+    const [isLoading, setLoading] = useState(true);
+    const [show, setShow] = useState(false);
+    const [valid, setValid] = useState(false);
+    const { alert, setAlert, ERROR } = UserAlert();
+    const { profile, updateProfile } = UserProfile();
 
-        checkUserProfile('LyoBUK72FFnuovUBds04');
-        // if () {
+    const getUserProfile = async () => {
 
-        // }
-        return <Dashboard />;
+        getUser(currentUser.uid).then((value) => {
+
+            if (value.data() != null) {
+                const userProfile = value.data().profile
+                updateProfile(userProfile)
+                setValid(true);
+            }
+
+            setLoading(false)
+
+        }).catch((e) => {
+            setAlert({ type: ERROR, message: 'Something went wrong, please login again.' })
+            setShow(true);
+        })
+    };
+
+    if (currentUser != null) {
+
+        if (profile.userId == null || profile.userId != currentUser.uid) {
+            getUserProfile();
+        }
+
+        return (pathname === '/') ? (
+            <div className="relative w-full h-screen">
+                {isLoading ? <Loader message='Loading, please wait...' /> :
+                    ((!valid) ? <UserInformation /> : <Landingpage profile={profile} currentUser={currentUser} />)}
+                {show && <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} open={show} autoHideDuration={alert.duration}
+                    onClose={() => {
+                        setShow(false);
+                        logout();
+                    }}>
+                    <Alert severity={alert.type}>{alert.message}</Alert>
+                </Snackbar>}
+            </div>
+        ) : <Navigate to='/' />
     }
 
-    return children;
+    return children
 }

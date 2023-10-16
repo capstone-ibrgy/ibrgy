@@ -1,53 +1,59 @@
-import React, { useReducer, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import bg from '../assets/images/background.svg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import Modal from '../components/Modal'
+import { CircularProgress } from '@mui/material';
 import DatePicker from "react-datepicker";
 import { addUserProfile } from '../api/services'
+import { UserProfile } from '../models/UserProfile';
+import { UserAlert } from '../models/UserAlert'
 import { useAuth } from '../auth/AuthContext'
 
 import "react-datepicker/dist/react-datepicker.css";
 
-function UserInformation() {
+function UserInformation(props) {
 
   const [startDate, setStartDate] = useState();
   const [agree, setAgree] = useState(false);
   const [notAgree, setNotAgree] = useState('');
+  const [isSigning, setIsSigning] = useState(false);
+  const [show, setShow] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const { currentUser } = useAuth();
+  const { profile, updateProfile } = UserProfile();
+  const { alert, setAlert, ERROR } = UserAlert();
+  const navigate = useNavigate();
 
-  const [profile, updateProfile] = useReducer((prev, next) => {
-    return { ...prev, ...next }
-  },
-    {
-      lastname: '',
-      firstname: '',
-      mi: '',
-      age: '',
-      gender: '',
-      birthdate: '',
-      birthplace: '',
-      address: '',
-      national: '',
-      civilstatus: '',
-      occupation: '',
-      phone: ''
-    })
+  const location = useLocation();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    updateProfile({ userId: currentUser.uid })
+  }, [])
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!agree) {
       return setNotAgree('Please accept the terms of service and privacy policy.')
     }
 
-    console.log(currentUser)
-
-    // addUserProfile()
+    setIsSigning(true);
+    await addUserProfile(currentUser.uid, profile).then((_) => {
+      setSuccess(true)
+    }).catch((_) => {
+      setAlert({ type: ERROR, message: 'Something went wrong, please try again.' })
+      setShow(true);
+    });
+    setIsSigning(false);
   }
 
   return (
     <div className='relative h-screen w-full bg-[#FEC51C]'>
+      <Modal show={success} />
       <div className="flex flex-row">
         <div className='bg-white w-[65%] h-screen rounded-r-[24px]'>
           <div className='flex flex-col items-center pt-8'>
@@ -69,9 +75,17 @@ function UserInformation() {
                       dateFormat={['MMMM dd, yyyy']}
                       required={true}
                       onSelect={(e) => {
+                        if (e != null) {
+                          updateProfile({ birthdate: e })
+                        }
+
+                      }}
+                      onChange={(e) => {
+                        setStartDate(e)
                         updateProfile({ birthdate: e })
                       }}
-                      className='z-10 w-full px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-8 rounded-lg' selected={startDate} onChange={(date) => setStartDate(date)} />
+                      className='z-10 w-full px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-8 rounded-lg' selected={startDate} />
+
                   </div>
                   <CalendarTodayRoundedIcon className='px-[3px] cursor-pointer right-2 top-7 absolute opacity-90' />
                 </div>
@@ -100,8 +114,15 @@ function UserInformation() {
                   </div>
                   <p className={`${(notAgree != null && !agree) ? 'opacity-100' : 'opacity-0'} px-1 py-2 h-8 text-xs font-bold text-[#E8090C]`}>{notAgree}</p>
                 </div>
-                <button type='submit' className='mt-2 flex w-72 self-center h-9 bg-[#1F2F3D] rounded-lg justify-center items-center'>
-                  <p className='text-white text-sm font-bold'>Sign Up</p>
+                <button type='submit' disabled={isSigning} className={`${isSigning ? 'bg-[#1F2F3D]/90' : 'bg-[#1F2F3D]'} mt-6 w-72 h-9 self-center rounded-lg`}>
+                  {
+                    isSigning ? (<div className='flex justify-center items-center gap-4'>
+                      <CircularProgress color='info' size={20} className='' />
+                      <p className='text-white text-sm font-bold'>Creating account, please wait...</p>
+                    </div>) : (<div className='flex justify-center items-center'>
+                      <p className='text-white text-sm font-bold'>Sign Up</p>
+                    </div>)
+                  }
                 </button>
               </form>
 
@@ -123,10 +144,17 @@ function UserInformation() {
             </div>
           </div>
         </div>
-
+        {show && <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} open={show} autoHideDuration={alert.duration}
+          onClose={() => {
+            setShow(false);
+            navigate('/signup')
+          }}>
+          <Alert severity={alert.type}>{alert.message}</Alert>
+        </Snackbar>}
       </div>
 
       <img src={bg} className='absolute bottom-0 transform -scale-x-100' />
+
     </div>
   )
 }

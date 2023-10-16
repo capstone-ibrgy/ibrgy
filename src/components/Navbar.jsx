@@ -9,16 +9,16 @@ function Navbar() {
         <Link to='/'>
           <img src={logo} className='h-[45px] w-[145px] cursor-pointer' />
         </Link>
-        <div className='flex items-center text-[#1F2F3D] font-arimo font-bold cursor-pointer gap-12'>
-          <p>ABOUT US</p>
-          <p>CITIZEN'S CHARTER</p>
-          <p>SERVICES</p>
-          <p>CONTACT US</p>
-          <Link to='/login'>
-            <p className='text-[#1B75BC]'>LOGIN</p>
-          </Link>
-          <Link to='/signup'>
-            <p className='bg-[#1F2F3D] text-white rounded-[10px] py-2 px-5'>SIGN UP</p>
+        <div className="flex items-center text-[#1F2F3D] font-arimo font-bold cursor-pointer gap-12">
+          <Link to="about-us"><p>ABOUT US</p></Link>
+          <Link to="/citizens-charter"><p>CITIZEN'S CHARTER</p></Link>
+          <Link to="/services"><p>SERVICES</p></Link>
+          <Link to="/contact-us"><p>CONTACT US</p></Link>
+          <Link to="/login"><p className="text-[#1B75BC]">LOGIN</p></Link>
+          <Link to="/signup">
+            <p className="bg-[#1F2F3D] text-white rounded-[10px] py-2 px-5">
+              SIGN UP
+            </p>
           </Link>
         </div>
       </div>

@@ -17,8 +17,8 @@ function Homepage() {
         </div>
         <div className='text-[#1F2F3D] font-arimo flex flex-col justify-center md:items-start'>
           <h1 className='text-4xl font-bold ml-12'>WELCOME TO</h1>
-          <img src={logo} class='scale-75 -ml-10 -mt-7' />
-          <p class='italic text-xl ml-12 -mt-8'>True service, tailored to your needs!</p>
+          <img src={logo} className='scale-75 -ml-10 -mt-7' />
+          <p className='italic text-xl ml-12 -mt-8'>True service, tailored to your needs!</p>
           <div className='flex flex-row items-center gap-1 mt-8'>
             <button
               onClick={

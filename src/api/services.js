@@ -1,7 +1,7 @@
 import { 
     doc, 
     collection, 
-    addDoc, 
+    setDoc, 
     Timestamp, 
     updateDoc, 
     arrayUnion, 
@@ -11,20 +11,16 @@ import {
 
 import { db } from '../../firebase'
 
-const addUserProfile = async (userId, profile ) => {
+const addUserProfile = (userId, profile ) => {
 
-    await addDoc(doc(db, "profiles", userId), {
+    return setDoc(doc(db, "profiles", userId), {
        profile    
     });
     
 }
 
-const checkUserProfile = async (userId) => {
-
-    await getDoc(doc(db, "profiles", userId))
-        .then((querySnapshot)=> {               
-            return querySnapshot.data(); 
-        });
+const getUser = (userId) => {
+    return getDoc(doc(db, "profiles", userId));
 }
 
-export { addUserProfile, checkUserProfile }
+export { addUserProfile, getUser }
