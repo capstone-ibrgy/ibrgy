@@ -5,6 +5,10 @@ import Citizens from './Citizens';
 import Services from './Services';
 import AboutUs from './AboutUs';
 import Contact from './Contact';
+import Cedula from '../screens/user/Cedula'
+import Clearance from '../screens/user/Clearance'
+import Residency from '../screens/user/Residency'
+import Indigency from '../screens/user/Indigency'
 
 function Dashboard(props) {
 
@@ -15,7 +19,11 @@ function Dashboard(props) {
         { screen: "Citizen's Charts", component: <Citizens /> },
         { screen: "Services", component: <Services /> },
         { screen: "About Us", component: <AboutUs /> },
-        { screen: "Contact Us", component: <Contact /> }
+        { screen: "Contact Us", component: <Contact /> },
+        { screen: "Services > Cedula", component: <Cedula /> },
+        { screen: "Services > Barangay Clearance", component: <Clearance /> },
+        { screen: "Services > Certificate of Residency", component: <Residency /> },
+        { screen: "Services > Certificate of Indigency", component: <Indigency /> }
     ];
 
     return (

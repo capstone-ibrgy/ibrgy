@@ -1,163 +1,60 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
-import Navbar2 from '../components/Navbar2'
-import Sidebar from '../components/Sidebar'
+import documents from '../assets/data/content.json'
 import arrow from '../assets/images/Arrow right 2.png'
 import arrow2 from '../assets/images/Arrow down.png'
 import doc from '../assets/images/Community Logo (5).png'
 
 const Services = () => {
-  const data = false
-  const data2 = false
-  const data3 = true
-  const data4 = false
-  const data5 = false
-  const open = true
 
-  const navigate = useNavigate()
+  const [dropdown, setDropdown] = useState(0)
+  const [height, setHeight] = useState(400)
 
-  const [drop, setDrop] = useState(false) //for the description of each document
-  const [drop2, setDrop2] = useState(false)
-  const [drop3, setDrop3] = useState(false)
-  const [drop4, setDrop4] = useState(false)
+  const handleDropdown = (index) => {
+    if (dropdown === index) return setDropdown(null)
+    setDropdown(index)
+  }
 
-  const handleDrop = () => {
-    setDrop(!drop)
-  }
-  const handleDrop2 = () => {
-    setDrop2(!drop2)
-  }
-  const handleDrop3 = () => {
-    setDrop3(!drop3)
-  }
-  const handleDrop4 = () => {
-    setDrop4(!drop4)
-  }
+  useEffect(() => {
+    function handleResize() {
+      setHeight(Math.round(window.innerHeight * 0.7))
+    }
+
+    const eventL = window.addEventListener('resize', handleResize)
+
+    return eventL
+  }, [height])
 
 
   return (
-    <div className=''>
-
-      <h1 className='text-3xl font-bold font-arimo mb-8'>Documents Offered</h1>
-      <div className='flex flex-col relative'>
-        <div className={`bg-[#FEC51C] rounded-2xl flex flex-row w-[90%] items-center z-50 ${!drop ? 'mb-8' : 'mb-0'}`}>
-          <img
-            className='object-scale-down h-[20px] w-auto mx-6 cursor-pointer'
-            onClick={handleDrop}
-            src={!drop ? arrow : arrow2} alt="" />
-          <div className='bg-[#1F2F3D] w-full rounded-2xl flex flex-row items-center justify-end'>
-            <div className='flex flex-row items-center w-full'>
-              <img className='object-scale-down h-[80px] w-auto mx-12' src={doc} alt="" />
-              <h1 className='text-2xl font-bold font-arimo text-white'>Community Tax Certificate (Cedula)</h1>
-            </div>
-            <div
-              onClick={
-                () => {
-                  navigate('/services/community-tax-certificate')
-                }
-              }
-              className='bg-[#FEC51C] p-7 rounded-2xl cursor-pointer'>
-              <div className='text-xl font-bold font-arimo text-[#1F2F3D] m-auto'>
-                REQUEST
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={!drop ? 'hidden' : 'font-arimo bg-[#d1d3d6] w-[90%] mb-8 z-0 -mt-4 pt-12 px-8 pb-8'}>
-          The official document verifying the resident's financial hardship, qualifying them for social welfare
-          benefits. It serves as proof of their economic disadvantage and is required when applying for
-          government assistance programs, medical aid, or other forms of support for those in need.
-        </div>
-      </div>
-
-      <div className='flex flex-col relative'>
-        <div className={`bg-[#FEC51C] rounded-2xl flex flex-row w-[90%] items-center z-50 ${!drop2 ? 'mb-8' : 'mb-0'}`}>
-          <img
-            className='object-scale-down h-[20px] w-auto mx-6 cursor-pointer'
-            onClick={handleDrop2}
-            src={!drop2 ? arrow : arrow2} alt="" />
-          <div className='bg-[#1F2F3D] w-full rounded-2xl flex flex-row items-center justify-end'>
-            <div className='flex flex-row items-center w-full'>
-              <img className='object-scale-down h-[80px] w-auto mx-12' src={doc} alt="" />
-              <h1 className='text-2xl font-bold font-arimo text-white'>Barangay Clearance</h1>
-            </div>
-            <div
-              onClick={
-                () => {
-                  navigate('/services/barangay-clearance')
-                }
-              }
-              className='bg-[#FEC51C] p-7 rounded-2xl cursor-pointer'>
-              <div className='text-xl font-bold font-arimo text-[#1F2F3D] m-auto'>
-                REQUEST
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={!drop2 ? 'hidden' : 'font-arimo bg-[#d1d3d6] w-[90%] mb-8 z-0 -mt-4 pt-12 px-8 pb-8'}>
-          The official document verifying the resident's financial hardship, qualifying them for social welfare
-          benefits. It serves as proof of their economic disadvantage and is required when applying for
-          government assistance programs, medical aid, or other forms of support for those in need.
-        </div>
-      </div>
-      <div className='flex flex-col relative'>
-        <div className={`bg-[#FEC51C] rounded-2xl flex flex-row w-[90%] items-center z-50 ${!drop3 ? 'mb-8' : 'mb-0'}`}>
-          <img
-            className='object-scale-down h-[20px] w-auto mx-6 cursor-pointer'
-            onClick={handleDrop3}
-            src={!drop3 ? arrow : arrow2} alt="" />
-          <div className='bg-[#1F2F3D] w-full rounded-2xl flex flex-row items-center justify-end'>
-            <div className='flex flex-row items-center w-full'>
-              <img className='object-scale-down h-[80px] w-auto mx-12' src={doc} alt="" />
-              <h1 className='text-2xl font-bold font-arimo text-white'>Certificate of Residency</h1>
-            </div>
-            <div
-              onClick={
-                () => {
-                  navigate('/services/certificate-of-residency')
-                }
-              }
-              className='bg-[#FEC51C] p-7 rounded-2xl cursor-pointer'>
-              <div className='text-xl font-bold font-arimo text-[#1F2F3D] m-auto'>
-                REQUEST
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={!drop3 ? 'hidden' : 'font-arimo bg-[#d1d3d6] w-[90%] mb-8 z-0 -mt-4 pt-12 px-8 pb-8'}>
-          The official document verifying the resident's financial hardship, qualifying them for social welfare
-          benefits. It serves as proof of their economic disadvantage and is required when applying for
-          government assistance programs, medical aid, or other forms of support for those in need.
-        </div>
-      </div>
-      <div className='flex flex-col relative'>
-        <div className={`bg-[#FEC51C] rounded-2xl flex flex-row w-[90%] items-center z-50 ${!drop4 ? 'mb-8' : 'mb-0'}`}>
-          <img
-            className='object-scale-down h-[20px] w-auto mx-6 cursor-pointer'
-            onClick={handleDrop4}
-            src={!drop4 ? arrow : arrow2} alt="" />
-          <div className='bg-[#1F2F3D] w-full rounded-2xl flex flex-row items-center justify-end'>
-            <div className='flex flex-row items-center w-full'>
-              <img className='object-scale-down h-[80px] w-auto mx-12' src={doc} alt="" />
-              <h1 className='text-2xl font-bold font-arimo text-white'>Certificate of Indigency</h1>
-            </div>
-            <div
-              onClick={
-                () => {
-                  navigate('/services/certificate-of-indigency')
-                }
-              }
-              className='bg-[#FEC51C] p-7 rounded-2xl cursor-pointer'>
-              <div className='text-xl font-bold font-arimo text-[#1F2F3D] m-auto'>
-                REQUEST
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={!drop4 ? 'hidden' : 'font-arimo bg-[#d1d3d6] w-[90%] mb-8 z-0 -mt-4 pt-12 px-8 pb-8'}>
-          The official document verifying the resident's financial hardship, qualifying them for social welfare
-          benefits. It serves as proof of their economic disadvantage and is required when applying for
-          government assistance programs, medical aid, or other forms of support for those in need.
+    <div className='flex flex-col w-full'>
+      <h1 className='text-3xl font-bold font-arimo mt-2 mb-4'>Documents Offered</h1>
+      <div className={`h-[${height}px] w-full overflow-auto`}>
+        <div className='flex flex-col items-center gap-6'>
+          {
+            documents['documents'].map((item, i) => {
+              return (
+                <div key={item} className='flex flex-col w-[90%] bg-[#D9D9D9]'>
+                  <div className={`h-20 w-full bg-white ${dropdown === i && 'rounded-b-[20px] '}`}>
+                    <div className='relative flex flex-row h-full rounded-[20px] bg-[#FEC51C]'>
+                      <div className='flex w-20 items-center justify-center bg-[#FEC51C] rounded-l-[20px]'>
+                        <img onClick={() => { handleDropdown(i) }} className={`w-6 h-6 cursor-pointer duration-500 transition-all ease-in-out  ${dropdown === i ? 'rotate-90' : 'rotate-0'}`} src={arrow} alt='arrow' />
+                      </div>
+                      <div className='flex flex-row flex-1 bg-[#1F2F3D] rounded-[20px] border-r items-center gap-6 px-8'>
+                        <img src={doc} className='w-16 h-16' />
+                        <h1 className='text-white text-2xl font-bold'>{item.name}</h1>
+                      </div>
+                      <div className='flex justify-center items-center z-10 h-full right-0 absolute w-40 bg-[#FEC51C] rounded-[20px] drop-shadow-lg'>
+                        <h1 className='text-[#1F2F3D] text-xl font-bold'>REQUEST</h1>
+                      </div>
+                    </div>
+                  </div>
+                  <h1 className={` text-justify duration-500 transition-all ease-in-out px-8 py-6 ${dropdown === i ? 'opacity-100' : 'opacity-0 py-0'}`}>
+                    {i === dropdown && item.description}
+                  </h1>
+                </div>)
+            })
+          }
         </div>
       </div>
     </div>

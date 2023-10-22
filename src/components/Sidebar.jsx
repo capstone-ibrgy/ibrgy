@@ -19,7 +19,6 @@ const Sidebar = (props) => {
     const [side, setSide] = useState(true);
     const [index, setIndex] = useState(0);
     const [onService, setOnService] = useState(false);
-    const [sindex, setSIndex] = useState(0);
 
     const items = [
         { label: "Dashboard", icon: home, selected: home2 },
@@ -49,7 +48,7 @@ const Sidebar = (props) => {
         } else {
             setOnService(false)
         }
-        // props.setScreen(index)
+        props.setScreen(index)
     }
 
     const select = (i, index) => {
@@ -72,11 +71,10 @@ const Sidebar = (props) => {
                                 <img className='w-5 h-5' src={(i === index || select(i, index)) ? items.selected : items.icon} alt={items.icon} />
                                 {side && <h1 className={`${(i === index || select(i, index)) && 'text-[#1F2F3D]'}`}>{items.label}</h1>}
                                 {(side && index === i || select(i, index)) && (<img src={triangle} className='absolute object-cover h-full right-0' />)}
-
                             </div>
                             {(side && onService && i === 2) && (<div className='flex flex-col border-b transition-all ease-in-out duration-500'>
                                 {services.map((item, i) => {
-                                    return (<div key={item} onClick={() => { handleClick(i + 5) }} className={`${i + 5 === index ? 'bg-[#FEC51C]/80 text-[#1F2F3D]' : 'text-white'} relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}>
+                                    return (<div key={item + items} onClick={() => { handleClick(i + 5) }} className={`${i + 5 === index ? 'bg-[#FEC51C]/80 text-[#1F2F3D]' : 'text-white'} relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}>
                                         <img className='w-4 h-4' src={(i + 5 === index) ? arrow2 : arrow} alt='icon' />
                                         <p className='text-sm'>{item}</p>
                                     </div>)
