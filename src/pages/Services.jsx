@@ -7,17 +7,28 @@ import doc from '../assets/images/Community Logo (5).png'
 
 const Services = (props) => {
 
-  const [dropdown, setDropdown] = useState(0)
+  const [dropdown, setDropdown] = useState(null)
+  const [height, setHeight] = useState(400)
 
   const handleDropdown = (index) => {
     if (dropdown === index) return setDropdown(null)
     setDropdown(index)
   }
 
+  useEffect(() => {
+    function handleResize() {
+      setHeight(Math.round(window.innerHeight * 0.7))
+    }
+
+    const eventL = window.addEventListener('resize', handleResize)
+
+    return eventL
+  }, [height])
+
   return (
-    <div className='flex flex-col w-full'>
+    <div className='flex flex-col w-full h-full'>
       <h1 className='text-3xl font-bold font-arimo mt-2 mb-4'>Documents Offered</h1>
-      <div className={`h-[${props.height}px] w-full overflow-auto`}>
+      <div className={`h-[${height}px] w-full overflow-auto`}>
         <div className='flex flex-col items-center gap-6'>
           {
             documents['documents'].map((item, i) => {
@@ -37,7 +48,7 @@ const Services = (props) => {
                       </div>
                     </div>
                   </div>
-                  <h1 className={` text-justify duration-500 transition-all ease-in-out px-8 py-6 ${dropdown === i ? 'opacity-100' : 'opacity-0 py-0'}`}>
+                  <h1 className={` text-justify duration-500 transition-all ease-in-out ${dropdown === i ? 'opacity-100 px-8 py-6' : 'opacity-0 py-0 px-0'}`}>
                     {i === dropdown && item.description}
                   </h1>
                 </div>)
