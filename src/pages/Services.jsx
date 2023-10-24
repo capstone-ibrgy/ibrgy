@@ -5,31 +5,19 @@ import arrow from '../assets/images/Arrow right 2.png'
 import arrow2 from '../assets/images/Arrow down.png'
 import doc from '../assets/images/Community Logo (5).png'
 
-const Services = () => {
+const Services = (props) => {
 
   const [dropdown, setDropdown] = useState(0)
-  const [height, setHeight] = useState(400)
 
   const handleDropdown = (index) => {
     if (dropdown === index) return setDropdown(null)
     setDropdown(index)
   }
 
-  useEffect(() => {
-    function handleResize() {
-      setHeight(Math.round(window.innerHeight * 0.7))
-    }
-
-    const eventL = window.addEventListener('resize', handleResize)
-
-    return eventL
-  }, [height])
-
-
   return (
     <div className='flex flex-col w-full'>
       <h1 className='text-3xl font-bold font-arimo mt-2 mb-4'>Documents Offered</h1>
-      <div className={`h-[${height}px] w-full overflow-auto`}>
+      <div className={`h-[${props.height}px] w-full overflow-auto`}>
         <div className='flex flex-col items-center gap-6'>
           {
             documents['documents'].map((item, i) => {
