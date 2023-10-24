@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from '../auth/AuthContext'
 import logo from "../assets/images/logo.png";
 import profile from "../assets/images/Community Logo (6).png"
 import arrow from "../assets/images/Arrow 1.png"
@@ -9,33 +9,31 @@ import notifs from "../assets/images/17.png"
 import logoutIcon from "../assets/images/18.png"
 
 const Navbar2 = (props) => {
-
-    const navigate = useNavigate()
-
-    const [drop, setDrop] = useState(props.drop)
-    const [highlight, setHighlight] = useState(props.high)
-    const [highlight2, setHighlight2] = useState(props.high2)
-    const [highlight3, setHighlight3] = useState(props.high3)
-
+    
     const { currentUser, logout } = props.useAuth();
+
+    const [drop, setDrop] = useState(false);
+    const [index, setIndex] = useState(-1);
+
+
+    const items = [
+        { label: "Profile", icon: profile2},
+        { label: "Notifications", icon: notifs},
+        { label: "Log Out", icon: logoutIcon}
+    ]
 
     const handleDrop = () => {
         setDrop(!drop)
     }
 
-    const handleHighlight = () => {
-        navigate('/profile')
+    const handleClick = (index) => {
+        let actual_index = index + 5
+        setIndex(index)
+        if (actual_index === 7){
+            logout()
+        }
+        //idk how to do the logout feature
     }
-
-    const handleHighlight2 = () => {
-        navigate('/notifications')
-    }
-
-    const handleHighlight3 = () => {
-        logout();
-    }
-
-    //Add onClick function on each "li"
 
     return (
         <div className="bg-[#FEC51C] w-full fixed top-0 rounded-b-[30px] h-16 px-7 grid-cols-3 items-center">
@@ -57,29 +55,17 @@ const Navbar2 = (props) => {
                         </div>
                     </div>
                     <div className={!drop ? 'hidden' : 'font-arimo bg-[#1f2f3d7f] w-full mt-2'}>
-                        <ul>
-                            <li
-                                onClick={handleHighlight}>
-                                <div className={`flex flex-row items-center ${!highlight ? 'hover:bg-[#00000024] cursor-pointer' : 'bg-[#1F2F3D]'}`}>
-                                    <img className="object-scale-down h-5 w-5 m-2 ml-7" src={profile2} alt="" />
-                                    <div>My Profile</div>
+                        {items.map((items, i) => {
+                            return(
+                                <div key={items.label} onClick={() => { handleClick(i) }}>
+                                    <div className={`flex flex-row items-center ${(i === index) ? 'bg-[#1F2F3D]' : 'hover:bg-[#00000024] cursor-pointer'}`}>
+                                        <img className="object-scale-down h-5 w-5 m-2 ml-7" src={items.icon} alt="" />
+                                        <div>{items.label}</div>
+                                    </div>
                                 </div>
-                            </li>
-                            <li
-                                onClick={handleHighlight2}>
-                                <div className={`flex flex-row items-center ${!highlight2 ? 'hover:bg-[#00000024] cursor-pointer' : 'bg-[#1F2F3D]'}`}>
-                                    <img className="object-scale-down h-5 w-5 m-2 ml-7" src={notifs} alt="" />
-                                    <div>Notifications</div>
-                                </div>
-                            </li>
-                            <li
-                                onClick={handleHighlight3}>
-                                <div className='flex flex-row items-center hover:bg-[#00000024] cursor-pointer'>
-                                    <img className="object-scale-down h-5 w-5 m-2 ml-7" src={logoutIcon} alt="" />
-                                    <div>Log Out</div>
-                                </div>
-                            </li>
-                        </ul>
+                            )
+                        })}
+                        
                     </div>
 
                 </div>

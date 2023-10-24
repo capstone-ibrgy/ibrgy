@@ -5,6 +5,8 @@ import Citizens from './Citizens';
 import Services from './Services';
 import AboutUs from './AboutUs';
 import Contact from './Contact';
+import Profile from '../screens/user/Profile';
+import Notifications from '../screens/user/Notifications';
 
 function Dashboard(props) {
 
@@ -15,7 +17,9 @@ function Dashboard(props) {
         { screen: "Citizen's Charts", component: <Citizens /> },
         { screen: "Services", component: <Services /> },
         { screen: "About Us", component: <AboutUs /> },
-        { screen: "Contact Us", component: <Contact /> }
+        { screen: "Contact Us", component: <Contact /> },
+        { screen: "Profile", component: <Profile /> },
+        { screen: "Notifications", component: <Notifications /> }
     ];
 
     return (

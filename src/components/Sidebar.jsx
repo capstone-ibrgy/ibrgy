@@ -43,7 +43,7 @@ const Sidebar = (props) => {
             <div className='grid grid-rows-5 font-arimo font-bold items-center'>
                 {items.map((items, i) => {
                     return (
-                        <div onClick={() => { handleClick(i) }} key={items} className={`relative flex flex-row items-center h-14 px-4 w-full text-white border-b gap-3 ${(i === index)
+                        <div onClick={() => { handleClick(i) }} key={items.label} className={`relative flex flex-row items-center h-14 px-4 w-full text-white border-b gap-3 ${(i === index)
                             && 'bg-[#FEC51C] border-[#1F2F3D]'} ${(i === index - 1) && 'border-[#1F2F3D]'}`}>
                             <img className='w-5 h-5' src={i === index ? items.selected : items.icon} alt={items.icon} />
                             {side && <h1 className={`${i === index && 'text-[#1F2F3D]'}`}>{items.label}</h1>}

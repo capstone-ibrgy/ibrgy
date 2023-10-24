@@ -1,34 +1,19 @@
 import React, {useState} from 'react'
-import Navbar2 from '../components/Navbar2'
-import Sidebar from '../components/Sidebar'
-import doc from '../assets/images/Community Logo (5).png'
-import upload from '../assets/images/Community Logo (16).png'
-import calendar from '../assets/images/Community Logo (14).png'
+import doc from '../../assets/images/Community Logo (5).png'
+import upload from '../../assets/images/Community Logo (16).png'
+import calendar from '../../assets/images/Community Logo (14).png'
 
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 const Cedula = () => {
-  const data = false
-  const data2 = false
-  const data3 = true
-  const data4 = false
-  const data5 = false
-  const open = true
-  const data31 = true
-  const data32 = false
-  const data33 = false
-  const data34 = false
 
   const [startDate, setStartDate] = useState();
 
   return (
     <div className=''>
         <div className='flex flex-row'>
-            <Sidebar 
-            data={data} data2={data2} data3={data3} data4={data4} data5={data5} open={open} data31={data31} data32={data32} data33={data33} data34={data34} 
-            className='' />
             <div className='w-[70%] min-h-screen mt-[85px] ml-[85px]'>
               <p className='mb-4 font-arimo'>{'Home > Services > Cedula'}</p>
               <h1 className='text-3xl font-bold font-arimo mb-8'>Request Form</h1>
@@ -113,7 +98,6 @@ const Cedula = () => {
             </div>
             
         </div>
-        <Navbar2 className='' />
     </div>
   )
 }
