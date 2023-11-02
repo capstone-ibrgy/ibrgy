@@ -13,17 +13,28 @@ import Indigency from '../screens/user/Indigency'
 function Dashboard(props) {
 
     const { currentUser, logout } = useAuth();
+    const [height, setHeight] = useState(400)
+
+    useEffect(() => {
+        function handleResize() {
+            setHeight(Math.round(window.innerHeight * 0.7))
+        }
+
+        const eventL = window.addEventListener('resize', handleResize)
+
+        return eventL
+    }, [height])
 
     const screens = [
-        { screen: "Dashboard", component: <UserDashboard profile={props.profile} /> },
-        { screen: "Citizen's Charts", component: <Citizens /> },
-        { screen: "Services", component: <Services /> },
-        { screen: "About Us", component: <AboutUs /> },
-        { screen: "Contact Us", component: <Contact /> },
-        { screen: "Services > Cedula", component: <Cedula /> },
-        { screen: "Services > Barangay Clearance", component: <Clearance /> },
-        { screen: "Services > Certificate of Residency", component: <Residency /> },
-        { screen: "Services > Certificate of Indigency", component: <Indigency /> }
+        { screen: "Dashboard", component: <UserDashboard profile={props.profile} height={height} /> },
+        { screen: "Citizen's Charts", component: <Citizens height={height} /> },
+        { screen: "Services", component: <Services height={height} /> },
+        { screen: "About Us", component: <AboutUs height={height} /> },
+        { screen: "Contact Us", component: <Contact height={height} /> },
+        { screen: "Services > Cedula", component: <Cedula height={height} /> },
+        { screen: "Services > Barangay Clearance", component: <Clearance height={height} /> },
+        { screen: "Services > Certificate of Residency", component: <Residency height={height} /> },
+        { screen: "Services > Certificate of Indigency", component: <Indigency height={height} /> }
     ];
 
     return (
