@@ -8,7 +8,7 @@ export function CedulaForm() {
             height: '',
             weight: '',
             income: '',
-            uploaded_docs: '',
+            uploaded_docs: null,
             pick_up: '',
             payment_method: ''
         });
