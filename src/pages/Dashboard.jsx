@@ -9,6 +9,8 @@ import Cedula from '../screens/user/Cedula'
 import Clearance from '../screens/user/Clearance'
 import Residency from '../screens/user/Residency'
 import Indigency from '../screens/user/Indigency'
+import Profile from '../screens/user/Profile'
+import Notifications from '../screens/user/Notifications'
 
 function Dashboard(props) {
 
@@ -23,7 +25,9 @@ function Dashboard(props) {
         { screen: "Services > Cedula", component: <Cedula /> },
         { screen: "Services > Barangay Clearance", component: <Clearance /> },
         { screen: "Services > Certificate of Residency", component: <Residency /> },
-        { screen: "Services > Certificate of Indigency", component: <Indigency /> }
+        { screen: "Services > Certificate of Indigency", component: <Indigency /> },
+        { screen: "Profile > My Profile", component: <Profile /> },
+        { screen: "Profile > Notifications", component: <Notifications /> }
     ];
 
     return (

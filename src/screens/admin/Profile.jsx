@@ -7,18 +7,15 @@ import "react-datepicker/dist/react-datepicker.css";
 const Profile = () => {
 
   const info = {
-    lastname: "Jumuad",
-    firstname: "Precious Hope",
-    midinitial: "T",
-    age: "20",
-    gender: "Female",
-    birth_date: "August 27, 2002",
-    birth_place: "Jasaan Municipal Hospital, Lower Jasaan, Jasaan, Misamis Oriental",
-    address: "M.L. Quezon St., Zone 3, Lower Jasaan, Jasaan 9003, Misamis Oriental",
-    nationality: "Filipino",
-    civil_status: "Single",
-    occupation: "N/A",
-    number: "+639604806765"
+    lastname: "[Last Name]",
+    firstname: "[First Name]",
+    midinitial: "[M.I.]",
+    age: "[Age]",
+    gender: "[Gender]",
+    birth_date: "[Month Day, Year]",
+    address: "[Street], Zone #, [Barangay], [City/Municipality] [Zip Code], [Province]",
+    position: "Barangay Hall Staff",
+    number: "[Phone Number]"
   }
 
   const requests = [
@@ -90,27 +87,13 @@ const Profile = () => {
               </div>
             </div>
             <div className='flex flex-col w-full font-semibold'>
-              <label>Place of Birth</label>
-              <input type="text" placeholder={info.birth_place} className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'/>
-            </div>
-            <div className='flex flex-col w-full font-semibold'>
               <label>Address</label>
               <input type="text" placeholder={info.address} className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'/>
             </div>
             <div className='flex flex-row gap-x-2'>
               <div className='flex flex-col w-full font-semibold'>
-                <label>Nationality</label>
-                <input type="text" placeholder={info.nationality} className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'/>
-              </div>
-              <div className='flex flex-col w-full font-semibold'>
-                <label>Civil Status</label>
-                <input type="text" placeholder={info.civil_status} className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'/>
-              </div>
-            </div>
-            <div className='flex flex-row gap-x-2'>
-              <div className='flex flex-col w-full font-semibold'>
-                <label>Occupation</label>
-                <input type="text" placeholder={info.occupation} className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'/>
+                <label>Position</label>
+                <input type="text" placeholder={info.position} className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'/>
               </div>
               <div className='flex flex-col w-48 font-semibold'>
                 <label>Phone Number</label>
