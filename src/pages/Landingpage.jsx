@@ -10,7 +10,7 @@ const Landingpage = (props) => {
 
   return <>
     <div className='relative overflow-hidden w-full flex flex-col bg-white'>
-      <Navbar2 profile={props.profile} useAuth={useAuth} className='' />
+      <Navbar2 profile={props.profile} useAuth={useAuth} setScreen={setScreen} className='' />
       <div className='h-screen flex flex-row'>
         <Sidebar setScreen={setScreen} className='flex-1' />
         <Dashboard screen={screen} profile={props.profile} />

@@ -1,14 +1,8 @@
 import React from 'react'
-import Navbar2 from '../components/Navbar2'
-import Sidebar from '../components/Sidebar'
 
 
 const AboutUs = () => {
-  const data = false
-  const data2 = false
-  const data3 = false
-  const data4 = true
-  const data5 = false
+
   return (
     <div className=''>
 
@@ -23,21 +17,21 @@ const AboutUs = () => {
         governance and service delivery by enhancing efficiency, transparency, and accountability at the barangay level.
       </div>
       <h2 className='text-2xl font-bold font-arimo mb-8'>The Team</h2>
-      <div class="flex flex-row gap-12 font-bold font-arimo">
-        <div class="flex flex-col gap-4 justify-between items-center">
-          <div class="h-48 w-48 bg-[#FEC51C] shadow-md rounded-full transform rotate-1"></div>
+      <div className="flex flex-row gap-12 font-bold font-arimo">
+        <div className="flex flex-col gap-4 justify-between items-center">
+          <div className="h-48 w-48 bg-[#FEC51C] shadow-md rounded-full transform rotate-1"></div>
           <div>Lyrca Balala</div>
         </div>
-        <div class="flex flex-col gap-4 justify-between items-center">
-          <div class="h-48 w-48 bg-[#FEC51C] shadow-md rounded-full transform rotate-1"></div>
+        <div className="flex flex-col gap-4 justify-between items-center">
+          <div className="h-48 w-48 bg-[#FEC51C] shadow-md rounded-full transform rotate-1"></div>
           <div>Brian Concillo</div>
         </div>
-        <div class="flex flex-col gap-4 justify-between items-center">
-          <div class="h-48 w-48 bg-[#FEC51C] shadow-md rounded-full transform rotate-1"></div>
+        <div className="flex flex-col gap-4 justify-between items-center">
+          <div className="h-48 w-48 bg-[#FEC51C] shadow-md rounded-full transform rotate-1"></div>
           <div>Precious Jumuad</div>
         </div>
-        <div class="flex flex-col gap-4 justify-between items-center">
-          <div class="h-48 w-48 bg-[#FEC51C] shadow-md rounded-full transform rotate-1"></div>
+        <div className="flex flex-col gap-4 justify-between items-center">
+          <div className="h-48 w-48 bg-[#FEC51C] shadow-md rounded-full transform rotate-1"></div>
           <div>Roger Maliao</div>
         </div>
       </div>

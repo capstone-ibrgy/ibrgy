@@ -10,6 +10,7 @@ import { AuthProvider } from "./auth/AuthContext";
 import UserInformation from "./pages/UserInformation";
 import PrivateRoute from "./components/PrivateRoute";
 import CommonRoute from "./components/CommonRoute";
+import AdminLandingpage from "./pages/AdminLandingpage";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
                 <Contact />
               </CommonRoute>
             } />
+            <Route path="/test" element={ <AdminLandingpage /> }/>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
