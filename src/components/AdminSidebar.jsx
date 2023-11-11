@@ -2,19 +2,17 @@ import React, { useState } from 'react'
 import burger from '../assets/images/Community Logo (11).png'
 import home from '../assets/images/s.png'
 import home2 from '../assets/images/6.png'
-import about from '../assets/images/d.png'
-import about2 from '../assets/images/7.png'
+import request from '../assets/images/21.png'
+import request2 from '../assets/images/20.png'
 import flag from '../assets/images/Community Logo (13).png'
 import flag2 from '../assets/images/Community Logo (10).png'
 import hands from '../assets/images/f.png'
 import hands2 from '../assets/images/8.png'
-import call from '../assets/images/g.png'
-import call2 from '../assets/images/10.png'
 import triangle from '../assets/images/triangle.png'
 import arrow from '../assets/images/Arrow right.png'
 import arrow2 from '../assets/images/Arrow right 3.png'
 
-const Sidebar = (props) => {
+const AdminSidebar = (props) => {
 
     const [side, setSide] = useState(true);
     const [index, setIndex] = useState(0);
@@ -22,10 +20,9 @@ const Sidebar = (props) => {
 
     const items = [
         { label: "Dashboard", icon: home, selected: home2 },
-        { label: "Citizen's Charter", icon: flag, selected: flag2 },
+        { label: "The Barangay", icon: flag, selected: flag2 },
         { label: "Services", icon: hands, selected: hands2 },
-        { label: "About Us", icon: about, selected: about2 },
-        { label: "Contact Us", icon: call, selected: call2 }
+        { label: "Requests", icon: request, selected: request2 }
     ]
 
     const services = [
@@ -43,7 +40,7 @@ const Sidebar = (props) => {
 
         setIndex(index)
 
-        if (index === 2 || index > 4) {
+        if (index === 3 || index > 3) {
             setOnService(true)
         } else {
             setOnService(false)
@@ -52,7 +49,7 @@ const Sidebar = (props) => {
     }
 
     const select = (i, index) => {
-        return i === 2 && index > 4;
+        return i === 3 && index > 3;
     }
 
     return (
@@ -72,10 +69,10 @@ const Sidebar = (props) => {
                                 {side && <h1 className={`${(i === index || select(i, index)) && 'text-[#1F2F3D]'}`}>{items.label}</h1>}
                                 {(side && index === i || select(i, index)) && (<img src={triangle} className='absolute object-cover h-full right-0' />)}
                             </div>
-                            {(side && onService && i === 2) && (<div className='flex flex-col border-b transition-all ease-in-out duration-500'>
+                            {(side && onService && i === 3) && (<div className='flex flex-col border-b transition-all ease-in-out duration-500'>
                                 {services.map((item, i) => {
-                                    return (<div key={item + items} onClick={() => { handleClick(i + 5) }} className={`${i + 5 === index ? 'bg-[#FEC51C]/80 text-[#1F2F3D]' : 'text-white'} relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}>
-                                        <img className='w-4 h-4' src={(i + 5 === index) ? arrow2 : arrow} alt='icon' />
+                                    return (<div key={item + items} onClick={() => { handleClick(i + 4) }} className={`${i + 4 === index ? 'bg-[#FEC51C]/80 text-[#1F2F3D]' : 'text-white'} relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}>
+                                        <img className='w-4 h-4' src={(i + 4 === index) ? arrow2 : arrow} alt='icon' />
                                         <p className='text-sm'>{item}</p>
                                     </div>)
                                 })}
@@ -87,4 +84,4 @@ const Sidebar = (props) => {
     )
 }
 
-export default Sidebar
+export default AdminSidebar

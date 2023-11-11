@@ -16,14 +16,10 @@ const Clearance = () => {
   return (
     <div className=''>
       <div className='flex flex-row'>
-        <Sidebar
-          data={data} data2={data2} data3={data3} data4={data4} data5={data5} open={open} data31={data31} data32={data32} data33={data33} data34={data34}
-          className='' />
         <div className='w-[70%] min-h-screen mt-[85px] ml-[85px]'>
           <p className=''>Barangay Clearance</p>
         </div>
       </div>
-      <Navbar2 className='' />
     </div>
   )
 }

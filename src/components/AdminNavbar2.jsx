@@ -5,12 +5,11 @@ import profile from "../assets/images/Community Logo (6).png"
 import arrow from "../assets/images/Arrow 1.png"
 import arrow2 from "../assets/images/Arrow down 3.png"
 import profile2 from "../assets/images/16.png"
-import notifs from "../assets/images/17.png"
 import logoutIcon from "../assets/images/18.png"
 
-const Navbar2 = (props) => {
+const AdminNavbar2 = (props) => {
     
-    const { currentUser, logout } = props.useAuth();
+    //const { currentUser, logout } = props.useAuth();
 
     const [drop, setDrop] = useState(false);
     const [index, setIndex] = useState(-1);
@@ -18,7 +17,6 @@ const Navbar2 = (props) => {
 
     const items = [
         { label: "Profile", icon: profile2},
-        { label: "Notifications", icon: notifs},
         { label: "Log Out", icon: logoutIcon}
     ]
 
@@ -27,11 +25,11 @@ const Navbar2 = (props) => {
     }
 
     const handleClick = (index) => {
-        let actual_index = index + 9
+        let actual_index = index + 8
         setIndex(index)
         props.setScreen(actual_index)
-        if (actual_index === 11){
-            logout()
+        if (actual_index === 9){
+            //logout()
         }
     }
 
@@ -45,7 +43,7 @@ const Navbar2 = (props) => {
                         <div className="w-[48px] h-[48px]">
                             <img src={profile} alt="" />
                         </div>
-                        <p className="font-arimo">{props.profile.firstname}</p>
+                        <p className="font-arimo">Administrator</p> {/* removed {props.profile.firstname}, replaced with "Administrator" */}
                         <div
                             onClick={handleDrop}
                             className="h-auto w-[20px]">
@@ -74,4 +72,4 @@ const Navbar2 = (props) => {
     );
 }
 
-export default Navbar2;
+export default AdminNavbar2;
