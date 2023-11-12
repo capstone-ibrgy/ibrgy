@@ -5,12 +5,13 @@ export function CedulaForm() {
         return { ...prev, ...next }
     },
         {
+            profile: null,
             height: '',
             weight: '',
-            income: '',
+            income: 'Below Php 10,000',
             uploaded_docs: null,
             pick_up: '',
-            payment_method: ''
+            payment_method: 'Cash on pick-up'
         });
 
     return { form, updateForm };

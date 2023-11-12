@@ -1,23 +1,40 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import doc from '../../assets/images/Community Logo (5).png'
 import upload from '../../assets/images/Community Logo (16).png'
 import data from '../../assets/data/content.json'
 import { CedulaForm } from '../../models/CedulaForm'
+import {
+  requestCedula,
+  ref,
+  storage,
+  uploadBytesResumable,
+  getDownloadURL
+} from '../../api/services'
+
 import CloseIcon from '@mui/icons-material/Close';
-
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
+import UploadModal from '../../components/UploadModal'
 
-const Cedula = (props) => {
+const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
 
   const [startDate, setStartDate] = useState();
+  const [fileError, setFileError] = useState('');
   const { form, updateForm } = CedulaForm();
 
   const hiddenFileInput = useRef(null);
 
+  useEffect(() => {
+    updateForm({ profile: profile })
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!form.uploaded_docs || form.uploaded_docs == '') {
+      setFileError('Please upload the required documents.')
+      return
+    }
 
     updateForm(
       {
@@ -25,7 +42,49 @@ const Cedula = (props) => {
         payment: 'Cash on pick-up'
       })
 
-    console.log(form)
+    setShowUpload(true)
+    handleUpload();
+  }
+
+  const handleUpload = () => {
+    const file = form.uploaded_docs;
+
+    const storageRef = ref(storage, `/${form.profile.userId}/uploads/${file.name}`)
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(percent);
+      },
+      (err) => console.log(err),
+      () => {
+
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+
+          var newForm = form;
+
+          newForm.uploaded_docs = url;
+          requestCedula(newForm)
+          setShowUpload(false)
+          resetForm()
+        });
+      }
+    );
+  }
+
+  const resetForm = () => {
+    updateForm({
+      height: '',
+      weight: '',
+      income: 'Below Php 10,000',
+      uploaded_docs: null,
+      pick_up: '',
+      payment_method: ''
+    });
   }
 
   const handleClick = () => {
@@ -33,15 +92,23 @@ const Cedula = (props) => {
   };
 
   const handleChange = event => {
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
     const fileUploaded = event.target.files[0];
+
+    if (!allowedTypes.includes(fileUploaded.type)) {
+      setFileError('Invalid file type. Please upload a JPEG, PNG, or PDF file.')
+      return
+    }
+    setFileError(null)
     updateForm({ uploaded_docs: fileUploaded })
   };
 
   return (
-    <div className='w-full h-full'>
+    <div className='relative w-full h-full'>
       <h1 className='text-3xl font-bold my-2'>Request Form</h1>
       <div
-        style={{ height: props.height, minHeight: "420px" }}
+        style={{ height: height, minHeight: "420px" }}
         className='relative flex flex-col items-center justify-center'>
         <div className={`flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9]`}>
           <div className='relative flex flex-row w-full h-16 bg-[#1F2F3D]  rounded-[20px] items-center px-6 gap-6'>
@@ -65,7 +132,7 @@ const Cedula = (props) => {
                 <label className='font-bold text-[#1F2F3D] text-sm py-1'>Monthly Income</label>
                 <select onChange={(e) => {
                   updateForm({ income: e.target.value })
-                }} name="income" id="income" className='border-2 h-12 w-full border-[#1F2F3D] rounded-[10px] bg-[#D9D9D9] px-2'>
+                }} require={true} name="income" id="income" className='border-2 h-12 w-full border-[#1F2F3D] rounded-[10px] bg-[#D9D9D9] px-2'>
                   <option value="Below Php 10,000">below Php 10,000</option>
                   <option value="Php 10,000 - Php 20,000">Php 10,000 - Php 20,000</option>
                   <option value="Php 20,000 - Php 40,000">Php 20,000 - Php 40,000</option>
@@ -83,7 +150,6 @@ const Cedula = (props) => {
                   {!form.uploaded_docs ? "Upload Zone Clearance and/or Other Documents" : "Chosen file: " + form.uploaded_docs.name}
                 </div>
                 {!form.uploaded_docs ? <img className='h-6' src={upload} alt="" /> : <CloseIcon className='cursor-pointer' onClick={() => { updateForm({ uploaded_docs: null }) }} fontSize='small' />}
-
               </div>
               <div className='w-1/3 pl-2'>
                 <div className='flex flex-col'>
@@ -113,9 +179,12 @@ const Cedula = (props) => {
                 </div>
               </div>
             </div>
-            <button type='submit' className='cursor-pointer h-10 my-3 flex items-center justify-center ml-2 w-1/3 rounded-[10px] drop-shadow-lg bg-[#FEC51C] self-end'>
-              <h1 className='font-bold'>Submit</h1>
-            </button>
+            <div className='flex flex-row w-full h-16 justify-between'>
+              <p className={`${!fileError && 'opacity-0'} ml-2 flex-1 text-sm font-semibold text-red-600`}>{fileError}</p>
+              <button type='submit' className='self-center cursor-pointer h-10 flex items-center justify-center ml-2 w-1/3 rounded-[10px] drop-shadow-lg bg-[#FEC51C]'>
+                <h1 className='font-bold'>Submit</h1>
+              </button>
+            </div>
           </form>
           <div className='w-full h-4 bg-[#1F2F3D] rounded-b-[20px]'></div>
         </div>
