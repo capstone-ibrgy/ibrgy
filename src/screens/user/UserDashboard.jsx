@@ -1,16 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getRequestForms, onSnapshot } from '../../api/services'
+import { format } from 'data-fns'
 import document from '../../assets/images/Community Logo (5).png'
 import info from '../../assets/images/Community Logo (13).png'
 import flag from '../../assets/images/d.png'
 import phone from '../../assets/images/g.png'
 
-function UserDashboard(props) {
+function UserDashboard({ profile }) {
     const icons = [info, flag, phone];
     const options = ['About Us', "Citizen's Charter", 'Contact Us']
 
+    const [entries, setEntries] = useState([])
+
+    useEffect(() => {
+
+        const query = getRequestForms(profile.userId)
+
+        const unsub = onSnapshot(query, snapshot => {
+            console.log(snapshot.docs.map(doc => ({ id: doc.id, data: doc.data() })))
+        })
+
+        return () => {
+            unsub()
+        }
+    }, []);
+
     return (
         <>
-            <h1 className='py-4 text-3xl font-bold'>Welcome back, <span className='text-[#1B75BC]'>{props.profile.firstname}</span></h1>
+            <h1 className='py-4 text-3xl font-bold'>Welcome back, <span className='text-[#1B75BC]'>{profile.firstname}</span></h1>
             <div className='w-full h-[82%] flex flex-row gap-5'>
                 <div className='flex-1 '>
                     <div className='flex flex-col h-full gap-4'>
@@ -53,6 +70,10 @@ function UserDashboard(props) {
                         <p className='font-bold pl-2'>entries</p>
                     </div>
                     <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px]'>
+                        <div className='flex-1 bg-white mb-16 m-4 px-2'>
+                            <h1 class>DATE</h1>
+                            <h1>FOR PICK-UP</h1>
+                        </div>
                         <div className='absolute bottom-0 flex w-full h-12 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
                             <h1 className='font-bold text-lg'>Calendar</h1>
                         </div>

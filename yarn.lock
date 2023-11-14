@@ -1513,6 +1513,13 @@ csstype@^3.0.2, csstype@^3.1.2:
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.1.2.tgz"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
+data-fns@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/data-fns/-/data-fns-1.1.0.tgz#6d8ce54401dfcff8016b9556718ca2268484c06b"
+  integrity sha512-/rJzdbnuY3DVgzqsfEfc+tJLuAKYaHzkUxSMRIU3dxKFeWGD/MGhrgAfuwSOmgfJ8enygztp9DeuvoSxauppIg==
+  dependencies:
+    unit-fns "^0.1.6"
+
 date-fns@^2.30.0:
   version "2.30.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.30.0.tgz#f367e644839ff57894ec6ac480de40cae4b0f4d0"
@@ -3348,6 +3355,11 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+unit-fns@^0.1.6:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/unit-fns/-/unit-fns-0.1.9.tgz#975f20a779cbd7a0ec9eeb3efde5c572534f7edb"
+  integrity sha512-bxceIkc7n2icQmgQx8u3vX98ZBIcpL2YJDKIsWDFK7ZX1TTuLvtNWVNd9/oARCDHd7QQRzwc+zxabO0HSK8X0w==
 
 update-browserslist-db@^1.0.13:
   version "1.0.13"

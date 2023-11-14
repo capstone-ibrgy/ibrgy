@@ -7,7 +7,11 @@ import {
     updateDoc,
     arrayUnion,
     arrayRemove,
-    getDoc
+    getDoc,
+    where,
+    query,
+    orderBy,
+    onSnapshot
 } from 'firebase/firestore';
 
 import {
@@ -30,18 +34,33 @@ const getUser = (userId) => {
     return getDoc(doc(db, "profiles", userId));
 }
 
-const requestCedula = (form) => {
-    return addDoc(collection(db, "cedulas"), {
+const requestForm = (form) => {
+
+    console.log(form)
+    const formType = ["cedula", "clearance", "residency", "indigency"]
+    return addDoc(collection(db, "forms"), {
+        "formType": formType[form.formType],
+        "formTypeId": form.formType,
+        "userId": form.profile.userId,
+        "createdAt": Timestamp.now(),
         form
     });
+}
+
+const getRequestForms = (userId) => {
+    const formRef = collection(db, "forms");
+
+    return query(formRef, where('userId', '==', userId), orderBy('createdAt', 'desc'))
 }
 
 export {
     addUserProfile,
     getUser,
-    requestCedula,
+    requestForm,
+    getRequestForms,
     ref,
     uploadBytesResumable,
     getDownloadURL,
-    storage
+    storage,
+    onSnapshot
 }

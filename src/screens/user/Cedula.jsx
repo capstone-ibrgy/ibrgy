@@ -4,7 +4,7 @@ import upload from '../../assets/images/Community Logo (16).png'
 import data from '../../assets/data/content.json'
 import { CedulaForm } from '../../models/CedulaForm'
 import {
-  requestCedula,
+  requestForm,
   ref,
   storage,
   uploadBytesResumable,
@@ -68,7 +68,7 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
           var newForm = form;
 
           newForm.uploaded_docs = url;
-          requestCedula(newForm)
+          requestForm(newForm)
           setShowUpload(false)
           resetForm()
         });
