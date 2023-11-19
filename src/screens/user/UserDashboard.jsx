@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getRequestForms, onSnapshot } from '../../api/services'
+import { getRequestForms, onSnapshot, Timestamp } from '../../api/services'
 import { format } from 'date-fns'
 import { CircularProgress } from '@mui/material';
 import { Upcoming, Error } from '@mui/icons-material';
@@ -41,8 +41,8 @@ function UserDashboard({ profile, setScreen }) {
 
                 const group = forms.reduce((group, form) => {
                     const { pick_up } = form.data.form;
-                    group[pick_up] = group[pick_up] ?? [];
-                    group[pick_up].push(form);
+                    group[pick_up['seconds']] = group[pick_up['seconds']] ?? [];
+                    group[pick_up['seconds']].push(form);
                     return group;
                 }, {});
 
@@ -132,19 +132,21 @@ function UserDashboard({ profile, setScreen }) {
                         <p className='font-bold pl-2'>entries</p>
                     </div>
                     <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px]'>
-                        {fetchState != 1 ? StateBuilder(0) : (
-                            <div className='w-full h-full mb-16 text-white'>
+                        {fetchState != 1 ? StateBuilder(fetchState) : (
+                            <div className='w-full h-[85%] text-white overflow-y-auto'>
                                 <div className='flex flex-col w-full'>
                                     {
-                                        Object.keys(entries).map((date) => {
+                                        Object.keys(entries).map((date, i) => {
                                             return (
-                                                <div className='pt-2 pb-4 px-5 border-b'>
-                                                    <h1 className='py-2 text-sm font-bold'>{date}</h1>
+                                                <div key={`en#${i}`} className='pb-4 py-2 px-6 border-b'>
+                                                    <h1 className='py-2 text-sm font-bold'>{
+                                                        format(new Timestamp(date, 0).toDate(), 'eeee, MMMM d, yyyy')
+                                                    }</h1>
                                                     <h1 className='text-sm font-bold'>FOR PICK-UP</h1>
                                                     {
-                                                        entries[date].map((form) => {
+                                                        entries[date].map((form, i) => {
                                                             return (
-                                                                <ul className='px-4 list-disc list-inside'>
+                                                                <ul key={`li#${i}`} className='px-4 list-disc list-inside'>
                                                                     <li className='text-sm'>{formType[form.data.formTypeId]}</li>
                                                                 </ul>
                                                             )

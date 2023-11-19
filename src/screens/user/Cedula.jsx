@@ -162,7 +162,7 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
                     required={true}
                     onSelect={(e) => {
                       if (e != null) {
-                        updateForm({ pick_up: format(e, 'eeee, MMMM d, yyyy') })
+                        updateForm({ pick_up: e })
                       }
 
                     }}

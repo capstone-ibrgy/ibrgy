@@ -5,10 +5,12 @@ export function ResidencyForm() {
         return { ...prev, ...next }
     },
         {
+            formType: 2,
+            profile: null,
             purpose: '',
-            uploaded_docs: '',
+            uploaded_docs: null,
             pick_up: '',
-            payment_method: ''
+            payment_method: 'Cash on pick-up'
         });
 
     return { form, updateForm };

@@ -62,16 +62,16 @@ const Sidebar = ({ screen, setScreen }) => {
                 {items.map((items, i) => {
                     return (
                         <>
-                            <div onClick={() => { handleClick(i) }} key={items} className={`relative cursor-pointer flex flex-row items-center h-14 px-4 w-full text-white border-b gap-3 
+                            <div onClick={() => { handleClick(i) }} key={`${items}1#${i}`} className={`relative cursor-pointer flex flex-row items-center h-14 px-4 w-full text-white border-b gap-3 
                             ${(i === screen || select(i, screen)) && 'bg-[#FEC51C] border-[#1F2F3D]'} 
                             ${(i === screen - 1) && 'border-[#1F2F3D]'}`}>
                                 <img className='w-5 h-5' src={(i === screen || select(i, screen)) ? items.selected : items.icon} alt={items.icon} />
                                 {side && <h1 className={`${(i === screen || select(i, screen)) && 'text-[#1F2F3D]'}`}>{items.label}</h1>}
                                 {(side && screen === i || select(i, screen)) && (<img src={triangle} className='absolute object-cover h-full right-0' />)}
                             </div>
-                            {(side && onService && i === 2) && (<div className='flex flex-col border-b transition-all ease-in-out duration-500'>
+                            {(side && onService && i === 2) && (<div key={`${items}2#${i}`} className='flex flex-col border-b transition-all ease-in-out duration-500'>
                                 {services.map((item, i) => {
-                                    return (<div key={item + items} onClick={() => { handleClick(i + 5) }} className={`${i + 5 === screen ? 'bg-[#FEC51C]/80 text-[#1F2F3D]' : 'text-white'} relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}>
+                                    return (<div key={`${items}#${item}`} onClick={() => { handleClick(i + 5) }} className={`${i + 5 === screen ? 'bg-[#FEC51C]/80 text-[#1F2F3D]' : 'text-white'} relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}>
                                         <img className='w-4 h-4' src={(i + 5 === screen) ? arrow2 : arrow} alt='icon' />
                                         <p className='text-sm'>{item}</p>
                                     </div>)

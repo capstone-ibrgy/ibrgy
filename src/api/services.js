@@ -35,8 +35,6 @@ const getUser = (userId) => {
 }
 
 const requestForm = (form) => {
-
-    console.log(form)
     const formType = ["cedula", "clearance", "residency", "indigency"]
     return addDoc(collection(db, "forms"), {
         "formType": formType[form.formType],
@@ -50,7 +48,7 @@ const requestForm = (form) => {
 const getRequestForms = (userId) => {
     const formRef = collection(db, "forms");
 
-    return query(formRef, where('userId', '==', userId), orderBy('createdAt', 'desc'))
+    return query(formRef, where('userId', '==', userId), orderBy('createdAt', 'asc'))
 }
 
 export {
@@ -62,5 +60,6 @@ export {
     uploadBytesResumable,
     getDownloadURL,
     storage,
-    onSnapshot
+    onSnapshot,
+    Timestamp
 }

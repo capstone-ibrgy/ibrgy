@@ -5,11 +5,13 @@ export function ClearanceForm() {
         return { ...prev, ...next }
     },
         {
+            formType: 1,
+            profile: null,
             nickname: '',
             purpose: '',
-            uploaded_docs: '',
+            uploaded_docs: null,
             pick_up: '',
-            payment_method: ''
+            payment_method: 'Cash on pick-up',
         });
 
     return { form, updateForm };
