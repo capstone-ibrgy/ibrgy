@@ -8,16 +8,16 @@ import profile2 from "../assets/images/16.png"
 import logoutIcon from "../assets/images/18.png"
 
 const AdminNavbar2 = (props) => {
-    
-    //const { currentUser, logout } = props.useAuth();
+
+    const { currentUser, logout } = props.useAuth();
 
     const [drop, setDrop] = useState(false);
     const [index, setIndex] = useState(-1);
 
 
     const items = [
-        { label: "Profile", icon: profile2},
-        { label: "Log Out", icon: logoutIcon}
+        { label: "Profile", icon: profile2 },
+        { label: "Log Out", icon: logoutIcon }
     ]
 
     const handleDrop = () => {
@@ -26,11 +26,14 @@ const AdminNavbar2 = (props) => {
 
     const handleClick = (index) => {
         let actual_index = index + 8
+
+        if (actual_index === 9) {
+            logout()
+            return
+        }
+
         setIndex(index)
         props.setScreen(actual_index)
-        if (actual_index === 9){
-            //logout()
-        }
     }
 
     return (
@@ -54,7 +57,7 @@ const AdminNavbar2 = (props) => {
                     </div>
                     <div className={!drop ? 'hidden' : 'font-arimo bg-[#1f2f3d7f] w-full mt-2'}>
                         {items.map((items, i) => {
-                            return(
+                            return (
                                 <div key={items.label} onClick={() => { handleClick(i) }}>
                                     <div className={`flex flex-row items-center ${(i === index) ? 'bg-[#1F2F3D]' : 'hover:bg-[#00000024] cursor-pointer'}`}>
                                         <img className="object-scale-down h-5 w-5 m-2 ml-7" src={items.icon} alt="" />
@@ -63,7 +66,7 @@ const AdminNavbar2 = (props) => {
                                 </div>
                             )
                         })}
-                        
+
                     </div>
 
                 </div>

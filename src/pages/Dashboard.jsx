@@ -39,7 +39,12 @@ function Dashboard(props) {
                 height={height} />
         },
         { screen: "Citizen's Charts", component: <Citizens height={height} /> },
-        { screen: "Services", component: <Services height={height} /> },
+        {
+            screen: "Services", component: <Services
+                profile={props.profile}
+                height={height}
+                setScreen={props.setScreen} />
+        },
         { screen: "About Us", component: <AboutUs height={height} /> },
         { screen: "Contact Us", component: <Contact height={height} /> },
         {

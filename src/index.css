@@ -11,6 +11,7 @@
   width: 8px;
   height: 8px;
   background-color: #f1f5f9;
+  position: absolute;
 }
 
 ::-webkit-scrollbar-thumb {

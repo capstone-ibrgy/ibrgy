@@ -120,10 +120,10 @@ const Residency = ({ height, profile, setProgress, setShowUpload }) => {
             </div>
             <div className='flex flex-row py-2'>
               <div className='flex-1 flex flex-row border-2 border-[#1F2F3D] h-full rounded-[10px] items-center justify-center gap-2'>
-                <div onClick={handleClick} className='text-[#1F2F3D] font-bold px-2 text-sm cursor-pointer'>
+                <div onClick={handleClick} className='text-[#1F2F3D] font-bold px-2 text-sm cursor-pointer text-ellipsis'>
                   <input onChange={handleChange}
                     ref={hiddenFileInput} type='file' className='hidden' accept='image/png, image/gif, image/jpeg' />
-                  {!form.uploaded_docs ? "Upload Zone Clearance and/or Other Documents" : "Chosen file: " + form.uploaded_docs.name}
+                  {!form.uploaded_docs ? "Upload Zone Clearance and/or Other Documents" : "Chosen file: " + (form.uploaded_docs.name.length > 30) ? form.uploaded_docs.name.substring(0, 30) : form.uploaded_docs.name}
                 </div>
                 {!form.uploaded_docs ? <img className='h-6' src={upload} alt="" /> : <CloseIcon className='cursor-pointer' onClick={() => { updateForm({ uploaded_docs: null }) }} fontSize='small' />}
               </div>

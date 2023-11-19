@@ -10,10 +10,10 @@ const AdminLandingpage = (props) => {
 
   return <>
     <div className='relative overflow-hidden w-full flex flex-col bg-white'>
-      <AdminNavbar2  setScreen={setScreen} className='' />  {/* removed "profile={props.profile} useAuth={useAuth}" */}
+      <AdminNavbar2 profile={props.profile} useAuth={useAuth} setScreen={setScreen} className='' />  {/* removed "profile={props.profile} useAuth={useAuth}" */}
       <div className='h-screen flex flex-row'>
         <AdminSidebar setScreen={setScreen} className='flex-1' />
-        <Dashboard2 screen={screen} setScreen={setScreen}  /> {/* removed "profile={props.profile}" */}
+        <Dashboard2 profile={props.profile} screen={screen} setScreen={setScreen} /> {/* removed "profile={props.profile}" */}
       </div>
     </div>
   </>

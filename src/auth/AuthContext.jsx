@@ -4,7 +4,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
-    signInWithPopup,
+    signInWithRedirect,
     GoogleAuthProvider
 } from 'firebase/auth'
 
@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
     }
 
     function loginGoogle() {
-        return signInWithPopup(auth, provider)
+        return signInWithRedirect(auth, provider)
     }
 
     // function resetPassword(email) {
