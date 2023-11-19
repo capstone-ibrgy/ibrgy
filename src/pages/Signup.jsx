@@ -66,9 +66,6 @@ function Signup() {
     setIsSigning(true);
     await signup(_email, _password);
     setIsSigning(false);
-
-    navigate('/userinfo');
-
   }
 
   return (

@@ -4,10 +4,9 @@ import React from 'react'
 const AboutUs = () => {
 
   return (
-    <div className=''>
-
-      <h1 className='text-3xl font-bold font-arimo mb-8'>iBRGY: Barangay Management System</h1>
-      <div className='mb-6'>
+    <div className='w-full h-full overflow-y-auto py-4 px-4'>
+      <h1 className='text-3xl font-bold font-arimo pb-4'>iBRGY: Barangay Management System</h1>
+      <h1 className='pb-4 text-justify'>
         iBRGY is a Barangay Management System, a computer-based software that streamlines the management of barangays,
         the smallest administrative divisions in the Philippines. For now, this system automates resident information
         management and certificate issuance tasks. Complaint handling, financial management, legislative tracking, and
@@ -15,7 +14,7 @@ const AboutUs = () => {
         generate various certificates. Soon, it will track complaints, manage finances, monitor legislative processes,
         and track assets. The developers aim to also provide reporting and analytics features. The goal is to improve
         governance and service delivery by enhancing efficiency, transparency, and accountability at the barangay level.
-      </div>
+      </h1>
       <h2 className='text-2xl font-bold font-arimo mb-8'>The Team</h2>
       <div className="flex flex-row gap-12 font-bold font-arimo">
         <div className="flex flex-col gap-4 justify-between items-center">
