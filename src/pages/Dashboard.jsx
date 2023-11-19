@@ -30,7 +30,12 @@ function Dashboard(props) {
     }, [height])
 
     const screens = [
-        { screen: "Dashboard", component: <UserDashboard profile={props.profile} height={height} /> },
+        {
+            screen: "Dashboard", component: <UserDashboard
+                setScreen={props.setScreen}
+                profile={props.profile}
+                height={height} />
+        },
         { screen: "Citizen's Charts", component: <Citizens height={height} /> },
         { screen: "Services", component: <Services height={height} /> },
         { screen: "About Us", component: <AboutUs height={height} /> },

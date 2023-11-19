@@ -8,7 +8,7 @@ import info from '../../assets/images/Community Logo (13).png'
 import flag from '../../assets/images/d.png'
 import phone from '../../assets/images/g.png'
 
-function UserDashboard({ profile }) {
+function UserDashboard({ profile, setScreen }) {
     const icons = [info, flag, phone];
     const options = ['About Us', "Citizen's Charter", 'Contact Us']
 
@@ -91,7 +91,7 @@ function UserDashboard({ profile }) {
             <div className='w-full h-[82%] flex flex-row gap-5'>
                 <div className='flex-1 '>
                     <div className='flex flex-col h-full gap-4'>
-                        <div className='bg-[#FEC51C] pt-2 h-[60%] w-full rounded-[20px]'>
+                        <div onClick={() => { }} className='cursor-pointer bg-[#FEC51C] pt-2 h-[60%] w-full rounded-[20px]'>
                             <div className='relative w-full flex flex-col justify-center items-center rounded-[20px] h-full bg-[#1F2F3D]'>
                                 <img src={document} alt='doc' className='mb-12 w-40 h-40' />
                                 <div className='absolute bottom-0 flex w-full h-12 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
@@ -101,8 +101,10 @@ function UserDashboard({ profile }) {
                         </div>
 
                         <div className='flex flex-row h-[40%] gap-4'>
-                            {[0, 1, 2].map((i) => {
-                                return (<div key={i} className='relative flex justify-center flex-1 h-full rounded-[20px] bg-[#1F2F3D] items-center'>
+                            {[3, 1, 4].map((s, i) => {
+                                return (<div onClick={() => setScreen(s)}
+                                    key={s}
+                                    className='cursor-pointer relative flex justify-center flex-1 h-full rounded-[20px] bg-[#1F2F3D] items-center'>
                                     <img src={icons[i]} className='mb-10 w-16 h-16' />
                                     <div className='absolute bottom-0 flex w-full h-10 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
                                         <h1 className='font-bold text-md'>{options[i]}</h1>
