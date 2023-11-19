@@ -4,7 +4,6 @@ import { useAuth } from '../auth/AuthContext'
 import bg from '../assets/images/background.svg'
 import google from '../assets/images/google.png'
 import fb from '../assets/images/fb.png'
-import brand from '../assets/images/branding.png'
 
 function Login() {
 
@@ -13,7 +12,7 @@ function Login() {
     const [error, setError] = useState('')
 
     const navigate = useNavigate();
-    const { login } = useAuth()
+    const { login, loginGoogle } = useAuth()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -26,6 +25,10 @@ function Login() {
             setError('Invalid email or password.')
         }
 
+    }
+
+    const handleGoogleLogin = async () => {
+        await loginGoogle();
     }
 
     return (
@@ -83,7 +86,7 @@ function Login() {
                                 <div className='flex-1 h-[2px] bg-[#1F2F3D]'></div>
                             </div>
                             <div className='mt-6 w-full flex flex-row items-center font-arimo font-bold text-[#1F2F3D]'>
-                                <div className='flex flex-row flex-1 h-[40px] border-2 border-[#1F2F3D] rounded-lg items-center justify-center gap-x-2'>
+                                <div onClick={() => { handleGoogleLogin() }} className='cursor-pointer flex flex-row flex-1 h-[40px] border-2 border-[#1F2F3D] rounded-lg items-center justify-center gap-x-2'>
                                     <img src={google} className='w-5 h-5' />
                                     <p className=' text-sm'>Log in with Google</p>
                                 </div>
