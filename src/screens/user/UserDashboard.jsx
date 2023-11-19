@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { getRequestForms, onSnapshot } from '../../api/services'
-import { format } from 'data-fns'
+import { format } from 'date-fns'
+import { CircularProgress } from '@mui/material';
+import { Upcoming, Error } from '@mui/icons-material';
 import document from '../../assets/images/Community Logo (5).png'
 import info from '../../assets/images/Community Logo (13).png'
 import flag from '../../assets/images/d.png'
@@ -11,19 +13,77 @@ function UserDashboard({ profile }) {
     const options = ['About Us', "Citizen's Charter", 'Contact Us']
 
     const [entries, setEntries] = useState([])
+    const [fetchState, setFetchState] = useState(0)
+    const formType = [
+        "Community Tax Certificate (Cedula)",
+        "Barangay Clearance",
+        "Certificate of Residency",
+        "Certificate of Indigency"
+    ]
 
     useEffect(() => {
 
         const query = getRequestForms(profile.userId)
 
-        const unsub = onSnapshot(query, snapshot => {
-            console.log(snapshot.docs.map(doc => ({ id: doc.id, data: doc.data() })))
-        })
+        try {
+            const unsub = onSnapshot(query, snapshot => {
+                if (!snapshot) {
+                    setFetchState(-1)
+                    return
+                }
 
-        return () => {
-            unsub()
+                if (snapshot.empty) {
+                    setFetchState(2)
+                    return
+                }
+
+                const forms = snapshot.docs.map(doc => ({ data: doc.data() }));
+
+                const group = forms.reduce((group, form) => {
+                    const { pick_up } = form.data.form;
+                    group[pick_up] = group[pick_up] ?? [];
+                    group[pick_up].push(form);
+                    return group;
+                }, {});
+
+                setEntries(group)
+                setFetchState(1)
+            })
+
+            return () => {
+                unsub()
+            }
+
+        } catch {
+            setFetchState(-1)
         }
+
     }, []);
+
+    const StateBuilder = (state) => {
+
+        const states = {
+            "2": {
+                icon: <Upcoming />,
+                text: 'No entries'
+            },
+            "-1": {
+                icon: <Error />,
+                text: 'Something went wrong.'
+            },
+            "0": {
+                icon: <CircularProgress />,
+                text: 'Loading entries...'
+            }
+        }
+
+        return (
+            <div className='flex flex-col h-full justify-center items-center gap-4 text-white'>
+                {states[`${state}`].icon}
+                <p className='text-sm'>{states[`${state}`].text}</p>
+            </div>
+        )
+    }
 
     return (
         <>
@@ -70,10 +130,30 @@ function UserDashboard({ profile }) {
                         <p className='font-bold pl-2'>entries</p>
                     </div>
                     <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px]'>
-                        <div className='flex-1 bg-white mb-16 m-4 px-2'>
-                            <h1 class>DATE</h1>
-                            <h1>FOR PICK-UP</h1>
-                        </div>
+                        {fetchState != 1 ? StateBuilder(0) : (
+                            <div className='w-full h-full mb-16 text-white'>
+                                <div className='flex flex-col w-full'>
+                                    {
+                                        Object.keys(entries).map((date) => {
+                                            return (
+                                                <div className='pt-2 pb-4 px-5 border-b'>
+                                                    <h1 className='py-2 text-sm font-bold'>{date}</h1>
+                                                    <h1 className='text-sm font-bold'>FOR PICK-UP</h1>
+                                                    {
+                                                        entries[date].map((form) => {
+                                                            return (
+                                                                <ul className='px-4 list-disc list-inside'>
+                                                                    <li className='text-sm'>{formType[form.data.formTypeId]}</li>
+                                                                </ul>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>)}
                         <div className='absolute bottom-0 flex w-full h-12 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
                             <h1 className='font-bold text-lg'>Calendar</h1>
                         </div>
@@ -84,5 +164,7 @@ function UserDashboard({ profile }) {
         </>
     )
 }
+
+
 
 export default UserDashboard

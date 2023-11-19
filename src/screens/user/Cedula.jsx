@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import doc from '../../assets/images/Community Logo (5).png'
 import upload from '../../assets/images/Community Logo (16).png'
 import data from '../../assets/data/content.json'
+import { format } from 'date-fns'
 import { CedulaForm } from '../../models/CedulaForm'
 import {
   requestForm,
@@ -161,7 +162,7 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
                     required={true}
                     onSelect={(e) => {
                       if (e != null) {
-                        updateForm({ pick_up: e })
+                        updateForm({ pick_up: format(e, 'eeee, MMMM d, yyyy') })
                       }
 
                     }}
