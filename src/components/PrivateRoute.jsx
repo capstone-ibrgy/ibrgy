@@ -9,6 +9,7 @@ import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Loader from '../components/Loader'
 import UserInformation from "../pages/UserInformation";
+import AdminLandingpage from "../pages/AdminLandingpage";
 
 export default function PrivateRoute({ children }) {
     const { currentUser } = useAuth();
@@ -47,14 +48,21 @@ export default function PrivateRoute({ children }) {
         return (pathname === '/') ? (
             <div className="relative w-full h-screen">
                 {isLoading ? <Loader message='Loading, please wait...' /> :
-                    ((!valid) ? <UserInformation /> : <Landingpage profile={profile} currentUser={currentUser} />)}
-                {show && <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} open={show} autoHideDuration={alert.duration}
-                    onClose={() => {
-                        setShow(false);
-                        logout();
-                    }}>
-                    <Alert severity={alert.type}>{alert.message}</Alert>
-                </Snackbar>}
+                    (!valid) ? <UserInformation /> :
+                        profile.admin ?
+                            <AdminLandingpage profile={profile} currentUser={currentUser} /> :
+                            <Landingpage profile={profile} currentUser={currentUser} />
+                }
+                {show &&
+                    <Snackbar
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                        open={show} autoHideDuration={alert.duration}
+                        onClose={() => {
+                            setShow(false);
+                            logout();
+                        }}>
+                        <Alert severity={alert.type}>{alert.message}</Alert>
+                    </Snackbar>}
             </div>
         ) : <Navigate to='/' />
     }

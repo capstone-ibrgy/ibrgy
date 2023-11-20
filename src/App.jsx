@@ -7,7 +7,6 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext";
-import UserInformation from "./pages/UserInformation";
 import PrivateRoute from "./components/PrivateRoute";
 import CommonRoute from "./components/CommonRoute";
 import AdminLandingpage from "./pages/AdminLandingpage";

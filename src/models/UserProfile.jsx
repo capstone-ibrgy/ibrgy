@@ -6,6 +6,7 @@ export function UserProfile() {
     },
         {
             userId: null,
+            userAvatar: null,
             lastname: '',
             firstname: '',
             mi: '',
@@ -17,7 +18,8 @@ export function UserProfile() {
             national: '',
             civilstatus: '',
             occupation: '',
-            phone: ''
+            phone: '',
+            admin: false
         });
 
     return { profile, updateProfile };
