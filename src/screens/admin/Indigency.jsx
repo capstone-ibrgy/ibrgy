@@ -6,7 +6,7 @@ const Indigency = (props) => {
   //const [height, setHeight] = useState(400)
 
   return (
-    <div className='flex flex-col w-full h-full'>
+    <div className='flex flex-col w-full h-full font-arimo'>
       <h1 className='text-3xl font-bold font-arimo mt-2 mb-4'>Requests List</h1>
       <div className={`h-[85%] w-full overflow-auto`}>
         <div className='flex flex-col h-[90%] w-full gap-4'>

@@ -10,6 +10,11 @@ import { AuthProvider } from "./auth/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import CommonRoute from "./components/CommonRoute";
 import AdminLandingpage from "./pages/AdminLandingpage";
+import CedulaUpdate from "./screens/admin/CedulaUpdate";
+import Cedula from "./screens/admin/Cedula";
+import ClearanceUpdate from "./screens/admin/ClearanceUpdate";
+import ResidencyUpdate from "./screens/admin/ResidencyUpdate";
+import IndigencyUpdate from "./screens/admin/IndigencyUpdate";
 
 function App() {
   return (
@@ -54,7 +59,10 @@ function App() {
                 <Contact />
               </CommonRoute>
             } />
-            <Route path="/test" element={ <AdminLandingpage /> }/>
+            <Route path="/test-cedula" element={ <CedulaUpdate /> }/>
+            <Route path="/test-clearance" element={ <ClearanceUpdate /> }/>
+            <Route path="/test-residency" element={ <ResidencyUpdate /> }/>
+            <Route path="/test-indigency" element={ <IndigencyUpdate /> }/>
           </Routes>
         </AuthProvider>
       </BrowserRouter>

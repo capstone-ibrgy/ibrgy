@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
 import doc from '../../assets/images/Community Logo (5).png'
+import CedulaUpdate from './CedulaUpdate';
 
 const Cedula = (props) => {
 
   //const [height, setHeight] = useState(400)
 
+  const [update, setUpdate] = useState(false);
+
+  const handleClick = () =>{
+    setUpdate(true);
+  }
+
   return (
-    <div className='flex flex-col w-full h-full'>
+    <div className='flex flex-col w-full h-full font-arimo'>
       <h1 className='text-3xl font-bold font-arimo mt-2 mb-4'>Requests List</h1>
       <div className={`h-[85%] w-full overflow-auto`}>
         <div className='flex flex-col h-[90%] w-full gap-4'>
@@ -44,21 +51,20 @@ const Cedula = (props) => {
                     <label className='w-[80%] text-center mr-8'>Status</label>
                   </div>
                 </div>
-                
               </div>
-              
               <div>
-
+                {/* Insert entries here */}
               </div>
             </div>
           </div>
           <div className='w-full flex justify-end'>
-            <button className='bg-[#FEC51C] h-12 w-[20%] rounded-lg font-bold drop-shadow-lg'>Update</button>
+            <button onClick={handleClick} className='bg-[#FEC51C] h-12 w-[20%] rounded-lg font-bold drop-shadow-lg'>Update</button>
           </div>
         </div>
-        
       </div>
     </div>
+      
+    
   )
 }
 
