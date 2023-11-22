@@ -8,6 +8,7 @@ import {
     arrayUnion,
     arrayRemove,
     getDoc,
+    getDocs,
     where,
     query,
     orderBy,
@@ -41,8 +42,15 @@ const requestForm = (form) => {
         "formTypeId": form.formType,
         "userId": form.profile.userId,
         "createdAt": Timestamp.now(),
+        "status": 0,
         form
     });
+}
+
+const getAllRequestForms = () => {
+    const formRef = collection(db, "forms");
+
+    return formRef;
 }
 
 const getRequestForms = (userId) => {
@@ -56,6 +64,7 @@ export {
     getUser,
     requestForm,
     getRequestForms,
+    getAllRequestForms,
     ref,
     uploadBytesResumable,
     getDownloadURL,

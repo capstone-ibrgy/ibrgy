@@ -4,7 +4,9 @@ export function IndigencyForm() {
     const [form, updateForm] = useReducer((prev, next) => {
         return { ...prev, ...next }
     },
-        {
+        {   
+            formId: null,
+            status: 0,
             formType: 3,
             profile: null,
             purpose: '',

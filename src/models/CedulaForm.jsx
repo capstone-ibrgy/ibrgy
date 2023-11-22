@@ -5,6 +5,8 @@ export function CedulaForm() {
         return { ...prev, ...next }
     },
         {
+            formId: null,
+            status: 0,
             formType: 0,
             profile: null,
             height: '',
