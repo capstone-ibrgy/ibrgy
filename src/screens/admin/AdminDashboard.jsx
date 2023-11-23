@@ -1,11 +1,96 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import add from '../../assets/images/Community Logo (20).png'
 import request from '../../assets/images/21.png'
 import flag from '../../assets/images/Community Logo (10).png'
+import { getAllRequestForms, onSnapshot, Timestamp } from '../../api/services'
+import { format } from 'date-fns'
+import { CircularProgress } from '@mui/material';
+import { Upcoming, Error } from '@mui/icons-material';
 
 function AdminDashboard(props) {
     const icons = [add, request];
     const options = ['POST DOCUMENT', 'VIEW REQUESTS']
+
+    const [entries, setEntries] = useState([])
+    const [fetchState, setFetchState] = useState(0)
+    const formType = [
+        "Community Tax Certificate (Cedula)",
+        "Barangay Clearance",
+        "Certificate of Residency",
+        "Certificate of Indigency"
+    ]
+
+    useEffect(() => {
+
+        const query = getAllRequestForms()
+
+        try {
+            const unsub = onSnapshot(query, snapshot => {
+                if (!snapshot) {
+                    setFetchState(-1)
+                    return
+                }
+
+                if (snapshot.empty) {
+                    setFetchState(2)
+                    return
+                }
+
+                const forms = snapshot.docs.map((doc) => {
+                    const { lastname, firstname, mi } = doc.data()["form"]["profile"];
+
+                    return {
+                        id: doc.id,
+                        data: doc.data(),
+                        name: firstname + " " + mi + " " + lastname,
+                    };
+                });
+
+                const group = forms.reduce((group, form) => {
+                    const { pick_up } = form.data.form;
+                    group[pick_up['seconds']] = group[pick_up['seconds']] ?? [];
+                    group[pick_up['seconds']].push(form);
+                    return group;
+                }, {});
+
+                setEntries(group)
+                setFetchState(1)
+            })
+
+            return () => {
+                unsub()
+            }
+
+        } catch {
+            setFetchState(-1)
+        }
+
+    }, []);
+
+    const StateBuilder = (state) => {
+
+        const states = {
+            "2": {
+                icon: <Upcoming />,
+                text: 'No entries'
+            },
+            "-1": {
+                icon: <Error />,
+                text: 'Something went wrong.'
+            },
+            "0": {
+                icon: <CircularProgress />,
+                text: 'Loading entries...'
+            }
+        }
+
+        return (
+            <div className='flex flex-col h-full justify-center items-center gap-4 text-white'>
+                {states[`${state}`].icon}
+                <p className='text-sm'>{states[`${state}`].text}</p>
+            </div>
+        )
+    }
 
     return (
         <>
@@ -15,7 +100,7 @@ function AdminDashboard(props) {
                     <div className='flex flex-col h-full gap-4'>
                         <div className='flex flex-row h-[60%] gap-4'>
                             {[0, 1].map((i) => {
-                                return(
+                                return (
                                     <div className='bg-[#FEC51C] pt-2 h-full w-full rounded-[20px]'>
                                         <div className='relative w-full flex flex-col justify-center items-center rounded-[20px] h-full bg-[#1F2F3D]'>
                                             <img src={icons[i]} alt='doc' className='mb-12 w-40 h-40' />
@@ -40,7 +125,7 @@ function AdminDashboard(props) {
                                         <li>Steps in Procuring Documents</li>
                                     </ul>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -63,6 +148,34 @@ function AdminDashboard(props) {
                         <p className='font-bold pl-2'>entries</p>
                     </div>
                     <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px]'>
+                        {fetchState != 1 ? StateBuilder(fetchState) : (
+                            <div className='w-full h-[85%] text-white overflow-y-auto'>
+                                <div className='flex flex-col w-full'>
+                                    {
+                                        Object.keys(entries).map((date, i) => {
+                                            return (
+                                                <div key={`en#${i}`} className='pb-4 py-2 px-6 border-b'>
+                                                    <h1 className='py-2 text-sm font-bold'>{
+                                                        format(new Timestamp(date, 0).toDate(), 'eeee, MMMM d, yyyy')
+                                                    }</h1>
+                                                    <h1 className='text-sm font-bold'>FOR PICK-UP</h1>
+                                                    {
+                                                        entries[date].map((form, i) => {
+                                                            return (
+                                                                <ul key={`li#${i}`} className='px-4 list-disc list-inside'>
+                                                                    <li className='text-sm'>{`${formType[form.data.formTypeId]} - `}
+                                                                        <span className='italic font-light'>{form.name}</span></li>
+                                                                </ul>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>)}
+
                         <div className='absolute bottom-0 flex w-full h-12 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
                             <h1 className='font-bold text-lg'>Calendar</h1>
                         </div>

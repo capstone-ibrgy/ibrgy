@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import doc from "../../assets/images/Community Logo (5).png";
 import CedulaUpdate from "./CedulaUpdate";
 import { format } from "date-fns";
+import RequestEntry from "../../components/RequestEntry";
 
 const Cedula = ({ forms }) => {
   //const [height, setHeight] = useState(400)
@@ -18,6 +19,7 @@ const Cedula = ({ forms }) => {
       const data = form.data;
 
       const request = {
+        id: form.id,
         no: i + 1,
         name: form.name,
         date: format(data.createdAt.toDate(), "MMMM d, yyyy"),
@@ -72,7 +74,7 @@ const Cedula = ({ forms }) => {
                   </div>
                 </div>
                 <div className="w-full h-full flex">
-                  <div className="bg-[#D9D9D9] flex flex-row text-[#1F2F3D] font-bold text-lg gap-4 w-full items-center">
+                  <div className="bg-[#D9D9D9] flex flex-row text-[#1F2F3D] font-bold gap-4 w-full items-center">
                     <label className=" w-[15%] ml-10">No.</label>
                     <label className=" w-full">Name</label>
                     <label className="w-[90%]">Date Requested</label>
@@ -84,15 +86,7 @@ const Cedula = ({ forms }) => {
               <div className="flex flex-col w-full h-full gap-4 my-3">
                 {rows.map((item) => {
                   return (
-                    <div className="bg-[#D9D9D9] flex flex-row text-[#1F2F3D] text-lg gap-4 w-full items-center">
-                      <label className="w-[15%] ml-10">{item["no"]}</label>
-                      <label className="w-full">{item["name"]}</label>
-                      <label className="w-[90%]">{item["date"]}</label>
-                      <label className="w-[90%]">{item["pick_up"]}</label>
-                      <label className="w-[80%] text-center mr-8">
-                        {item["status"]}
-                      </label>
-                    </div>
+                    <RequestEntry id={item.id} item={item} />
                   );
                 })}
               </div>
@@ -100,8 +94,9 @@ const Cedula = ({ forms }) => {
           </div>
           <div className="w-full flex justify-end">
             <button
+
               onClick={handleClick}
-              className="bg-[#FEC51C] h-12 w-[20%] rounded-lg font-bold drop-shadow-lg"
+              className="bg-[#FEC51C] h-12 w-[20%] rounded-lg font-bold drop-shadow-lg opacity-70"
             >
               Update
             </button>
