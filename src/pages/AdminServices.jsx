@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import documents from '../assets/data/content.json'
-//import arrow from '../assets/images/Arrow right 2.png'
-//import arrow2 from '../assets/images/Arrow down.png'
 import edit from '../assets/images/Community Logo (19).png'
 import doc from '../assets/images/Community Logo (5).png'
 import add from '../assets/images/22.png'
 
 const AdminServices = (props) => {
 
-  //const [dropdown, setDropdown] = useState(null)
   const [height, setHeight] = useState(400)
 
   const handleClick = () => {
     props.setScreen(9)
   }
-
-  /*
-  const handleDropdown = (index) => {
-    if (dropdown === index) return setDropdown(null)
-    setDropdown(index)
-  }
-  */
 
   return (
     <div className='flex flex-col w-full h-full'>

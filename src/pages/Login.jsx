@@ -29,6 +29,7 @@ function Login() {
 
     const handleGoogleLogin = async () => {
         await loginGoogle();
+        navigate(0)
     }
 
     return (

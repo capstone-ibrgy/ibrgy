@@ -4,7 +4,9 @@ export function ResidencyForm() {
     const [form, updateForm] = useReducer((prev, next) => {
         return { ...prev, ...next }
     },
-        {
+        {   
+            formId: null,
+            status: 0,
             formType: 2,
             profile: null,
             purpose: '',

@@ -4,7 +4,9 @@ export function ClearanceForm() {
     const [form, updateForm] = useReducer((prev, next) => {
         return { ...prev, ...next }
     },
-        {
+        {   
+            formId: null,
+            status: 0,
             formType: 1,
             profile: null,
             nickname: '',
