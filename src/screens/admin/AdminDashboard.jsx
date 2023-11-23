@@ -7,7 +7,7 @@ import { format } from 'date-fns'
 import { CircularProgress } from '@mui/material';
 import { Upcoming, Error } from '@mui/icons-material';
 
-function AdminDashboard(props) {
+function AdminDashboard({ setScreen }) {
     const icons = [add, request];
     const options = ['POST DOCUMENT', 'VIEW REQUESTS']
 
@@ -101,7 +101,10 @@ function AdminDashboard(props) {
                         <div className='flex flex-row h-[60%] gap-4'>
                             {[0, 1].map((i) => {
                                 return (
-                                    <div className='bg-[#FEC51C] pt-2 h-full w-full rounded-[20px]'>
+                                    <div
+                                        onClick={() => { setScreen(i + 2) }}
+                                        key={i}
+                                        className='cursor-pointer bg-[#FEC51C] pt-2 h-full w-full rounded-[20px]'>
                                         <div className='relative w-full flex flex-col justify-center items-center rounded-[20px] h-full bg-[#1F2F3D]'>
                                             <img src={icons[i]} alt='doc' className='mb-12 w-40 h-40' />
                                             <div className='absolute bottom-0 flex w-full h-12 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
@@ -176,9 +179,9 @@ function AdminDashboard(props) {
                                 </div>
                             </div>)}
 
-                        <div className='absolute bottom-0 flex w-full h-10 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
-                            <h1 className='font-bold text-lg'>Calendar</h1>
-                        </div>
+                        <h1 className='font-bold text-lg absolute bottom-0 w-full py-1 bg-[#FEC51C] rounded-[20px] text-center align-middle'>
+                            Calendar
+                        </h1>
                     </div>
                 </div>
 
