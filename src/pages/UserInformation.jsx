@@ -23,7 +23,7 @@ function UserInformation(props) {
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const { profile, updateProfile } = UserProfile();
   const { alert, setAlert, ERROR } = UserAlert();
   const navigate = useNavigate();
@@ -128,11 +128,9 @@ function UserInformation(props) {
           </div>
         </div>
         <div className='w-[35%] flex flex-col items-end'>
-          <Link to='/'>
-            <div className='h-20 text-md font-bold font-arimo p-10'>
-              Back
-            </div>
-          </Link>
+          <div onClick={() => { logout() }} className='h-20 cursor-pointer text-md font-bold font-arimo p-10'>
+            Back
+          </div>
           <div className='flex flex-col w-full font-arimo italic px-16 font-bold text-[#1F2F3D] text-[26px]'>
             <div className='flex justify-start '>
               <h1 className=''>Tinood nga Serbisyo, </h1>
