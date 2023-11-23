@@ -5,7 +5,7 @@ import arrow from '../assets/images/Arrow right 2.png'
 import arrow2 from '../assets/images/Arrow down.png'
 import doc from '../assets/images/Community Logo (5).png'
 
-const Services = (props) => {
+const Services = ({ profile, height, setScreen }) => {
 
   const [dropdown, setDropdown] = useState(null)
   const navigate = useNavigate();
@@ -16,15 +16,15 @@ const Services = (props) => {
   }
 
   const handleRequest = (index) => {
-    if (!props.profile) return navigate('/login');
+    if (!profile) return navigate('/login');
 
-      
+    setScreen(index + 5)
   }
 
   return (
     <div className='flex flex-col w-full h-full'>
       <h1 className='text-3xl font-bold font-arimo mt-2 mb-4'>Documents Offered</h1>
-      <div className={`h-[${props.height}px] w-full overflow-auto`}>
+      <div className={`h-[${height}px] w-full overflow-auto`}>
         <div className='flex flex-col items-center gap-6'>
           {
             documents['documents'].map((item, i) => {
