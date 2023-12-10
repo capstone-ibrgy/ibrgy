@@ -15,7 +15,7 @@ import Cedula from "./screens/admin/Cedula";
 import ClearanceUpdate from "./screens/admin/ClearanceUpdate";
 import ResidencyUpdate from "./screens/admin/ResidencyUpdate";
 import IndigencyUpdate from "./screens/admin/IndigencyUpdate";
-import UploadModal from "./components/UploadModal";
+import ClaimingSlip from "./components/ClaimingSlip";
 
 function App() {
   return (
@@ -64,7 +64,7 @@ function App() {
             <Route path="/test-clearance" element={ <ClearanceUpdate /> }/>
             <Route path="/test-residency" element={ <ResidencyUpdate /> }/>
             <Route path="/test-indigency" element={ <IndigencyUpdate /> }/>
-            <Route path="/test-upload" element={ <UploadModal /> }/>
+            <Route path="/test-slip" element={ <ClaimingSlip /> }/>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
