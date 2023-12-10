@@ -131,10 +131,10 @@ function UserDashboard({ profile, setScreen }) {
                         </select>
                         <p className='font-bold pl-2'>entries</p>
                     </div>
-                    <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px]'>
+                    <div className='relative flex flex-col w-full h-[91%] bg-[#1F2F3D] rounded-[20px] '>
                         {fetchState != 1 ? StateBuilder(fetchState) : (
                             <div className='w-full h-[85%] text-white overflow-y-auto'>
-                                <div className='flex flex-col w-full'>
+                                <div className='flex h-full flex-col w-full'>
                                     {
                                         Object.keys(entries).map((date, i) => {
                                             return (
@@ -142,7 +142,7 @@ function UserDashboard({ profile, setScreen }) {
                                                     <h1 className='py-2 text-sm font-bold'>{
                                                         format(new Timestamp(date, 0).toDate(), 'eeee, MMMM d, yyyy')
                                                     }</h1>
-                                                    <h1 className='text-sm font-bold'>FOR PICK-UP</h1>
+                                                    <h1 className='text-sm font-bold'>FOR APPROVAL</h1>
                                                     {
                                                         entries[date].map((form, i) => {
                                                             return (
@@ -158,9 +158,9 @@ function UserDashboard({ profile, setScreen }) {
                                     }
                                 </div>
                             </div>)}
-                        <div className='absolute bottom-0 flex w-full h-12 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
-                            <h1 className='font-bold text-lg'>Calendar</h1>
-                        </div>
+                        <h1 className='font-bold text-lg absolute bottom-0 w-full py-1.5 bg-[#FEC51C] rounded-[20px] text-center align-middle'>
+                            Calendar
+                        </h1>
                     </div>
                 </div>
 

@@ -38,12 +38,6 @@ const Indigency = ({ height, profile, setProgress, setShowUpload }) => {
       return
     }
 
-    updateForm(
-      {
-        income: e.target[2].value,
-        payment: 'Cash on pick-up'
-      })
-
     setShowUpload(true)
     handleUpload();
   }
@@ -80,8 +74,7 @@ const Indigency = ({ height, profile, setProgress, setShowUpload }) => {
 
   const resetForm = () => {
     updateForm({
-      height: '',
-      weight: '',
+      purpose: '',
       income: 'Below Php 10,000',
       uploaded_docs: null,
       pick_up: '',
@@ -162,7 +155,6 @@ const Indigency = ({ height, profile, setProgress, setShowUpload }) => {
                       if (e != null) {
                         updateForm({ pick_up: e })
                       }
-                      console.log(e)
                     }}
                     onChange={(e) => {
                       setStartDate(e)
