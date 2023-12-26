@@ -16,6 +16,7 @@ import ClearanceUpdate from "./screens/admin/ClearanceUpdate";
 import ResidencyUpdate from "./screens/admin/ResidencyUpdate";
 import IndigencyUpdate from "./screens/admin/IndigencyUpdate";
 import ClaimingSlip from "./components/ClaimingSlip";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
             <Route path="/test-residency" element={ <ResidencyUpdate /> }/>
             <Route path="/test-indigency" element={ <IndigencyUpdate /> }/>
             <Route path="/test-slip" element={ <ClaimingSlip /> }/>
+            <Route path="/test-privacy" element={ <PrivacyPolicy /> }/>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
