@@ -9,6 +9,7 @@ import Cedula from '../screens/user/Cedula'
 import Clearance from '../screens/user/Clearance'
 import Residency from '../screens/user/Residency'
 import Indigency from '../screens/user/Indigency'
+import OtherDocs from '../screens/user/OtherDocs'
 import Notifications from '../screens/user/Notifications'
 import UploadModal from '../components/UploadModal';
 import Profile from '../screens/user/Profile';
@@ -70,6 +71,13 @@ function Dashboard(props) {
         },
         {
             screen: "Services > Certificate of Indigency", component: <Indigency
+                height={height}
+                profile={props.profile}
+                setProgress={setProgress}
+                setShowUpload={setShowUpload} />
+        },
+        {
+            screen: "Services > Other Documents", component: <OtherDocs
                 height={height}
                 profile={props.profile}
                 setProgress={setProgress}

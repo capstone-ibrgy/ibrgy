@@ -25,9 +25,9 @@ const Navbar2 = (props) => {
   };
 
   const handleClick = (index) => {
-    let actual_index = index + 9;
+    let actual_index = index + 10;
 
-    if (actual_index === 11) {
+    if (actual_index === 12) {
       logout();
       return;
     }
