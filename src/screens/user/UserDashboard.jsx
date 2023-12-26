@@ -18,7 +18,8 @@ function UserDashboard({ profile, setScreen }) {
         "Community Tax Certificate (Cedula)",
         "Barangay Clearance",
         "Certificate of Residency",
-        "Certificate of Indigency"
+        "Certificate of Indigency",
+        "Other Documents"
     ]
 
     useEffect(() => {
