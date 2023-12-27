@@ -25,6 +25,7 @@ const AdminNavbar2 = (props) => {
     }
 
     const handleClick = (index) => {
+        setDrop(false)
         let actual_index = index + 8
 
         if (actual_index === 9) {

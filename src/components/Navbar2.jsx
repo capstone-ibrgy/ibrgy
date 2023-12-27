@@ -56,7 +56,7 @@ const Navbar2 = (props) => {
           </div>
           <div
             className={
-              !drop ? "hidden" : "font-arimo bg-[#1f2f3d7f] w-full mt-2"
+              !drop ? "hidden" : "font-arimo bg-[#1f2f3d7f] w-full mt-2 z-[100]"
             }
           >
             {items.map((items, i) => {
