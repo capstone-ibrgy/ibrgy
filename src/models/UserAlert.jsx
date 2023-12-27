@@ -11,6 +11,7 @@ export function UserAlert() {
         return { ...prev, ...next }
     },
         {
+            show: false,
             type: '',
             message: '',
             duration: 3000

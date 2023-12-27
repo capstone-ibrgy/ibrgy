@@ -31,7 +31,10 @@ function UserInformation(props) {
   const location = useLocation();
 
   useEffect(() => {
-    updateProfile({ userId: currentUser.uid })
+    updateProfile({
+      userId: currentUser.uid,
+      userAvatar: currentUser.photoURL
+    })
   }, [])
 
   const handleSubmit = async (e) => {
@@ -41,6 +44,9 @@ function UserInformation(props) {
       return setNotAgree('Please accept the terms of service and privacy policy.')
     }
     setIsSigning(true);
+
+
+
     await addUserProfile(currentUser.uid, profile).then((_) => {
       setSuccess(true)
     }).catch((_) => {
