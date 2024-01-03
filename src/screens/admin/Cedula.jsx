@@ -4,11 +4,17 @@ import CedulaUpdate from "./CedulaUpdate";
 import { format } from "date-fns";
 import RequestEntry from "../../components/RequestEntry";
 
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { Backdrop } from "@mui/material";
+
 const Cedula = ({ forms }) => {
   //const [height, setHeight] = useState(400)
 
   const [update, setUpdate] = useState(false);
   const [rows, setRows] = useState([]);
+
+  const [showForm, setShowForm] = useState(false);
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     var rows = [];
@@ -16,7 +22,9 @@ const Cedula = ({ forms }) => {
     if (!forms) return;
 
     forms.forEach((form, i) => {
-      const data = form.data;
+
+      var data = form.data;
+      data['id'] = form.id;
 
       const request = {
         id: form.id,
@@ -25,6 +33,7 @@ const Cedula = ({ forms }) => {
         date: format(data.createdAt.toDate(), "MMMM d, yyyy"),
         pick_up: format(data.form.pick_up.toDate(), "MMMM d, yyyy"),
         status: !data.status ? 0 : data.status,
+        data
       };
 
       rows.push(request);
@@ -36,6 +45,29 @@ const Cedula = ({ forms }) => {
   const handleClick = () => {
     setUpdate(true);
   };
+
+  const handleClose = () => {
+    setShowForm(false);
+  }
+
+  const stateBtn = (status) => {
+    const button = [
+      <div className={`flex flex-row w-28 h-8  bg-[#FFA500] rounded-md text-black items-center px-2 shadow-md`}>
+        <ArrowDownwardIcon fontSize='small' />
+        <p className='text-sm'>Processing</p>
+      </div>,
+      <div className={`flex flex-row w-28 h-8  bg-[#0000FF]/70 rounded-md text-white items-center px-2 shadow-md`}>
+        <ArrowDownwardIcon fontSize='small' />
+        <p className='text-sm'>For Pick-up</p>
+      </div>,
+      <div className={`flex flex-row w-28 h-8  bg-[#00FF00]/70 rounded-md text-black items-center px-3 shadow-md`}>
+        <ArrowDownwardIcon fontSize='small' />
+        <p className='text-sm'>Released</p>
+      </div>
+    ]
+
+    return button[status]
+  }
 
   return (
     <div className="flex flex-col w-full h-full font-arimo">
@@ -83,16 +115,33 @@ const Cedula = ({ forms }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col w-full h-full gap-4 my-3">
+              <div className="flex flex-col w-full h-full my-3">
                 {rows.map((item) => {
                   return (
-                    <RequestEntry id={item.id} item={item} />
+                    <div onClick={() => {
+                      setSelected(item.data)
+                      setShowForm(true)
+                    }} className="z-10 flex cursor-pointer flex-row text-[#1F2F3D] gap-4 w-full h-12 items-center hover:bg-[#fec51c]  ">
+                      <p className="w-[15%] ml-10">{item["no"]}</p>
+                      <p className="w-full">{item["name"]}</p>
+                      <p className="w-[90%]">{item["date"]}</p>
+                      <p className="w-[90%]">{item["pick_up"]}</p>
+                      <p className="flex justify-center w-[80%] text-center mr-8 cursor-pointer">
+                        {stateBtn(item["status"])}
+                      </p>
+                    </div>
                   );
                 })}
               </div>
             </div>
           </div>
-          <div className="w-full flex justify-end">
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={showForm}
+          >
+            {showForm && <CedulaUpdate form={selected} close={() => { setShowForm(false) }} />}
+          </Backdrop>
+          {/* <div className="w-full flex justify-end">
             <button
 
               onClick={handleClick}
@@ -100,7 +149,7 @@ const Cedula = ({ forms }) => {
             >
               Update
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

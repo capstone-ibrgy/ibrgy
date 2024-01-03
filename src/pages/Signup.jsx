@@ -30,7 +30,7 @@ function Signup() {
   const [submit, setSubmit] = useState(false);
 
   const navigate = useNavigate();
-  const { signup } = useAuth();
+  const { signup, loginGoogle } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -66,6 +66,11 @@ function Signup() {
     setIsSigning(true);
     await signup(_email, _password);
     setIsSigning(false);
+  }
+
+  const handleGoogleLogin = async () => {
+    await loginGoogle();
+    navigate(0)
   }
 
   return (
@@ -113,7 +118,9 @@ function Signup() {
                 <div className='flex-1 h-[2px] bg-[#1F2F3D]'></div>
               </div>
               <div className='mt-6 w-full flex flex-row items-center font-arimo font-bold text-[#1F2F3D]'>
-                <div className='flex flex-row flex-1 h-[40px] border-2 border-[#1F2F3D] rounded-lg items-center justify-center gap-x-2'>
+                <div
+                  onClick={() => { handleGoogleLogin() }}
+                  className='cursor-pointer flex flex-row flex-1 h-[40px] border-2 border-[#1F2F3D] rounded-lg items-center justify-center gap-x-2'>
                   <img src={google} className='w-5 h-5' />
                   <p className=' text-sm'>Log in with Google</p>
                 </div>

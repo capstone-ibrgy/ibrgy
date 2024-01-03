@@ -49,7 +49,7 @@ const Sidebar = ({ screen, setScreen }) => {
     }
 
     const select = (i, index) => {
-        return i === 2 && index > 4;
+        return i === 2 && index > 4 && index < 8;
     }
 
     return (

@@ -12,6 +12,8 @@ import Indigency from '../screens/user/Indigency'
 import Notifications from '../screens/user/Notifications'
 import UploadModal from '../components/UploadModal';
 import Profile from '../screens/user/Profile';
+import { Alert, Snackbar } from '@mui/material';
+import { UserAlert } from '../models/UserAlert';
 
 function Dashboard(props) {
 
@@ -20,6 +22,7 @@ function Dashboard(props) {
 
     const [showUpload, setShowUpload] = useState(false);
     const [progress, setProgress] = useState(0);
+    const { alert, setAlert } = UserAlert();
 
     useEffect(() => {
         function handleResize() {
@@ -78,9 +81,11 @@ function Dashboard(props) {
         {
             screen: "Home > Profile > My Profile", component: <Profile
                 height={height}
-                profile={props.profile}
+                user={props.profile}
                 setProgress={setProgress}
-                setShowUpload={setShowUpload} />
+                setShowUpload={setShowUpload}
+                setAlert={setAlert}
+            />
         },
         {
             screen: "Home > Profile > Notifications", component: <Notifications
@@ -102,6 +107,14 @@ function Dashboard(props) {
                     {screens[props.screen].component}
                 </div>
             </div>
+            {alert.show && <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                open={alert.show}
+                autoHideDuration={alert.duration}
+                onClose={() => { setAlert({ show: false }) }}
+            >
+                <Alert severity={alert.type}>{alert.message}</Alert>
+            </Snackbar>}
         </>
     );
 }
