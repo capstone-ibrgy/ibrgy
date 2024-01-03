@@ -3,6 +3,7 @@ import doc from "../../assets/images/Community Logo (5).png";
 import CedulaUpdate from "./CedulaUpdate";
 import { format } from "date-fns";
 import RequestEntry from "../../components/RequestEntry";
+
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Backdrop } from "@mui/material";
 
@@ -11,6 +12,7 @@ const Cedula = ({ forms }) => {
 
   const [update, setUpdate] = useState(false);
   const [rows, setRows] = useState([]);
+
   const [showForm, setShowForm] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -20,6 +22,7 @@ const Cedula = ({ forms }) => {
     if (!forms) return;
 
     forms.forEach((form, i) => {
+
       var data = form.data;
       data['id'] = form.id;
 

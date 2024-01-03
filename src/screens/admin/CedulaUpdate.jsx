@@ -91,7 +91,6 @@ const CedulaUpdate = ({ form, close }) => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
