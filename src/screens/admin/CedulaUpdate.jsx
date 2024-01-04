@@ -100,7 +100,7 @@ const CedulaUpdate = ({ form, close }) => {
                 open={showDocs}
                 onClick={() => { setShowDocs(false) }}
             >
-                <div className='p-4 w-[50%] h-full'>
+                <div className='p-4 w-[70%] h-full overflow-auto'>
                     <img src={form.form.uploaded_docs} alt='docs' className='w-full h-full' />
                 </div>
 
