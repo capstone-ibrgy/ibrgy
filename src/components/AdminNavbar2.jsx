@@ -7,9 +7,9 @@ import arrow2 from "../assets/images/Arrow down 3.png"
 import profile2 from "../assets/images/16.png"
 import logoutIcon from "../assets/images/18.png"
 
-const AdminNavbar2 = (props) => {
+const AdminNavbar2 = ({ setScreen, screen, useAuth }) => {
 
-    const { currentUser, logout } = props.useAuth();
+    const { currentUser, logout } = useAuth();
 
     const [drop, setDrop] = useState(false);
     const [index, setIndex] = useState(-1);
@@ -26,15 +26,15 @@ const AdminNavbar2 = (props) => {
 
     const handleClick = (index) => {
         setDrop(false)
-        let actual_index = index + 8
+        let actual_index = index + 4
 
-        if (actual_index === 9) {
+        if (actual_index === 5) {
             logout()
             return
         }
 
         setIndex(index)
-        props.setScreen(actual_index)
+        setScreen(actual_index)
     }
 
     return (

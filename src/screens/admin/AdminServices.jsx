@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
-import { getDocuments, onSnapshot } from '../api/services'
-import { Error, Upcoming } from '@mui/icons-material';
+import edit from '../../assets/images/Community Logo (19).png'
+import doc from '../../assets/images/Community Logo (5).png'
+import add from '../../assets/images/22.png'
+import { getDocuments, onSnapshot } from '../../api/services';
+import { Upcoming, Error } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
-import Documents from '../screens/user/Documents';
+import Documents from './Documents';
+import AddDocuments from './AddDocuments';
+import NewDocument from './NewDocument';
 
-const Services = ({ profile, height, setScreen }) => {
+const AdminServices = ({ setScreen, setAlert }) => {
 
-  const [dropdown, setDropdown] = useState(null)
+  const [height, setHeight] = useState(400)
   const [fetchState, setFetchState] = useState(0);
   const [documents, setDocuments] = useState([]);
-  const navigate = useNavigate();
+  const [added, setAdded] = useState([]);
+  const [onAdd, setOnAdd] = useState(false);
 
-  const handleDropdown = (index) => {
-    if (dropdown === index) return setDropdown(null)
-    setDropdown(index)
-  }
-
-  const handleRequest = (index) => {
-    if (!profile) return navigate('/login');
-
-    setScreen(index + 8)
+  const handleClick = () => {
+    setScreen(9)
   }
 
   useEffect(() => {
@@ -81,22 +80,37 @@ const Services = ({ profile, height, setScreen }) => {
   return (
     <div className='flex flex-col w-full h-full'>
       <h1 className='text-3xl font-bold font-arimo mt-2 mb-4'>Documents Offered</h1>
-      <div className={`h-[${height}px] w-full overflow-auto`}>
+      <div className={`h-full w-full overflow-auto`}>
         <div className='flex flex-col items-center gap-6'>
           {
-            fetchState != 1 ? StateBuilder(fetchState) :
+            fetchState != 1 ? StateBuilder(`${fetchState}`) :
               documents.map((item, i) => {
                 return (
-                  <Documents onClick={() => {
-                    handleRequest(i);
-                  }} docs={item} />
+                  <Documents docs={item} />
                 )
               })
           }
+          {
+            added.map((item) => {
+              return (
+                <NewDocument setAlert={setAlert} cancel={() => { setAdded([]); setOnAdd(false); }} />
+              )
+            })
+          }
+          {!onAdd && <div className='flex w-[90%] justify-end'>
+            <div
+              onClick={() => {
+                setAdded([1]);
+                setOnAdd(true);
+              }}
+              className='bg-[#FEC51C] rounded-[20px] p-2 w-16 cursor-pointer'>
+              <img src={add} alt="add" className='w-12 h-12' />
+            </div>
+          </div>}
         </div>
       </div>
     </div>
   )
 }
 
-export default Services
+export default AdminServices
