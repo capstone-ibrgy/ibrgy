@@ -26,6 +26,7 @@ const Navbar2 = (props) => {
 
   const handleClick = (index) => {
     setDrop(!drop);
+
     let actual_index = index + 9;
 
     if (actual_index === 11) {
@@ -68,10 +69,11 @@ const Navbar2 = (props) => {
                   }}
                 >
                   <div
-                    className={`flex flex-row items-center ${i === index
-                      ? "bg-[#1F2F3D]"
-                      : "hover:bg-[#00000024] cursor-pointer"
-                      }`}
+                    className={`flex flex-row items-center ${
+                      i === index
+                        ? "bg-[#1F2F3D]"
+                        : "hover:bg-[#00000024] cursor-pointer"
+                    }`}
                   >
                     <img
                       className="object-scale-down h-5 w-5 m-2 ml-7"
