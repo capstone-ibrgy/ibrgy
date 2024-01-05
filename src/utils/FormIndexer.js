@@ -25,7 +25,7 @@ const indexFields = (form, document) => {
         ];
 
         fields = [profileFields, requiredFields];
-    } else if (form.formTypeId < 0 && form.formTypeId > 4) {
+    } else if (form.formTypeId > 0 && form.formTypeId < 4) {
         const requiredFields = [
             { label: "Purpose", current: form.form.purpose }
         ];
@@ -34,10 +34,10 @@ const indexFields = (form, document) => {
     } else {
         let requiredFields = [];
 
-        requiredFields = document['fields'].map((item) => {
+        requiredFields = document['fields'].map((item,i) => {
             return {
                 label: item.label,
-                current: form.form[item.label.toLowerCase()]
+                current: form.form['fields'][i].value
             }
         })
 

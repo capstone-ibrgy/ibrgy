@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import AdminDashboard from "../screens/admin/AdminDashboard";
-import { getAllRequestForms, onSnapshot, Timestamp } from "../api/services";
+import {
+  getAllRequestForms,
+  getNotifications,
+  onSnapshot,
+  Timestamp,
+} from "../api/services";
 import Barangay from "./Barangay";
 import AdminServices from "../screens/admin/AdminServices";
 import Requests from "./Requests";
@@ -10,26 +15,31 @@ import AddDocuments from "../screens/admin/AddDocuments";
 import RequestList from "../screens/admin/RequestList";
 import { Alert, Snackbar } from "@mui/material";
 import { UserAlert } from "../models/UserAlert";
+import Notifications from "../screens/user/Notifications";
 
-
-function Dashboard2({ profile, screen, setScreen, documents }) {
+function Dashboard2({ profile, screen, setScreen, documents, setCount }) {
   //const { currentUser, logout } = useAuth();
 
   const [entries, setEntries] = useState([]);
   const [fetchState, setFetchState] = useState(0);
   const { alert, setAlert } = UserAlert();
+  const [notifications, setNotifications] = useState([]);
 
   const screens = [
     {
       screen: "Dashboard",
-      component: <AdminDashboard profile={profile} setScreen={setScreen} />,
+      component: (
+        <AdminDashboard
+          documents={documents}
+          profile={profile}
+          setScreen={setScreen}
+        />
+      ),
     },
     { screen: "The Barangay", component: <Barangay /> },
     {
       screen: "Services",
-      component: <AdminServices
-        setAlert={setAlert}
-        setScreen={setScreen} />,
+      component: <AdminServices setAlert={setAlert} setScreen={setScreen} />,
     },
     {
       screen: "Requests",
@@ -43,8 +53,40 @@ function Dashboard2({ profile, screen, setScreen, documents }) {
       ),
     },
     { screen: "Profile > My Profile", component: <Profile /> },
+    {
+      screen: "Home > Profile > Notifications",
+      component: <Notifications notifications={notifications} />,
+    },
     { screen: "Services > Add Documents", component: <AddDocuments /> },
   ];
+
+  useEffect(() => {
+    const query = getNotifications();
+
+    try {
+      const unsub = onSnapshot(query, (snapshot) => {
+        if (!snapshot) {
+          return;
+        }
+
+        if (snapshot.empty) {
+          return;
+        }
+
+        const forms = snapshot.docs.map((doc) => ({ data: doc.data() }));
+
+        setCount(forms.length);
+        setNotifications(forms);
+      });
+
+      return () => {
+        unsub();
+      };
+    } catch (err) {
+      console.log(err);
+      setFetchState(-1);
+    }
+  }, []);
 
   useEffect(() => {
     const query = getAllRequestForms();
@@ -71,8 +113,6 @@ function Dashboard2({ profile, screen, setScreen, documents }) {
           };
         });
 
-
-
         const group = forms.reduce((group, form) => {
           const { formType } = form.data;
 
@@ -81,7 +121,6 @@ function Dashboard2({ profile, screen, setScreen, documents }) {
           return group;
         }, {});
 
-        console.log(group)
         setEntries(group);
         setFetchState(1);
       });
@@ -102,24 +141,34 @@ function Dashboard2({ profile, screen, setScreen, documents }) {
           <h1 className="text-sm font-bold">
             {"Home > "}
             <span className="cursor-pointer hover:text-[#1B75BC]">
-              {screen < 6 ? screens[screen].screen :
-                `Request > ${documents['documents'][screen - 6].name}`}
+              {screen < 6
+                ? screens[screen].screen
+                : `Request > ${documents["documents"][screen - 6].name}`}
             </span>
           </h1>
-          {screen < 6 ? screens[screen].component :
+          {screen < 6 ? (
+            screens[screen].component
+          ) : (
             <RequestList
               setAlert={setAlert}
-              document={documents['documents'][screen - 6]}
-              forms={entries[documents['documents'][screen - 6].id]} />}
+              document={documents["documents"][screen - 6]}
+              forms={entries[documents["documents"][screen - 6].id] || []}
+              screen={screen}
+            />
+          )}
         </div>
-        {alert.show && <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          open={alert.show}
-          autoHideDuration={alert.duration}
-          onClose={() => { setAlert({ show: false }) }}
-        >
-          <Alert severity={alert.type}>{alert.message}</Alert>
-        </Snackbar>}
+        {alert.show && (
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            open={alert.show}
+            autoHideDuration={alert.duration}
+            onClose={() => {
+              setAlert({ show: false });
+            }}
+          >
+            <Alert severity={alert.type}>{alert.message}</Alert>
+          </Snackbar>
+        )}
       </div>
     </>
   );

@@ -35,7 +35,17 @@ const getUser = (userId) => {
     return getDoc(doc(db, "profiles", userId));
 }
 
-const requestForm = (form) => {
+const requestForm = async (form) => {
+    const notifRef = collection(db, "notifications");
+
+    const notif = {
+        message: form.name,
+        status: form.status,
+        createdAt: new Date()
+    };
+
+    await addDoc(notifRef, notif);
+
     const formType = ["cedula", "clearance", "residency", "indigency", "added"]
     return addDoc(collection(db, "forms"), {
         "formType": form.formType > 3 ? form.name.toString().toLowerCase() : formType[form.formType],
@@ -65,6 +75,12 @@ const getDocuments = () => {
     return query(docRef)
 }
 
+const getNotifications = () => {
+    const docRef = collection(db, "notifications");
+
+    return query(docRef, orderBy('createdAt', 'dsc'))
+}
+
 const updateDocument = (documentId, update) => {
 
     return updateDoc(doc(db, "documents", documentId), {
@@ -72,14 +88,22 @@ const updateDocument = (documentId, update) => {
     });
 }
 
-const addDocument = (document) => {
-
+const addDocument = async (document) => {
     return addDoc(collection(db, "documents"), {
         name: document.name,
         description: document.description,
         id: document.id,
         price: document.price,
         fields: document.fields
+    });
+}
+
+const addNotification = (notification) => {
+
+    return addDoc(collection(db, "notification"), {
+        status: notification.status,
+        message: notification.message,
+        createdAt: notification.createdAt
     });
 }
 
@@ -93,7 +117,9 @@ const updateFormStatus = (formId, status) => {
 
 export {
     addUserProfile,
+    addNotification,
     getUser,
+    getNotifications,
     requestForm,
     getRequestForms,
     getDocuments,
