@@ -9,6 +9,7 @@ import Cedula from '../screens/user/Cedula'
 import Clearance from '../screens/user/Clearance'
 import Residency from '../screens/user/Residency'
 import Indigency from '../screens/user/Indigency'
+import OtherDocs from '../screens/user/OtherDocs'
 import Notifications from '../screens/user/Notifications'
 import UploadModal from '../components/UploadModal';
 import Profile from '../screens/user/Profile';

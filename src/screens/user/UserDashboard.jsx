@@ -18,7 +18,8 @@ function UserDashboard({ profile, setScreen }) {
         "Community Tax Certificate (Cedula)",
         "Barangay Clearance",
         "Certificate of Residency",
-        "Certificate of Indigency"
+        "Certificate of Indigency",
+        "Other Documents"
     ]
 
     useEffect(() => {
@@ -142,7 +143,7 @@ function UserDashboard({ profile, setScreen }) {
                                                     <h1 className='py-2 text-sm font-bold'>{
                                                         format(new Timestamp(date, 0).toDate(), 'eeee, MMMM d, yyyy')
                                                     }</h1>
-                                                    <h1 className='text-sm font-bold'>FOR PICK-UP</h1>
+                                                    <h1 className='text-sm font-bold'>FOR APPROVAL</h1>
                                                     {
                                                         entries[date].map((form, i) => {
                                                             return (
