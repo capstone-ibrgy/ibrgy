@@ -23,7 +23,9 @@ function Dashboard2({ profile, screen, setScreen, documents, setCount }) {
   const [entries, setEntries] = useState([]);
   const [fetchState, setFetchState] = useState(0);
   const { alert, setAlert } = UserAlert();
-  const [notifications, setNotifications] = useState([]);
+  const [height, setHeight] = useState(400);
+  const [showUpload, setShowUpload] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const screens = [
     {
@@ -52,10 +54,17 @@ function Dashboard2({ profile, screen, setScreen, documents, setCount }) {
         />
       ),
     },
-    { screen: "Profile > My Profile", component: <Profile /> },
     {
-      screen: "Home > Profile > Notifications",
-      component: <Notifications notifications={notifications} />,
+      screen: "Profile > My Profile",
+      component: (
+        <Profile
+          height={height}
+          user={profile}
+          setProgress={setProgress}
+          setShowUpload={setShowUpload}
+          setAlert={setAlert}
+        />
+      ),
     },
     { screen: "Services > Add Documents", component: <AddDocuments /> },
   ];
