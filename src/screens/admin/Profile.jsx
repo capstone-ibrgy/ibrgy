@@ -12,14 +12,14 @@ import {
   getDownloadURL,
   uploadBytesResumable
 } from '../../api/services'
-import { UserProfile } from '../../models/UserProfile';
+import { AdminProfile } from '../../models/AdminProfile';
 
 const Profile = ({ user, setAlert }) => {
 
   const hiddenFileInput = useRef(null);
   const [fileError, setFileError] = useState("");
   const [fileImage, setFileImage] = useState(null);
-  const { profile, updateProfile } = UserProfile();
+  const { profile, updateProfile } = AdminProfile();
   const [userHolder, setUserHolder] = useState(user);
   const [isLoading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
@@ -278,10 +278,10 @@ const Profile = ({ user, setAlert }) => {
               <div className='flex flex-col w-full font-semibold'>
                 <label>Position</label>
                 <input
-                  value={profile.position}
-                  onChange={(e) => { updateProfile({ position: e.target.value }) }}
+                  value={profile.occupation}
+                  onChange={(e) => { updateProfile({ occupation: e.target.value }) }}
                   type="text"
-                  placeholder={userHolder.position}
+                  placeholder={userHolder.occupation}
                   className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2' />
               </div>
               <div className='flex flex-col w-48 font-semibold'>
