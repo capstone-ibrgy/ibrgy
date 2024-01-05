@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { Upcoming, Error } from "@mui/icons-material";
-import documents from "../assets/data/content.json";
 import edit from "../assets/images/Community Logo (19).png";
 import doc from "../assets/images/Community Logo (5).png";
 import add from "../assets/images/22.png";
 
-const Requests = ({ setScreen, forms, fetchState }) => {
+const Requests = ({ setScreen, forms, fetchState, documents }) => {
   const [height, setHeight] = useState(400);
 
   const handleClick = (index) => {
@@ -43,7 +42,7 @@ const Requests = ({ setScreen, forms, fetchState }) => {
               <div
                 key={item}
                 onClick={() => {
-                  handleClick(i + 4);
+                  handleClick(i + 6);
                 }}
                 className="flex flex-col w-[90%] rounded-[20px] cursor-pointer"
               >
@@ -60,8 +59,8 @@ const Requests = ({ setScreen, forms, fetchState }) => {
                         {fetchState != 1
                           ? stateBuilder(fetchState)
                           : !forms[item.id]
-                          ? 0
-                          : forms[item.id].length}
+                            ? 0
+                            : forms[item.id].length}
                       </h1>
                     </div>
                   </div>

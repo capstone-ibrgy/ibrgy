@@ -106,11 +106,10 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
   };
 
   return (
-    <div className='relative w-full h-full'>
+    <div className='relative w-full h-full overflow-auto'>
       <h1 className='text-3xl font-bold my-2'>Request Form</h1>
       <div
-        style={{ height: height, minHeight: "420px" }}
-        className='relative flex flex-col items-center justify-center'>
+        className='h-full relative flex flex-col items-center'>
         <div className={`flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9]`}>
           <div className='relative flex flex-row w-full h-16 bg-[#1F2F3D]  rounded-[20px] items-center px-6 gap-6'>
             <img src={doc} className='w-14 h-14' />
@@ -143,8 +142,8 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
                 </select>
               </div>
             </div>
-            <div className='flex flex-row'>
-              <div className='flex-1 flex flex-row border-2 border-[#1F2F3D] h-full rounded-[10px] items-center justify-center gap-2'>
+            <div className='flex flex-row h-full'>
+              <div className='flex-1 flex flex-row border-2 border-[#1F2F3D] h-42 rounded-[10px] items-center justify-center gap-2'>
                 <div onClick={handleClick} className='text-[#1F2F3D] font-bold px-2 text-sm cursor-pointer'>
                   <input onChange={handleChange}
                     ref={hiddenFileInput} type='file' className='hidden' accept='image/png, image/gif, image/jpeg' />

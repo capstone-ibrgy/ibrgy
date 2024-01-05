@@ -36,9 +36,9 @@ const getUser = (userId) => {
 }
 
 const requestForm = (form) => {
-    const formType = ["cedula", "clearance", "residency", "indigency"]
+    const formType = ["cedula", "clearance", "residency", "indigency", "added"]
     return addDoc(collection(db, "forms"), {
-        "formType": formType[form.formType],
+        "formType": form.formType > 3 ? form.name.toString().toLowerCase() : formType[form.formType],
         "formTypeId": form.formType,
         "userId": form.profile.userId,
         "createdAt": Timestamp.now(),
@@ -59,12 +59,48 @@ const getRequestForms = (userId) => {
     return query(formRef, where('userId', '==', userId), orderBy('createdAt', 'asc'))
 }
 
+const getDocuments = () => {
+    const docRef = collection(db, "documents");
+
+    return query(docRef)
+}
+
+const updateDocument = (documentId, update) => {
+
+    return updateDoc(doc(db, "documents", documentId), {
+        update
+    });
+}
+
+const addDocument = (document) => {
+
+    return addDoc(collection(db, "documents"), {
+        name: document.name,
+        description: document.description,
+        id: document.id,
+        price: document.price,
+        fields: document.fields
+    });
+}
+
+const updateFormStatus = (formId, status) => {
+
+    return updateDoc(doc(db, "forms", formId), {
+        status: status
+    });
+
+}
+
 export {
     addUserProfile,
     getUser,
     requestForm,
     getRequestForms,
+    getDocuments,
+    updateDocument,
+    addDocument,
     getAllRequestForms,
+    updateFormStatus,
     ref,
     uploadBytesResumable,
     getDownloadURL,

@@ -12,7 +12,7 @@ import triangle from "../assets/images/triangle.png";
 import arrow from "../assets/images/Arrow right.png";
 import arrow2 from "../assets/images/Arrow right 3.png";
 
-const AdminSidebar = ({ setScreen, screen }) => {
+const AdminSidebar = ({ setScreen, screen, documents }) => {
   const [side, setSide] = useState(true);
   const [index, setIndex] = useState(0);
   const [onService, setOnService] = useState(false);
@@ -43,6 +43,8 @@ const AdminSidebar = ({ setScreen, screen }) => {
     } else {
       setOnService(false);
     }
+
+    console.log(index)
     setScreen(index);
   };
 
@@ -52,14 +54,12 @@ const AdminSidebar = ({ setScreen, screen }) => {
 
   return (
     <div
-      className={`${
-        side ? "w-[25%]" : "w-[4%] "
-      } flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500`}
+      className={`${side ? "w-[25%]" : "w-[4%] "
+        } flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500`}
     >
       <div
-        className={`flex ${
-          side ? "p-5 justify-end" : "py-5 justify-center"
-        } w-full `}
+        className={`flex ${side ? "p-5 justify-end" : "py-5 justify-center"
+          } w-full `}
       >
         <img
           onClick={handleSide}
@@ -78,10 +78,9 @@ const AdminSidebar = ({ setScreen, screen }) => {
                 }}
                 key={items}
                 className={`relative flex flex-row items-center h-14 px-4 w-full text-white border-b gap-3 
-                            ${
-                              (i === screen || select(i, screen)) &&
-                              "bg-[#FEC51C] border-[#1F2F3D]"
-                            } 
+                            ${(i === screen || select(i, screen)) &&
+                  "bg-[#FEC51C] border-[#1F2F3D]"
+                  } 
                             ${i === screen - 1 && "border-[#1F2F3D]"}`}
               >
                 <img
@@ -95,9 +94,8 @@ const AdminSidebar = ({ setScreen, screen }) => {
                 />
                 {side && (
                   <h1
-                    className={`${
-                      (i === screen || select(i, screen)) && "text-[#1F2F3D]"
-                    }`}
+                    className={`${(i === screen || select(i, screen)) && "text-[#1F2F3D]"
+                      }`}
                   >
                     {items.label}
                   </h1>
@@ -110,26 +108,25 @@ const AdminSidebar = ({ setScreen, screen }) => {
                 )}
               </div>
               {side && onService && i === 3 && (
-                <div className="flex flex-col border-b transition-all ease-in-out duration-500">
-                  {services.map((item, i) => {
+                <div className="flex flex-col border-b h-[250px] transition-all ease-in-out duration-500 overflow-auto">
+                  {documents['documents'].map((item, i) => {
                     return (
                       <div
-                        key={item + items}
+                        key={item.id}
                         onClick={() => {
-                          handleClick(i + 4);
+                          handleClick(i + 6);
                         }}
-                        className={`${
-                          i + 4 === screen
-                            ? "bg-[#FEC51C]/80 text-[#1F2F3D]"
-                            : "text-white"
-                        } relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}
+                        className={`${i + 6 === screen
+                          ? "bg-[#FEC51C]/80 text-[#1F2F3D]"
+                          : "text-white"
+                          } relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}
                       >
                         <img
                           className="w-4 h-4"
-                          src={i + 4 === screen ? arrow2 : arrow}
+                          src={i + 6 === screen ? arrow2 : arrow}
                           alt="icon"
                         />
-                        <p className="text-sm">{item}</p>
+                        <p className="text-sm">{item.name}</p>
                       </div>
                     );
                   })}

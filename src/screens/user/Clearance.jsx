@@ -15,7 +15,7 @@ import {
 } from '../../api/services'
 import CloseIcon from '@mui/icons-material/Close';
 
-const Clearance = ({ height, profile, setProgress, setShowUpload }) => {
+const Clearance = ({ profile, setProgress, setShowUpload }) => {
 
   const [startDate, setStartDate] = useState();
   const [fileError, setFileError] = useState('');
@@ -97,10 +97,9 @@ const Clearance = ({ height, profile, setProgress, setShowUpload }) => {
   };
 
   return (
-    <div className='w-full h-full'>
+    <div className='w-full h-full overflow-auto'>
       <h1 className='text-3xl font-bold my-2'>Request Form</h1>
       <div
-        style={{ height: height, minHeight: "420px" }}
         className='relative flex flex-col items-center justify-center'>
         <div
           className={`flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9] text-[#1F2F3D]`}>
@@ -121,7 +120,7 @@ const Clearance = ({ height, profile, setProgress, setShowUpload }) => {
               <textarea value={form.purpose} required={true} onChange={(e) => { updateForm({ purpose: e.target.value }) }} className='resize-none border-2 h-12 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2' />
             </div>
             <div className='flex flex-row py-2'>
-              <div className='flex-1 flex flex-row border-2 border-[#1F2F3D] h-full rounded-[10px] items-center justify-center gap-2'>
+              <div className='flex-1 flex flex-row border-2 border-[#1F2F3D] h-42 rounded-[10px] items-center justify-center gap-2'>
                 <div onClick={handleClick} className='text-[#1F2F3D] font-bold px-2 text-sm cursor-pointer'>
                   <input onChange={handleChange}
                     ref={hiddenFileInput} type='file' className='hidden' accept='image/png, image/gif, image/jpeg' />

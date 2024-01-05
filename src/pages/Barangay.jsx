@@ -2,7 +2,7 @@ import React from 'react'
 
 const Barangay = () => {
   return (
-    <div>
+    <div className='h-full overflow-auto'>
       <h1 className='text-3xl font-bold font-arimo mb-8'>Barangay [Name]</h1>
       <h1 className='text-2xl font-bold font-arimo mb-2 pb-2 border-b-2 border-[#1F2F3D]'>Vision</h1>
       <div className='mb-6'>

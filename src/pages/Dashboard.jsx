@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import UserDashboard from '../screens/user/UserDashboard';
 import Citizens from './Citizens';
@@ -13,14 +13,20 @@ import OtherDocs from '../screens/user/OtherDocs'
 import Notifications from '../screens/user/Notifications'
 import UploadModal from '../components/UploadModal';
 import Profile from '../screens/user/Profile';
+import { Alert, Snackbar } from '@mui/material';
+import { UserAlert } from '../models/UserAlert';
+import { getDocuments, onSnapshot } from '../api/services';
+import RequestForms from '../screens/user/RequestForms';
 
-function Dashboard(props) {
+function Dashboard({ screen, setScreen, documents, profile }) {
 
     const { currentUser, logout } = useAuth();
     const [height, setHeight] = useState(400)
 
     const [showUpload, setShowUpload] = useState(false);
     const [progress, setProgress] = useState(0);
+    const { alert, setAlert } = UserAlert();
+
 
     useEffect(() => {
         function handleResize() {
@@ -32,73 +38,51 @@ function Dashboard(props) {
         return eventL
     }, [height])
 
+
     const screens = [
         {
             screen: "Dashboard", component: <UserDashboard
-                setScreen={props.setScreen}
-                profile={props.profile}
+                setScreen={setScreen}
+                profile={profile}
                 height={height} />
         },
         { screen: "Citizen's Charts", component: <Citizens height={height} /> },
         {
             screen: "Services", component: <Services
-                profile={props.profile}
+                profile={profile}
                 height={height}
-                setScreen={props.setScreen} />
+                setScreen={setScreen} />
         },
         { screen: "About Us", component: <AboutUs height={height} /> },
         { screen: "Contact Us", component: <Contact height={height} /> },
         {
-            screen: "Services > Cedula", component: <Cedula
-                height={height}
-                profile={props.profile}
-                setProgress={setProgress}
-                setShowUpload={setShowUpload} />
-        },
-        {
-            screen: "Services > Barangay Clearance", component: <Clearance
-                height={height}
-                profile={props.profile}
-                setProgress={setProgress}
-                setShowUpload={setShowUpload} />
-        },
-        {
-            screen: "Services > Certificate of Residency", component: <Residency
-                height={height}
-                profile={props.profile}
-                setProgress={setProgress}
-                setShowUpload={setShowUpload} />
-        },
-        {
-            screen: "Services > Certificate of Indigency", component: <Indigency
-                height={height}
-                profile={props.profile}
-                setProgress={setProgress}
-                setShowUpload={setShowUpload} />
-        },
-        {
-            screen: "Services > Other Documents", component: <OtherDocs
-                height={height}
-                profile={props.profile}
-                setProgress={setProgress}
-                setShowUpload={setShowUpload} />
-        },
-        {
             screen: "Home > Profile > My Profile", component: <Profile
                 height={height}
-                profile={props.profile}
+                user={profile}
                 setProgress={setProgress}
-                setShowUpload={setShowUpload} />
+                setShowUpload={setShowUpload}
+                setAlert={setAlert}
+            />
         },
         {
             screen: "Home > Profile > Notifications", component: <Notifications
                 height={height}
-                profile={props.profile}
+                profile={profile}
                 setProgress={setProgress}
                 setShowUpload={setShowUpload} />
         },
 
     ];
+
+    const FormSelector = (form) => {
+        if (form.id == 'cedula') return <Cedula profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+        else if (form.id == 'clearance') return <Clearance profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+        else if (form.id == 'indigency') return <Indigency profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+        else if (form.id == 'residency') return <Residency profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+
+        console.log(form)
+        return <RequestForms documents={form} profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+    }
 
     return (
         <>
@@ -106,10 +90,21 @@ function Dashboard(props) {
             <div className='mt-16 flex flex-col w-full py-6 font-arimo text-[#1F2F3D]'>
                 <div className='w-[85%] h-full self-center'>
                     <h1 className='text-sm font-bold' >{'Home > '}
-                        <span className='cursor-pointer hover:text-[#1B75BC]'>{screens[props.screen].screen}</span></h1>
-                    {screens[props.screen].component}
+                        <span className='cursor-pointer hover:text-[#1B75BC]'>
+                            {(screen < 7) ? screens[screen].screen :
+                                `Services > ${documents['documents'][screen - 8].name}`}
+                        </span></h1>
+                    {screen > 7 ? FormSelector(documents['documents'][screen - 8]) : screens[screen].component}
                 </div>
             </div>
+            {alert.show && <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                open={alert.show}
+                autoHideDuration={alert.duration}
+                onClose={() => { setAlert({ show: false }) }}
+            >
+                <Alert severity={alert.type}>{alert.message}</Alert>
+            </Snackbar>}
         </>
     );
 }
