@@ -138,9 +138,9 @@ function UserDashboard({ profile, setScreen, documents }) {
                         </select>
                         <p className='font-bold pl-2'>entries</p>
                     </div>
-                    <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px]'>
+                    <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px] overflow-hidden'>
                         {fetchState != 1 ? StateBuilder(fetchState) : (
-                            <div className='w-full h-[85%] text-white overflow-y-auto'>
+                            <div className='w-full h-[85%] text-white overflow-auto'>
                                 <div className='flex h-full flex-col w-full'>
                                     {
                                         Object.keys(entries).map((date, i) => {

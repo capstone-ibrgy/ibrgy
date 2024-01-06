@@ -44,7 +44,7 @@ const Requests = ({ setScreen, forms, fetchState, documents }) => {
                 onClick={() => {
                   handleClick(i + 6);
                 }}
-                className="flex flex-col w-[90%] rounded-[20px] cursor-pointer"
+                className="flex flex-col w-[90%] rounded-[20px] cursor-pointer  hover:ring ring-[#FEC51C]"
               >
                 <div className="h-20 w-full">
                   <div className="relative flex flex-row h-full rounded-[20px]">

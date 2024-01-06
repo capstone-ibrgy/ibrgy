@@ -12,7 +12,6 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import UploadModal from "../../components/UploadModal";
 
 const RequestForms = ({ profile, setProgress, setShowUpload, documents }) => {
     const [startDate, setStartDate] = useState();
@@ -179,7 +178,7 @@ const RequestForms = ({ profile, setProgress, setShowUpload, documents }) => {
                                         </label>
                                         <input
                                             value={form["fields"][i]["value"]}
-                                            required={true}
+                                            required
                                             onChange={(e) => {
                                                 let temp = [...form["fields"]];
 

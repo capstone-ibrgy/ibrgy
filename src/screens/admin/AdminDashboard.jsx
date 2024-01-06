@@ -150,9 +150,9 @@ function AdminDashboard({ setScreen }) {
                         </select>
                         <p className='font-bold pl-2'>entries</p>
                     </div>
-                    <div className='relative flex flex-col w-full h-[85%] bg-[#1F2F3D] rounded-[20px]'>
+                    <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px] overflow-hidden'>
                         {fetchState != 1 ? StateBuilder(fetchState) : (
-                            <div className='w-full h-[85%] text-white overflow-y-auto'>
+                            <div className='w-full h-[85%] text-white overflow-auto'>
                                 <div className='flex flex-col w-full h-full'>
                                     {
                                         Object.keys(entries).map((date, i) => {
@@ -178,8 +178,7 @@ function AdminDashboard({ setScreen }) {
                                     }
                                 </div>
                             </div>)}
-
-                        <h1 className='font-bold text-lg absolute bottom-0 w-full py-1 bg-[#FEC51C] rounded-[20px] text-center align-middle'>
+                        <h1 className='font-bold text-lg absolute bottom-0 w-full py-2 bg-[#FEC51C] rounded-[20px] text-center align-middle'>
                             Calendar
                         </h1>
                     </div>

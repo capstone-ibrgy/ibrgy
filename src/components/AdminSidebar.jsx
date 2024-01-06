@@ -48,7 +48,7 @@ const AdminSidebar = ({ setScreen, screen, documents, count }) => {
   return (
     <div
       className={`${side ? "w-[25%]" : "w-[4%] "
-        } flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500`}
+        } flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500 select-none`}
     >
       <div
         className={`flex ${side ? "p-5 justify-end" : "py-5 justify-center"
@@ -70,7 +70,7 @@ const AdminSidebar = ({ setScreen, screen, documents, count }) => {
                   handleClick(i);
                 }}
                 key={items}
-                className={`relative flex flex-row items-center h-14 px-4 w-full text-white border-b gap-3 
+                className={`relative cursor-pointer flex flex-row items-center h-14 px-4 w-full text-white hover:bg-[#FEC51C]/70 border-b gap-3 
                             ${(i === screen || select(i, screen)) &&
                   "bg-[#FEC51C] border-[#1F2F3D]"
                   } 
@@ -120,7 +120,7 @@ const AdminSidebar = ({ setScreen, screen, documents, count }) => {
                         }}
                         className={`${i + 6 === screen
                           ? "bg-[#FEC51C]/80 text-[#1F2F3D]"
-                          : "text-white"
+                          : "text-white hover:bg-[#FEC51C]/70 "
                           } relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}
                       >
                         <img
