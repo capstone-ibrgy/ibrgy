@@ -80,7 +80,6 @@ function Dashboard({ screen, setScreen, documents, profile }) {
         else if (form.id == 'indigency') return <Indigency profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
         else if (form.id == 'residency') return <Residency profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
 
-        console.log(form)
         return <RequestForms documents={form} profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
     }
 

@@ -11,8 +11,9 @@ import hands2 from "../assets/images/8.png";
 import triangle from "../assets/images/triangle.png";
 import arrow from "../assets/images/Arrow right.png";
 import arrow2 from "../assets/images/Arrow right 3.png";
+import { Badge } from "@mui/material";
 
-const AdminSidebar = ({ setScreen, screen, documents }) => {
+const AdminSidebar = ({ setScreen, screen, documents, count }) => {
   const [side, setSide] = useState(true);
   const [index, setIndex] = useState(0);
   const [onService, setOnService] = useState(false);
@@ -22,13 +23,6 @@ const AdminSidebar = ({ setScreen, screen, documents }) => {
     { label: "The Barangay", icon: flag, selected: flag2 },
     { label: "Services", icon: hands, selected: hands2 },
     { label: "Requests", icon: request, selected: request2 },
-  ];
-
-  const services = [
-    "Community Tax Certificate (Cedula)",
-    "Barangay Clearance",
-    "Certificate of Residency",
-    "Certificate of Indigency",
   ];
 
   const handleSide = () => {
@@ -44,7 +38,6 @@ const AdminSidebar = ({ setScreen, screen, documents }) => {
       setOnService(false);
     }
 
-    console.log(index)
     setScreen(index);
   };
 
@@ -83,7 +76,7 @@ const AdminSidebar = ({ setScreen, screen, documents }) => {
                   } 
                             ${i === screen - 1 && "border-[#1F2F3D]"}`}
               >
-                <img
+                {i === 3 ? <Badge className="pt-1" badgeContent={count} color="warning"><img
                   className="w-5 h-5"
                   src={
                     i === screen || select(i, screen)
@@ -91,7 +84,16 @@ const AdminSidebar = ({ setScreen, screen, documents }) => {
                       : items.icon
                   }
                   alt={items.icon}
-                />
+                /></Badge> :
+                  <img
+                    className="w-5 h-5"
+                    src={
+                      i === screen || select(i, screen)
+                        ? items.selected
+                        : items.icon
+                    }
+                    alt={items.icon}
+                  />}
                 {side && (
                   <h1
                     className={`${(i === screen || select(i, screen)) && "text-[#1F2F3D]"

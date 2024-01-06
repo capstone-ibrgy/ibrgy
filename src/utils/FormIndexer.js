@@ -34,10 +34,10 @@ const indexFields = (form, document) => {
     } else {
         let requiredFields = [];
 
-        requiredFields = document['fields'].map((item) => {
+        requiredFields = document['fields'].map((item, i) => {
             return {
                 label: item.label,
-                current: form.form[item.label.toLowerCase()]
+                current: form.form['fields'][i].value
             }
         })
 

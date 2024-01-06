@@ -5,11 +5,13 @@ import { indexFields } from '../../utils/FormIndexer';
 import { format } from 'date-fns';
 import PopupDialog from '../../components/PopupDialog';
 import { updateFormStatus } from '../../api/services';
+import { Backdrop } from '@mui/material';
 
 function RequestViewer({ form, close, document, setAlert }) {
 
     const [fields, setFields] = useState([[], []]);
     const [showDialog, setDialog] = useState(false);
+    const [showDocs, setShowDocs] = useState(false);
 
     useEffect(() => {
         const fields = indexFields(form, document);
@@ -144,10 +146,25 @@ function RequestViewer({ form, close, document, setAlert }) {
                             action2={() => {
                                 setDialog(null)
                             }}
+
                         />}
                     </div>
                 </div>
-
+                <Backdrop
+                    sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={showDocs}
+                    onClick={() => {
+                        setShowDocs(false);
+                    }}
+                >
+                    <div className="p-4 w-[50%] h-full">
+                        <img
+                            src={form.form.uploaded_docs}
+                            alt="docs"
+                            className="w-full h-full"
+                        />
+                    </div>
+                </Backdrop>
             </div>
         </div>
     )

@@ -7,17 +7,15 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Backdrop } from "@mui/material";
 import RequestViewer from "./RequestViewer";
 
-function RequestList({ forms, document, setAlert }) {
+function RequestList({ forms, document, setAlert, screen }) {
 
     const [rows, setRows] = useState([]);
     const [form, setForm] = useState(null);
 
     useEffect(() => {
-
-        console.log(forms)
         var rows = [];
 
-        if (!forms) return;
+        if (!forms) return setRows(rows);
 
         forms.forEach((form, i) => {
 
@@ -38,7 +36,7 @@ function RequestList({ forms, document, setAlert }) {
         });
 
         setRows(rows);
-    }, [forms]);
+    }, [forms, document, screen]);
 
     return (
         <div className="flex flex-col w-full h-full font-arimo">

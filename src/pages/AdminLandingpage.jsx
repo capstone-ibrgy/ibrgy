@@ -7,6 +7,7 @@ import { getDocuments, onSnapshot } from '../api/services';
 
 const AdminLandingpage = (props) => {
   const [screen, setScreen] = useState(0);
+  const [count, setCount] = useState(0);
 
   const [documents, setDocuments] = useReducer((prev, next) => {
     return { ...prev, ...next }
@@ -83,6 +84,7 @@ const AdminLandingpage = (props) => {
           useAuth={useAuth}
           setScreen={setScreen}
           documents={documents}
+          count={count}
           className=""
         />{" "}
         {/* removed "profile={props.profile} useAuth={useAuth}" */}
@@ -91,6 +93,7 @@ const AdminLandingpage = (props) => {
             setScreen={setScreen}
             screen={screen}
             documents={documents}
+            count={count}
             className="flex-1"
           />
           <Dashboard2
@@ -98,6 +101,7 @@ const AdminLandingpage = (props) => {
             screen={screen}
             documents={documents}
             setScreen={setScreen}
+            setCount={setCount}
           />{" "}
           {/* removed "profile={props.profile}" */}
         </div>

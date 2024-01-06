@@ -45,7 +45,7 @@ const Navbar2 = ({ profile, documents, setScreen, useAuth }) => {
         <div></div>
         <div className="flex flex-col items-center text-white bg-[#1f2f3d7f] font-arimo py-2 h-16">
           <div className="flex flex-row items-center gap-12 px-4">
-            <img className="rounded-full w-[48px] h-[48px] object-cover" src={!profile.userAvatar ? profileIcon : profile.userAvatar} alt="" />
+            <img className="rounded-full w-[48px] h-[48px] object-cover" src={profile.userAvatar || profileIcon} alt="" />
             <p className="font-arimo">{profile.firstname}</p>
             <div onClick={() => { handleDrop() }} className="h-auto w-[20px]">
               <img

@@ -35,7 +35,18 @@ const getUser = (userId) => {
     return getDoc(doc(db, "profiles", userId));
 }
 
-const requestForm = (form) => {
+const requestForm = async (form) => {
+
+    const notifRef = collection(db, "notifications");
+
+    const notif = {
+        message: form.name,
+        status: form.status,
+        createdAt: new Date()
+    };
+
+    await addDoc(notifRef, notif);
+
     const formType = ["cedula", "clearance", "residency", "indigency", "added"]
     return addDoc(collection(db, "forms"), {
         "formType": form.formType > 3 ? form.name.toString().toLowerCase() : formType[form.formType],
@@ -45,6 +56,21 @@ const requestForm = (form) => {
         "status": 0,
         form
     });
+}
+
+const addNotification = (notification) => {
+
+    return addDoc(collection(db, "notification"), {
+        status: notification.status,
+        message: notification.message,
+        createdAt: notification.createdAt
+    });
+}
+
+const getNotifications = () => {
+    const docRef = collection(db, "notifications");
+
+    return query(docRef, orderBy('createdAt', 'desc'))
 }
 
 const getAllRequestForms = () => {
@@ -100,6 +126,8 @@ export {
     updateDocument,
     addDocument,
     getAllRequestForms,
+    addNotification,
+    getNotifications,
     updateFormStatus,
     ref,
     uploadBytesResumable,

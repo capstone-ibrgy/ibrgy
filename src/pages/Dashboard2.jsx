@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import AdminDashboard from "../screens/admin/AdminDashboard";
-import { getAllRequestForms, onSnapshot, Timestamp } from "../api/services";
+import { getAllRequestForms, getNotifications, Timestamp } from "../api/services";
 import Barangay from "./Barangay";
 import AdminServices from "../screens/admin/AdminServices";
 import Requests from "./Requests";
@@ -10,17 +10,18 @@ import AddDocuments from "../screens/admin/AddDocuments";
 import RequestList from "../screens/admin/RequestList";
 import { Alert, Snackbar } from "@mui/material";
 import { UserAlert } from "../models/UserAlert";
+import Notifications from "../screens/admin/Notifications";
+import { onSnapshot } from 'firebase/firestore';
 
 
-function Dashboard2({ profile, screen, setScreen, documents }) {
+function Dashboard2({ profile, screen, setScreen, documents, setCount }) {
   //const { currentUser, logout } = useAuth();
 
   const [entries, setEntries] = useState([]);
   const [fetchState, setFetchState] = useState(0);
   const { alert, setAlert } = UserAlert();
-  const [height, setHeight] = useState(400)
-  const [showUpload, setShowUpload] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [notifications, setNotifications] = useState([]);
+
 
   const screens = [
     {
@@ -45,15 +46,44 @@ function Dashboard2({ profile, screen, setScreen, documents }) {
         />
       ),
     },
-    { screen: "Profile > My Profile", component: <Profile 
-            height={height}
-            user={profile}
-            setProgress={setProgress}
-            setShowUpload={setShowUpload}
-            setAlert={setAlert}
-    /> },
-    { screen: "Services > Add Documents", component: <AddDocuments /> },
+    {
+      screen: "Profile > My Profile", component: <Profile
+        user={profile}
+        setAlert={setAlert}
+      />
+    },
+    {
+      screen: "Home > Profile > Notifications",
+      component: <Notifications notifications={notifications} />,
+    }
   ];
+
+  useEffect(() => {
+    const query = getNotifications();
+
+    try {
+      const unsub = onSnapshot(query, (snapshot) => {
+        if (!snapshot) {
+          return;
+        }
+
+        if (snapshot.empty) {
+          return;
+        }
+
+        const forms = snapshot.docs.map((doc) => ({ data: doc.data() }));
+
+        setCount(forms.length);
+        setNotifications(forms);
+      });
+
+      return () => {
+        unsub();
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   useEffect(() => {
     const query = getAllRequestForms();
@@ -80,8 +110,6 @@ function Dashboard2({ profile, screen, setScreen, documents }) {
           };
         });
 
-
-
         const group = forms.reduce((group, form) => {
           const { formType } = form.data;
 
@@ -90,7 +118,6 @@ function Dashboard2({ profile, screen, setScreen, documents }) {
           return group;
         }, {});
 
-        console.log(group)
         setEntries(group);
         setFetchState(1);
       });
@@ -102,7 +129,7 @@ function Dashboard2({ profile, screen, setScreen, documents }) {
       console.log(e);
       setFetchState(-1);
     }
-  }, [documents]);
+  }, []);
 
   return (
     <>
@@ -119,7 +146,8 @@ function Dashboard2({ profile, screen, setScreen, documents }) {
             <RequestList
               setAlert={setAlert}
               document={documents['documents'][screen - 6]}
-              forms={entries[documents['documents'][screen - 6].id]} />}
+              forms={entries[documents['documents'][screen - 6].id]}
+              screen={screen} />}
         </div>
         {alert.show && <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
