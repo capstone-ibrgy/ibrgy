@@ -29,7 +29,7 @@ const AdminNavbar2 = ({ setScreen, screen, useAuth, profile }) => {
         setDrop(false)
         let actual_index = index + 4
 
-        if (actual_index === 7) {
+        if (actual_index === 6) {
             logout()
             return
         }

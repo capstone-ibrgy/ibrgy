@@ -39,17 +39,12 @@ const Sidebar = ({ services, screen, setScreen }) => {
             setOnService(false)
         }
 
-        console.log(index)
         setScreen(index)
     }
 
     const select = (i, index) => {
         return i === 2 && index > 7;
     }
-
-    useEffect(() => {
-        console.log(services)
-    }, [])
 
     return (
         <div className={`${side ? 'w-[25%]' : 'w-[4%] '} flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500`}>

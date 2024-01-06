@@ -42,6 +42,7 @@ function Dashboard({ screen, setScreen, documents, profile }) {
     const screens = [
         {
             screen: "Dashboard", component: <UserDashboard
+                documents={documents}
                 setScreen={setScreen}
                 profile={profile}
                 height={height} />
