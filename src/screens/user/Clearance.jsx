@@ -15,7 +15,7 @@ import {
 } from '../../api/services'
 import CloseIcon from '@mui/icons-material/Close';
 
-const Clearance = ({ profile, setProgress, setShowUpload }) => {
+const Clearance = ({ profile, setProgress, setShowUpload, document }) => {
 
   const [startDate, setStartDate] = useState();
   const [fileError, setFileError] = useState('');
@@ -61,6 +61,7 @@ const Clearance = ({ profile, setProgress, setShowUpload }) => {
           var newForm = form;
 
           newForm.uploaded_docs = url;
+          newForm['cost'] = document.price;
           requestForm(newForm)
           setShowUpload(false)
           resetForm()

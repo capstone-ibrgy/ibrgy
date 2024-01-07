@@ -17,17 +17,45 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import UploadModal from '../../components/UploadModal'
 
-const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
+import { Backdrop } from '@mui/material'
+import { HTMLTemplate } from '../../assets/data/ClaimingSlipTemplate'
+import JsPDF from 'jspdf';
+import html2canvas from 'html2canvas'
+
+const Cedula = ({ profile, setProgress, setShowUpload, docu }) => {
 
   const [startDate, setStartDate] = useState();
   const [fileError, setFileError] = useState('');
   const { form, updateForm } = CedulaForm();
+  const [pdf, setPdf] = useState(false);
 
   const hiddenFileInput = useRef(null);
 
   useEffect(() => {
     updateForm({ profile: profile })
   }, []);
+
+  const htmlStringToPdf = async (htmlString) => {
+    let iframe = document.createElement("iframe");
+    iframe.style.visibility = "hidden";
+    document.body.appendChild(iframe);
+    let iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+    iframedoc.body.innerHTML = htmlString;
+
+    let canvas = await html2canvas(iframedoc.body, {});
+
+    let imgData = canvas.toDataURL("image/png");
+
+    const doc = new JsPDF({
+      format: "a4",
+      unit: "mm",
+    });
+    doc.addImage(imgData, "PNG", 0, 0, 210, 250);
+    await doc.save('document');
+
+    document.body.removeChild(iframe);
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -43,8 +71,14 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
         payment: 'Cash on pick-up'
       })
 
-    setShowUpload(true)
-    handleUpload();
+    // setShowUpload(true)
+    // handleUpload();
+
+    // console.log(HTMLTemplate(form))
+
+    await htmlStringToPdf(HTMLTemplate(form));
+
+
   }
 
   const handleUpload = () => {
@@ -69,6 +103,8 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
           var newForm = form;
 
           newForm.uploaded_docs = url;
+          newForm['cost'] = docu.price;
+
           requestForm(newForm)
           setShowUpload(false)
           resetForm()
@@ -189,6 +225,13 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
           <div className='w-full h-4 bg-[#1F2F3D] rounded-b-[20px]'></div>
         </div>
       </div>
+      {/* <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={!!pdf}
+        onClick={() => { setPdf(false) }}
+      >
+        {pdf && HTMLTemplate(form)}
+      </Backdrop> */}
     </div>
   )
 }

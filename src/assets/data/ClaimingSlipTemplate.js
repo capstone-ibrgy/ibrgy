@@ -1,0 +1,220 @@
+import { format } from "date-fns"
+
+const HTMLTemplate = (form) => {
+
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Claiming Slip</title>
+
+        <style>
+            .slip-container {
+                width: 680px;
+                margin: auto;
+                padding: 30px 90px 30px 90px;
+                font-size: 12px;
+            }
+
+            .doc-header p {
+                text-align: center;
+                font-family: "Times New Roman", Times, serif;
+                font-size: 16px;
+                line-height: 2px;
+                color: #555
+            }
+
+            .doc-title {
+                padding-top: 30px;
+                text-align: center;
+                font-family: "Times New Roman", Times, serif;
+                font-size: 24px;
+                line-height: 2px;
+                color: #555
+            }
+
+            .line-border {
+                margin-top: 40px;
+                margin-bottom: 40px;
+                height: 2px;
+                width: 100%;
+                background: #555;
+            }
+
+            .doc-body {
+                line-height: 8px;
+                font-family: "Times New Roman", Times, serif;
+                font-size: 14px;
+                font-weight: bold;
+                color: black;
+            }
+
+            .doc-footer {
+                line-height: 0px;
+                font-family: "Times New Roman", Times, serif;
+                font-size: 14px;
+                font-weight: bold;
+                color: black;
+                padding-bottom: 100px;
+            }
+
+            .doc-body div {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 0px;
+                line-height: 0px;
+                margin: 0px;
+                height: 20px;
+            }
+
+            .doc-body label {
+                width: 250px;
+            }
+
+            .doc-body p {
+                font-weight: normal;
+
+            }
+
+            .doc-body h1 {
+                padding: 15px 0px;
+                font-size: 16px;
+            }
+
+            .doc-footer h1 {
+                padding-bottom: 10px;
+                font-size: 16px;
+            }
+
+            .doc-footer ul {
+                line-height: 20px;
+                font-weight: normal;
+                font-size: 15px;
+            }
+
+            .payment-value {
+                color: red;
+            }
+
+            .email {
+                color: dodgerblue;
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="slip-container">
+            <div class="doc-header">
+                <p>Republic of the Philippines</p>
+                <p>{{REGION}}, {{REGION_NAME}}</p>
+                <p>Province of {{PROVINCE}}</p>
+                <p>Municipality of {{MUNICIPALITY}}</p>
+                <p>Barangay {{BARANGAY}}</p>
+            </div>
+            <h1 class="doc-title">CLAIMING SLIP</h1>
+            <div class="line-border"></div>
+            <div class="doc-body">
+                <div>
+                    <label>Document Requested:</label>
+                    <p>${form.name}</p>
+                </div>
+                <div>
+                    <label>Date Requested:</label>
+                    <p>${format(new Date(), 'MMMM dd, yyyy')}</p>
+                </div>
+                <h1>Claiming Details</h1>
+                <div>
+                    <label>First Name:</label>
+                    <p>${form.profile.firstname}</p>
+                </div>
+                <div>
+                    <label>Middle Initial:</label>
+                    <p>${form.profile.mi}</p>
+                </div>
+                <div>
+                    <label>Last Name:</label>
+                    <p>${form.profile.lastname}</p>
+                </div>
+                <div>
+                    <label>Nick Name:</label>
+                    <p>${form.nickname || 'N/A'}</p>
+                </div>
+                <div>
+                    <label>Address:</label>
+                    <p>${form.profile.address}</p>
+                </div>
+                <div>
+                    <label>Date of Birth:</label>
+                    <p>${format(form.profile.birthdate.toDate(), 'MMMM dd, yyyy')}</p>
+                </div>
+                <div>
+                    <label>Place of Birth:</label>
+                    <p>${form.profile.birthplace}</p>
+                </div>
+                <div>
+                    <label>Sex:</label>
+                    <p>${form.profile.gender}</p>
+                </div>
+                <div>
+                    <label>Civil Status:</label>
+                    <p>${form.profile.civilstatus}</p>
+                </div>
+                <div>
+                    <label>Height (in cm):</label>
+                    <p>${form.height || 'N/A'}</p>
+                </div>
+                <div>
+                    <label>Weight (in kg):</label>
+                    <p>${form.weight || 'N/A'}</p>
+                </div>
+                <div>
+                    <label>Nationality:</label>
+                    <p>${form.profile.national}</p>
+                </div>
+                <div>
+                    <label>Occupation:</label>
+                    <p>${form.profile.occupation}</p>
+                </div>
+                <div>
+                    <label>Monthly Income:</label>
+                    <p>${form.income || 'N/A'}</p>
+                </div>
+                <br>
+                <div>
+                    <label>Claiming Date:</label>
+                    <p>${format(form.pick_up, 'MMMM dd, yyyy')}</p>
+                </div>
+                <div>
+                    <label>Cost:</label>
+                    <p>${form.cost}</p>
+                </div>
+                <div>
+                    <label>Payment Method:</label>
+                    <p class="payment-value">Cash on pick-up only</p>
+                </div>
+
+            </div>
+            <div class="line-border"></div>
+            <div class="doc-footer">
+                <h1>Information</h1>
+                <ul>
+                    <li>Claim your document personally or any authorized individual on or before the claiming date.</li>
+                    <li>Present this slip in claiming your requested document.</li>
+                    <li>This is an electronically generated slip.</li>
+                    <li>For any concerns or questions regarding the slip, please contact <span class="email">ibrgy@gmail.com</span></li>
+                </ul>
+            </div>
+        </div>
+
+    </body>
+    </html>`
+}
+
+export {
+    HTMLTemplate
+}

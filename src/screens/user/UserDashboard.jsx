@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { getRequestForms, onSnapshot, Timestamp } from '../../api/services'
 import { format } from 'date-fns'
-import { CircularProgress } from '@mui/material';
+import { Backdrop, CircularProgress } from '@mui/material';
 import { Upcoming, Error } from '@mui/icons-material';
 import document from '../../assets/images/Community Logo (5).png'
 import info from '../../assets/images/Community Logo (13).png'
 import flag from '../../assets/images/d.png'
 import phone from '../../assets/images/g.png'
+import CreatePDF from './CreatePDF';
 
 function UserDashboard({ profile, setScreen, documents }) {
     const icons = [info, flag, phone];
@@ -15,6 +16,7 @@ function UserDashboard({ profile, setScreen, documents }) {
 
     const [entries, setEntries] = useState([])
     const [fetchState, setFetchState] = useState(0)
+    const [pdf, setPdf] = useState(false);
 
     useEffect(() => {
 
@@ -98,7 +100,9 @@ function UserDashboard({ profile, setScreen, documents }) {
             <div className='w-full h-[82%] flex flex-row gap-5'>
                 <div className='flex-1 '>
                     <div className='flex flex-col h-full gap-4'>
-                        <div onClick={() => { setScreen(2) }} className='cursor-pointer bg-[#FEC51C] pt-2 h-[60%] w-full rounded-[20px]'>
+                        <div onClick={() => {
+                            setPdf(true);
+                        }} className='cursor-pointer bg-[#FEC51C] pt-2 h-[60%] w-full rounded-[20px]'>
                             <div className='relative w-full flex flex-col justify-center items-center rounded-[20px] h-full bg-[#1F2F3D]'>
                                 <img src={document} alt='doc' className='mb-12 w-40 h-40' />
                                 <div className='absolute bottom-0 flex w-full h-12 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
@@ -172,7 +176,13 @@ function UserDashboard({ profile, setScreen, documents }) {
                         </h1>
                     </div>
                 </div>
-
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={!!pdf}
+                    onClick={() => { setPdf(false) }}
+                >
+                    <CreatePDF />
+                </Backdrop>
             </div>
         </>
     )

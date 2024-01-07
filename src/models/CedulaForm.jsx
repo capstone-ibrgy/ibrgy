@@ -5,6 +5,7 @@ export function CedulaForm() {
         return { ...prev, ...next }
     },
         {
+            name: 'Community Tax Certificate (Cedula)',
             formId: null,
             status: 0,
             formType: 0,

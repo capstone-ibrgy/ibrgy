@@ -16,7 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Residency = ({ profile, setProgress, setShowUpload }) => {
+const Residency = ({ profile, setProgress, setShowUpload, document }) => {
 
   const [startDate, setStartDate] = useState();
   const [fileError, setFileError] = useState('');
@@ -62,6 +62,7 @@ const Residency = ({ profile, setProgress, setShowUpload }) => {
           var newForm = form;
 
           newForm.uploaded_docs = url;
+          newForm['cost'] = document.price;
           requestForm(newForm)
           setShowUpload(false)
           resetForm()

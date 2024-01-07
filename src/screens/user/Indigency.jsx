@@ -18,7 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const Indigency = ({ profile, setProgress, setShowUpload }) => {
+const Indigency = ({ profile, setProgress, setShowUpload, document }) => {
 
   const [startDate, setStartDate] = useState();
   const [fileError, setFileError] = useState('');
@@ -64,6 +64,7 @@ const Indigency = ({ profile, setProgress, setShowUpload }) => {
           var newForm = form;
 
           newForm.uploaded_docs = url;
+          newForm['cost'] = document.price;
           requestForm(newForm)
           setShowUpload(false)
           resetForm()

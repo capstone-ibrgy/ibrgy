@@ -76,10 +76,10 @@ function Dashboard({ screen, setScreen, documents, profile }) {
     ];
 
     const FormSelector = (form) => {
-        if (form.id == 'cedula') return <Cedula profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
-        else if (form.id == 'clearance') return <Clearance profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
-        else if (form.id == 'indigency') return <Indigency profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
-        else if (form.id == 'residency') return <Residency profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+        if (form.id == 'cedula') return <Cedula document={form} profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+        else if (form.id == 'clearance') return <Clearance document={form} profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+        else if (form.id == 'indigency') return <Indigency document={form} profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+        else if (form.id == 'residency') return <Residency document={form} profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
 
         return <RequestForms documents={form} profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
     }
