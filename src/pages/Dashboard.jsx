@@ -15,7 +15,7 @@ import { UserAlert } from '../models/UserAlert';
 import RequestForms from '../screens/user/RequestForms';
 import { getMyNotifications } from '../api/services';
 
-function Dashboard({ screen, setScreen, documents, profile, notifs }) {
+function Dashboard({ screen, setScreen, documents, profile, notifs, reads }) {
 
     const [height, setHeight] = useState(400)
     const { alert, setAlert } = UserAlert();
@@ -45,6 +45,7 @@ function Dashboard({ screen, setScreen, documents, profile, notifs }) {
         },
         {
             screen: "Home > Profile > Notifications", component: <Notifications
+                reads={reads}
                 notifs={notifs}
                 profile={profile} />
         },

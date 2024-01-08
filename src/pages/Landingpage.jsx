@@ -7,7 +7,10 @@ import { getDocuments, getMyNotifications, onSnapshot } from '../api/services';
 
 const Landingpage = (props) => {
 
+  let ids = JSON.parse(localStorage.getItem("notifications"));
   const [screen, setScreen] = useState(0);
+  const [notifCount, setCount] = useState(0);
+  const [reads, setReads] = useState(ids || []);
 
   const [notifs, setNotifs] = useReducer((prev, next) => {
     return { ...prev, ...next }
@@ -52,6 +55,19 @@ const Landingpage = (props) => {
       ],
       count: 0
     });
+
+  useEffect(() => {
+    if (!notifs['notifs']) return;
+
+    if (screen == 6) {
+      const notifId = notifs['notifs'].map((item) => item.id);
+      setTimeout(() => {
+        localStorage.setItem("notifications", JSON.stringify(notifId));
+        setReads(notifId)
+      }, 5000);
+    }
+
+  }, [screen]);
 
   useEffect(() => {
     const query = getDocuments();
@@ -102,8 +118,14 @@ const Landingpage = (props) => {
           return;
         }
 
-        const data = snapshot.docs.map((doc) => doc.data());
+        const data = snapshot.docs.map((doc) => {
+          let newData = doc.data();
+          newData['id'] = doc.id;
 
+          return newData;
+        });
+
+        setCount(data.length);
         setNotifs({
           notifs: data,
           fetchState: 1,
@@ -123,10 +145,27 @@ const Landingpage = (props) => {
 
   return <>
     <div className='relative overflow-hidden w-full flex flex-col bg-white'>
-      <Navbar2 notif={notifs.count} documents={documents} profile={props.profile} useAuth={useAuth} setScreen={setScreen} className='' />
+      <Navbar2
+        notif={notifCount - reads.length}
+        documents={documents}
+        profile={props.profile}
+        useAuth={useAuth}
+        setScreen={setScreen}
+        className='' />
       <div className='h-screen flex flex-row'>
-        <Sidebar services={documents} screen={screen} setScreen={setScreen} className='flex-1' />
-        <Dashboard notifs={notifs} documents={documents} setScreen={setScreen} screen={screen} profile={props.profile} />
+        <Sidebar
+          services={documents}
+          screen={screen}
+          setScreen={setScreen}
+          className='flex-1' />
+        <Dashboard
+          notifs={notifs}
+          documents={documents}
+          setScreen={setScreen}
+          screen={screen}
+          profile={props.profile}
+          reads={reads}
+        />
       </div>
     </div>
   </>

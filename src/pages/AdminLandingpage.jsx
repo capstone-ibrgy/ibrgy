@@ -193,7 +193,7 @@ const AdminLandingpage = (props) => {
             setScreen={setScreen}
             screen={screen}
             documents={documents}
-            count={0}
+            count={requests['count']}
             className="flex-1"
           />
           <Dashboard2

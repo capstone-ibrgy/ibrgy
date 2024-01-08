@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar2 from '../../components/Navbar2'
 import Sidebar from '../../components/Sidebar'
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { format } from "date-fns";
 
-const Notifications = ({ notifs }) => {
+const Notifications = ({ notifs, reads }) => {
 
-  const status = ["Requested", "Ready for Pick-up", "", "Request Denied"];
+  const status = ["Requested", "Ready for Pick-up", "Released", "Request Denied"];
 
   return (
     <div className="w-full h-full overflow-hidden">
@@ -16,9 +16,9 @@ const Notifications = ({ notifs }) => {
           return (
             <div
               key={item.name}
-              className="flex flex-row w-[90%] h-16 bg-[#1F2F3D] rounded-[20px] text-white items-center"
+              className="flex flex-row w-[90%] h-16 bg-[#1F2F3D] rounded-[20px] text-white items-center cursor-pointer"
             >
-              <div className="w-20 h-full bg-[#FEC51C] flex items-center justify-center rounded-[20px] ">
+              <div className={`w-20 h-full ${reads.includes(item.id) ? 'bg-[#1F2F3D]' : 'bg-[#FEC51C]'} flex items-center justify-center rounded-[20px] `}>
                 < NotificationsIcon
                   className="rotate-[30deg]"
                   fontSize="large"

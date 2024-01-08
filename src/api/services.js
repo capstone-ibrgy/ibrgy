@@ -85,7 +85,7 @@ const addNotification = (notification) => {
 const getNotifications = () => {
     const docRef = collection(db, "notifications");
 
-    return query(docRef, orderBy('createdAt', 'desc'))
+    return query(docRef, where('status', '==', 0), orderBy('createdAt', 'desc'))
 }
 
 const getMyNotifications = (userId) => {
