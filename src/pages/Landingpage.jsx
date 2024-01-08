@@ -3,11 +3,21 @@ import { useAuth } from '../auth/AuthContext'
 import Navbar2 from '../components/Navbar2'
 import Sidebar from '../components/Sidebar'
 import Dashboard from '../pages/Dashboard'
-import { getDocuments, onSnapshot } from '../api/services';
+import { getDocuments, getMyNotifications, onSnapshot } from '../api/services';
 
 const Landingpage = (props) => {
 
   const [screen, setScreen] = useState(0);
+
+  const [notifs, setNotifs] = useReducer((prev, next) => {
+    return { ...prev, ...next }
+  },
+    {
+      fetchState: 0,
+      notifs: [],
+      count: 0
+    });
+
 
   const [documents, setDocuments] = useReducer((prev, next) => {
     return { ...prev, ...next }
@@ -76,12 +86,47 @@ const Landingpage = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    const query = getMyNotifications(props.profile.userId);
+
+    try {
+      const unsub = onSnapshot(query, (snapshot) => {
+
+        if (!snapshot) {
+          setNotifs({ fetchState: -1 })
+          return;
+        }
+
+        if (snapshot.empty) {
+          setNotifs({ fetchState: 2 })
+          return;
+        }
+
+        const data = snapshot.docs.map((doc) => doc.data());
+
+        setNotifs({
+          notifs: data,
+          fetchState: 1,
+          count: data.length
+        })
+      });
+
+      return () => {
+        unsub();
+      };
+    } catch (err) {
+      console.log(err);
+      setNotifs({ fetchState: -1 })
+    }
+  }, []);
+
+
   return <>
     <div className='relative overflow-hidden w-full flex flex-col bg-white'>
-      <Navbar2 documents={documents} profile={props.profile} useAuth={useAuth} setScreen={setScreen} className='' />
+      <Navbar2 notif={notifs.count} documents={documents} profile={props.profile} useAuth={useAuth} setScreen={setScreen} className='' />
       <div className='h-screen flex flex-row'>
         <Sidebar services={documents} screen={screen} setScreen={setScreen} className='flex-1' />
-        <Dashboard documents={documents} setScreen={setScreen} screen={screen} profile={props.profile} />
+        <Dashboard notifs={notifs} documents={documents} setScreen={setScreen} screen={screen} profile={props.profile} />
       </div>
     </div>
   </>

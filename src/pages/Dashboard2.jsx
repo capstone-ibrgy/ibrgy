@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import AdminDashboard from "../screens/admin/AdminDashboard";
 import { getAllRequestForms, getNotifications, Timestamp } from "../api/services";
@@ -22,6 +22,14 @@ function Dashboard2({ profile, screen, setScreen, documents, setCount }) {
   const { alert, setAlert } = UserAlert();
   const [notifications, setNotifications] = useState([]);
 
+  const [notifs, setNotifs] = useReducer((prev, next) => {
+    return { ...prev, ...next }
+  },
+    {
+      fetchState: 0,
+      notifs: [],
+      count: 0
+    });
 
   const screens = [
     {

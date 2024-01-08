@@ -39,7 +39,7 @@ function RequestViewer({ form, close, document, setAlert }) {
     }
 
     const handleConfirmRequest = () => {
-        updateFormStatus(form.id, 2).then((val) => {
+        updateFormStatus(form.id, 1).then((val) => {
             setAlert({
                 show: true,
                 type: 'success',

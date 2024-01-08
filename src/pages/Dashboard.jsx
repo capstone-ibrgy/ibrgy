@@ -13,8 +13,9 @@ import Profile from '../screens/user/Profile';
 import { Alert, Snackbar } from '@mui/material';
 import { UserAlert } from '../models/UserAlert';
 import RequestForms from '../screens/user/RequestForms';
+import { getMyNotifications } from '../api/services';
 
-function Dashboard({ screen, setScreen, documents, profile }) {
+function Dashboard({ screen, setScreen, documents, profile, notifs }) {
 
     const [height, setHeight] = useState(400)
     const { alert, setAlert } = UserAlert();
@@ -44,6 +45,7 @@ function Dashboard({ screen, setScreen, documents, profile }) {
         },
         {
             screen: "Home > Profile > Notifications", component: <Notifications
+                notifs={notifs}
                 profile={profile} />
         },
 

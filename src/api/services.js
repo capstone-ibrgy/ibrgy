@@ -37,8 +37,6 @@ const getUser = (userId) => {
 
 const requestForm = async (form) => {
 
-    const notifRef = collection(db, "notifications");
-
     const notif = {
         from: form.profile,
         message: form.name,
@@ -47,7 +45,7 @@ const requestForm = async (form) => {
         read: false
     };
 
-    await addDoc(notifRef, notif);
+    await addNotification(notif);
 
     const formType = ["cedula", "clearance", "residency", "indigency", "added"]
     return addDoc(collection(db, "forms"), {
@@ -62,10 +60,12 @@ const requestForm = async (form) => {
 
 const addNotification = (notification) => {
 
-    return addDoc(collection(db, "notification"), {
+    return addDoc(collection(db, "notifications"), {
+        from: notification.from,
         status: notification.status,
         message: notification.message,
-        createdAt: notification.createdAt
+        createdAt: notification.createdAt,
+        read: notification.read
     });
 }
 
@@ -73,6 +73,12 @@ const getNotifications = () => {
     const docRef = collection(db, "notifications");
 
     return query(docRef, orderBy('createdAt', 'desc'))
+}
+
+const getMyNotifications = (userId) => {
+    const docRef = collection(db, "notifications");
+
+    return query(docRef, where('from.userId', '==', userId), orderBy('createdAt', 'desc'))
 }
 
 const getAllRequestForms = () => {
@@ -130,6 +136,7 @@ export {
     getAllRequestForms,
     addNotification,
     getNotifications,
+    getMyNotifications,
     updateFormStatus,
     ref,
     uploadBytesResumable,
