@@ -4,7 +4,7 @@ import { Close } from '@mui/icons-material';
 import { indexFields } from '../../utils/FormIndexer';
 import { format } from 'date-fns';
 import PopupDialog from '../../components/PopupDialog';
-import { updateFormStatus } from '../../api/services';
+import { createNotification, updateFormStatus } from '../../api/services';
 import { Backdrop } from '@mui/material';
 
 function RequestViewer({ form, close, document, setAlert }) {
@@ -26,6 +26,8 @@ function RequestViewer({ form, close, document, setAlert }) {
                 type: 'success',
                 message: 'The request has been denied successfully.'
             });
+
+            createNotification(form['form'], 3);
             close();
         }).catch((err) => {
             console.log(err);
@@ -45,6 +47,8 @@ function RequestViewer({ form, close, document, setAlert }) {
                 type: 'success',
                 message: 'The request has been confirmed.'
             });
+
+            createNotification(form['form'], 1);
             close();
         }).catch((err) => {
             console.log(err);

@@ -3,7 +3,7 @@ import { useAuth } from "../auth/AuthContext";
 import AdminNavbar2 from "../components/AdminNavbar2";
 import AdminSidebar from "../components/AdminSidebar";
 import Dashboard2 from "../pages/Dashboard2";
-import { getDocuments, getNotifications, onSnapshot } from '../api/services';
+import { getAllRequestForms, getDocuments, getNotifications, onSnapshot } from '../api/services';
 
 const AdminLandingpage = (props) => {
   const [screen, setScreen] = useState(0);
@@ -17,6 +17,14 @@ const AdminLandingpage = (props) => {
       count: 0
     });
 
+  const [requests, setRequests] = useReducer((prev, next) => {
+    return { ...prev, ...next }
+  },
+    {
+      fetchState: 0,
+      requests: [],
+      count: 0
+    });
 
   const [documents, setDocuments] = useReducer((prev, next) => {
     return { ...prev, ...next }
@@ -119,6 +127,55 @@ const AdminLandingpage = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    const query = getAllRequestForms();
+
+    try {
+      const unsub = onSnapshot(query, (snapshot) => {
+        if (!snapshot) {
+          setRequests({ fetchState: -1 })
+          return;
+        }
+
+        if (snapshot.empty) {
+          setRequests({ fetchState: 2 })
+          return;
+        }
+
+        const forms = snapshot.docs.map((doc) => {
+          const { lastname, firstname, mi } = doc.data()["form"]["profile"];
+
+          return {
+            id: doc.id,
+            data: doc.data(),
+            name: firstname + " " + mi + " " + lastname,
+          };
+        });
+
+        const group = forms.reduce((group, form) => {
+          const { formType } = form.data;
+
+          group[formType] = group[formType] ?? [];
+          group[formType].push(form);
+          return group;
+        }, {});
+
+        setRequests({
+          requests: group,
+          fetchState: 1,
+          count: forms.length
+        })
+      });
+
+      return () => {
+        unsub();
+      };
+    } catch (e) {
+      console.log(e);
+      setRequests({ fetchState: -1 })
+    }
+  }, []);
+
   return (
     <>
       <div className="relative overflow-hidden w-full flex flex-col bg-white">
@@ -145,6 +202,7 @@ const AdminLandingpage = (props) => {
             documents={documents}
             setScreen={setScreen}
             notifs={notifs}
+            requests={requests}
           />{" "}
           {/* removed "profile={props.profile}" */}
         </div>

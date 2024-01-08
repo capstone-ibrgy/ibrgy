@@ -14,14 +14,9 @@ import Notifications from "../screens/admin/Notifications";
 import { onSnapshot } from 'firebase/firestore';
 
 
-function Dashboard2({ profile, screen, setScreen, documents, notifs }) {
-  //const { currentUser, logout } = useAuth();
+function Dashboard2({ profile, screen, setScreen, documents, notifs, requests }) {
 
-  const [entries, setEntries] = useState([]);
-  const [fetchState, setFetchState] = useState(0);
   const { alert, setAlert } = UserAlert();
-  const [notifications, setNotifications] = useState([]);
-
 
   const screens = [
     {
@@ -39,10 +34,9 @@ function Dashboard2({ profile, screen, setScreen, documents, notifs }) {
       screen: "Requests",
       component: (
         <Requests
-          fetchState={fetchState}
           setScreen={setScreen}
           documents={documents}
-          forms={entries}
+          forms={requests}
         />
       ),
     },
@@ -58,78 +52,7 @@ function Dashboard2({ profile, screen, setScreen, documents, notifs }) {
     }
   ];
 
-  useEffect(() => {
-    const query = getNotifications();
 
-    try {
-      const unsub = onSnapshot(query, (snapshot) => {
-        if (!snapshot) {
-          return;
-        }
-
-        if (snapshot.empty) {
-          return;
-        }
-
-        const forms = snapshot.docs.map((doc) => ({ data: doc.data() }));
-
-        setCount(forms.length);
-        setNotifications(forms);
-      });
-
-      return () => {
-        unsub();
-      };
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
-  useEffect(() => {
-    const query = getAllRequestForms();
-
-    try {
-      const unsub = onSnapshot(query, (snapshot) => {
-        if (!snapshot) {
-          setFetchState(-1);
-          return;
-        }
-
-        if (snapshot.empty) {
-          setFetchState(2);
-          return;
-        }
-
-        const forms = snapshot.docs.map((doc) => {
-          const { lastname, firstname, mi } = doc.data()["form"]["profile"];
-
-          return {
-            id: doc.id,
-            data: doc.data(),
-            name: firstname + " " + mi + " " + lastname,
-          };
-        });
-
-        const group = forms.reduce((group, form) => {
-          const { formType } = form.data;
-
-          group[formType] = group[formType] ?? [];
-          group[formType].push(form);
-          return group;
-        }, {});
-
-        setEntries(group);
-        setFetchState(1);
-      });
-
-      return () => {
-        unsub();
-      };
-    } catch (e) {
-      console.log(e);
-      setFetchState(-1);
-    }
-  }, []);
 
   return (
     <>
@@ -146,7 +69,8 @@ function Dashboard2({ profile, screen, setScreen, documents, notifs }) {
             <RequestList
               setAlert={setAlert}
               document={documents['documents'][screen - 6]}
-              forms={entries[documents['documents'][screen - 6].id]}
+              fetchState={requests['fetchState']}
+              forms={requests['requests'][documents['documents'][screen - 6].id] || []}
               screen={screen} />}
         </div>
         {alert.show && <Snackbar

@@ -2,15 +2,19 @@ import React, { useState, useEffect } from "react";
 import doc from "../../assets/images/Community Logo (5).png";
 import { format } from "date-fns";
 import RequestEntry from "../../components/RequestEntry";
+import releaseIcon from '../../assets/images/release.png'
 
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { Backdrop } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 import RequestViewer from "./RequestViewer";
+import { Upcoming, Error, Close } from "@mui/icons-material";
+import { createNotification, updateFormStatus } from "../../api/services";
 
-function RequestList({ forms, document, setAlert, screen }) {
+function RequestList({ forms, document, setAlert, screen, fetchState }) {
 
     const [rows, setRows] = useState([]);
     const [form, setForm] = useState(null);
+    const [release, setRelease] = useState(null);
 
     useEffect(() => {
         var rows = [];
@@ -37,6 +41,31 @@ function RequestList({ forms, document, setAlert, screen }) {
 
         setRows(rows);
     }, [forms, document, screen]);
+
+    const StateBuilder = (state) => {
+
+        const states = {
+            "2": {
+                icon: <Upcoming />,
+                text: 'There are no requests.'
+            },
+            "-1": {
+                icon: <Error />,
+                text: 'Something went wrong.'
+            },
+            "0": {
+                icon: <CircularProgress />,
+                text: 'Loading requests...'
+            }
+        }
+
+        return (
+            <div className='flex flex-col h-full justify-center items-center gap-4 text-[#1F2F3D]'>
+                {states[`${state}`].icon}
+                <p className='text-sm'>{states[`${state}`].text}</p>
+            </div>
+        )
+    }
 
     return (
         <div className="flex flex-col w-full h-full font-arimo">
@@ -79,19 +108,75 @@ function RequestList({ forms, document, setAlert, screen }) {
                         </div>
                     </div>
                     <div className="flex flex-col w-full h-full my-3 select-none overflow-auto">
-                        {rows.map((item) => {
-                            return (
-                                <div
-                                    key={item.id}
-                                    onClick={() => {
-                                        setForm(item.data)
-                                    }} className="h-12 w-full">
-                                    <RequestEntry id={item.id} item={item} />
-                                </div>
-                            );
-                        })}
+                        {fetchState != 1 ? StateBuilder(`${fetchState}`) :
+                            rows.length == 0 ? StateBuilder("2") :
+                                rows.map((item) => {
+                                    return (
+                                        <div
+                                            key={item.id}
+                                            onClick={() => {
+
+                                                if (item['data'].status == 2) return setAlert({
+                                                    show: true,
+                                                    type: 'info',
+                                                    message: 'This request has been completed.'
+                                                });
+
+                                                if (item['data'].status != 1) return setForm(item.data);
+
+                                                setRelease(item['data']);
+
+                                            }} className="h-12 w-full">
+                                            <RequestEntry id={item.id} item={item} />
+                                        </div>
+                                    );
+                                })}
                     </div>
                 </div>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={!!release}
+
+                >
+                    <div className="w-[350px] h-[300px] bg-white rounded-lg text-[#1F2F3D]">
+                        <div className="flex justify-end pt-3 px-4">
+                            <Close
+                                onClick={() => {
+                                    setRelease(null);
+                                }}
+                                className="cursor-pointer" />
+                        </div>
+                        <div className="h-full flex flex-col items-center p-4  font-arimo">
+                            <img src={releaseIcon} className="w-20 " />
+                            <h1 className=" font-bold text-xl py-4">Release Document</h1>
+                            <div className="flex h-full items-end pb-14">
+                                <button
+                                    onClick={() => {
+                                        updateFormStatus(release.id, 2).then((val) => {
+                                            setAlert({
+                                                show: true,
+                                                type: 'success',
+                                                message: 'The requested document has been released.'
+                                            });
+
+                                            createNotification(release['form'], 2);
+                                            setRelease(null);
+                                        }).catch((err) => {
+                                            console.log(err);
+                                            setAlert({
+                                                show: true,
+                                                type: 'error',
+                                                message: 'Something went wrong.'
+                                            });
+                                            setRelease(null);
+                                        })
+                                    }}
+                                    className="p-2 w-48 bg-[#FEC51C] font-bold rounded-lg">Release</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </Backdrop>
                 <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                     open={!!form}

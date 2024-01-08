@@ -58,6 +58,19 @@ const requestForm = async (form) => {
     });
 }
 
+const createNotification = async (form, status) => {
+
+    const notif = {
+        from: form.profile,
+        message: form.name,
+        status: status,
+        createdAt: new Date(),
+        read: false
+    };
+
+    await addNotification(notif);
+}
+
 const addNotification = (notification) => {
 
     return addDoc(collection(db, "notifications"), {
@@ -137,6 +150,7 @@ export {
     addNotification,
     getNotifications,
     getMyNotifications,
+    createNotification,
     updateFormStatus,
     ref,
     uploadBytesResumable,
