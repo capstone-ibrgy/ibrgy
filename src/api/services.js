@@ -40,9 +40,11 @@ const requestForm = async (form) => {
     const notifRef = collection(db, "notifications");
 
     const notif = {
+        from: form.profile,
         message: form.name,
         status: form.status,
-        createdAt: new Date()
+        createdAt: new Date(),
+        read: false
     };
 
     await addDoc(notifRef, notif);

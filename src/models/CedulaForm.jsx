@@ -16,6 +16,7 @@ export function CedulaForm() {
             uploaded_docs: null,
             pick_up: '',
             payment_method: 'Cash on pick-up',
+
         });
 
     return { form, updateForm };

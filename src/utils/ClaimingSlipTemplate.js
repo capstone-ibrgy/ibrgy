@@ -10,7 +10,7 @@ const HTMLTemplate = (form) => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Claiming Slip</title>
-
+        
         <style>
             .slip-container {
                 width: 680px;
@@ -86,14 +86,17 @@ const HTMLTemplate = (form) => {
             }
 
             .doc-footer h1 {
-                padding-bottom: 10px;
                 font-size: 16px;
             }
 
             .doc-footer ul {
-                line-height: 20px;
                 font-weight: normal;
                 font-size: 15px;
+            }
+
+            .doc-footer li{
+                padding-top: 10px;
+                padding-bottom: 10px;
             }
 
             .payment-value {
@@ -191,7 +194,7 @@ const HTMLTemplate = (form) => {
                 </div>
                 <div>
                     <label>Cost:</label>
-                    <p>${form.cost}</p>
+                    <p>Php ${form.cost}</p>
                 </div>
                 <div>
                     <label>Payment Method:</label>

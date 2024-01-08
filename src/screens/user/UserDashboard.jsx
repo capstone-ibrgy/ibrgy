@@ -7,7 +7,6 @@ import document from '../../assets/images/Community Logo (5).png'
 import info from '../../assets/images/Community Logo (13).png'
 import flag from '../../assets/images/d.png'
 import phone from '../../assets/images/g.png'
-import CreatePDF from './CreatePDF';
 
 function UserDashboard({ profile, setScreen, documents }) {
     const icons = [info, flag, phone];
@@ -16,7 +15,6 @@ function UserDashboard({ profile, setScreen, documents }) {
 
     const [entries, setEntries] = useState([])
     const [fetchState, setFetchState] = useState(0)
-    const [pdf, setPdf] = useState(false);
 
     useEffect(() => {
 
@@ -101,7 +99,7 @@ function UserDashboard({ profile, setScreen, documents }) {
                 <div className='flex-1 '>
                     <div className='flex flex-col h-full gap-4'>
                         <div onClick={() => {
-                            setPdf(true);
+                            setScreen(2)
                         }} className='cursor-pointer bg-[#FEC51C] pt-2 h-[60%] w-full rounded-[20px]'>
                             <div className='relative w-full flex flex-col justify-center items-center rounded-[20px] h-full bg-[#1F2F3D]'>
                                 <img src={document} alt='doc' className='mb-12 w-40 h-40' />
@@ -176,13 +174,7 @@ function UserDashboard({ profile, setScreen, documents }) {
                         </h1>
                     </div>
                 </div>
-                <Backdrop
-                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                    open={!!pdf}
-                    onClick={() => { setPdf(false) }}
-                >
-                    <CreatePDF />
-                </Backdrop>
+
             </div>
         </>
     )

@@ -5,7 +5,7 @@ import CheckIcon from '../assets/images/checked.png';
 function UploadModal(props) {
     return (
         <>
-            {(props.show) && (<div className='z-20 absolute h-screen w-full bg-[#FEC51C]/50'>
+            <div className='z-20 absolute h-screen w-full bg-[#FEC51C]/50'>
                 <div className='flex flex-col w-full h-full items-center justify-center font-arimo text-white'>
                     <div className='flex flex-col h-64 w-80 bg-white rounded-[20px]'>
                         <div className='relative flex w-full items-center justify-center h-12 bg-[#1F2F3D] rounded-t-[20px]'>
@@ -20,7 +20,7 @@ function UploadModal(props) {
                     </div>
 
                 </div>
-            </div>)}
+            </div>
         </>
     )
 }

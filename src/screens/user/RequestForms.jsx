@@ -13,9 +13,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const RequestForms = ({ profile, setProgress, setShowUpload, documents }) => {
+import { Backdrop, CircularProgress } from '@mui/material'
+import ClaimingSlip from '../../components/ClaimingSlip'
+
+const RequestForms = ({ profile, setAlert, documents }) => {
     const [startDate, setStartDate] = useState();
     const [fileError, setFileError] = useState("");
+    const [onUpload, setUpload] = useState(false);
+    const [claim, setClaim] = useState(null);
 
     const [form, updateForm] = useReducer(
         (prev, next) => {
@@ -34,19 +39,6 @@ const RequestForms = ({ profile, setProgress, setShowUpload, documents }) => {
             fields: documents.fields,
         }
     );
-
-    // const [fields, setFields] = useState([
-    //     {
-    //         label: 'Height (in cm)',
-    //         name: 'height',
-    //         value: null
-    //     },
-    //     {
-    //         label: 'Weight (in kg)',
-    //         name: 'weight',
-    //         value: null
-    //     }
-    // ]);
 
     const hiddenFileInput = useRef(null);
 
@@ -67,46 +59,62 @@ const RequestForms = ({ profile, setProgress, setShowUpload, documents }) => {
             payment: "Cash on pick-up",
         });
 
-        setShowUpload(true);
+        setUpload(true);
         handleUpload();
     };
 
     const handleUpload = () => {
         const file = form.uploaded_docs;
 
-        const storageRef = ref(
-            storage,
-            `/${form.profile.userId}/uploads/${file.name}`
-        );
+        const storageRef = ref(storage, `/${form.profile.userId}/uploads/${file.name}`)
         const uploadTask = uploadBytesResumable(storageRef, file);
 
         uploadTask.on(
             "state_changed",
-            (snapshot) => {
-                const percent = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                setProgress(percent);
+            () => { },
+            (err) => {
+                console.log(err);
+                setUpload(false);
+                setAlert({
+                    show: true,
+                    type: 'error',
+                    message: 'Something went wrong.'
+                });
             },
-            (err) => console.log(err),
             () => {
+
                 getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+
+                    setUpload(false)
                     var newForm = form;
 
                     newForm.uploaded_docs = url;
+                    newForm['cost'] = documents.price;
 
-                    form["fields"].map((item) => {
-                        newForm[item.name] = item.value;
+                    requestForm(newForm).then((val) => {
+                        if (!val) {
+                            return setAlert({
+                                show: true,
+                                type: 'error',
+                                message: 'Something went wrong.'
+                            });
+                        };
+                        setClaim(newForm);
+                        resetForm();
+
+                    }).catch((err) => {
+                        console.log(err);
+                        setUpload(false)
+                        setAlert({
+                            show: true,
+                            type: 'error',
+                            message: 'Something went wrong.'
+                        });
                     });
-
-                    requestForm(newForm);
-                    setShowUpload(false);
-                    resetForm();
                 });
             }
         );
-    };
-
+    }
     const resetForm = () => {
         form["fields"].map((item, i) => {
             let temp = [...form["fields"]];
@@ -153,7 +161,10 @@ const RequestForms = ({ profile, setProgress, setShowUpload, documents }) => {
         <div className="relative w-full h-full overflow-auto">
             <h1 className="text-3xl font-bold my-2">Request Form</h1>
             <div className="relative flex flex-col items-center justify-center">
-                <div className={`flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9]`}>
+                <div className={`relative flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9]`}>
+                    {onUpload && <div className='flex items-center justify-center absolute w-full h-full bg-white/50 rounded-[20px] z-10'>
+                        <CircularProgress />
+                    </div>}
                     <div className="relative flex flex-row w-full h-16 bg-[#1F2F3D]  rounded-[20px] items-center px-6 gap-6">
                         <img src={doc} className="w-14 h-14" />
                         <h1 className="text-white text-xl font-bold">{documents.name}</h1>
@@ -184,7 +195,7 @@ const RequestForms = ({ profile, setProgress, setShowUpload, documents }) => {
 
                                                 temp[i]["value"] = e.target.value;
 
-                                                updateForm({ fields: temp });
+                                                updateForm({ fields: [...temp] });
                                             }}
                                             className="border-2 h-12 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2"
                                         />
@@ -300,6 +311,12 @@ const RequestForms = ({ profile, setProgress, setShowUpload, documents }) => {
                     <div className="w-full h-4 bg-[#1F2F3D] rounded-b-[20px]"></div>
                 </div>
             </div>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={!!claim}
+            >
+                {!!claim && <ClaimingSlip form={claim} close={() => { setClaim(null) }} />}
+            </Backdrop>
         </div>
     );
 };
