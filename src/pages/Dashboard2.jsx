@@ -14,7 +14,7 @@ import Notifications from "../screens/admin/Notifications";
 import { onSnapshot } from 'firebase/firestore';
 
 
-function Dashboard2({ profile, screen, setScreen, documents, setCount }) {
+function Dashboard2({ profile, screen, setScreen, documents, notifs }) {
   //const { currentUser, logout } = useAuth();
 
   const [entries, setEntries] = useState([]);
@@ -22,14 +22,6 @@ function Dashboard2({ profile, screen, setScreen, documents, setCount }) {
   const { alert, setAlert } = UserAlert();
   const [notifications, setNotifications] = useState([]);
 
-  const [notifs, setNotifs] = useReducer((prev, next) => {
-    return { ...prev, ...next }
-  },
-    {
-      fetchState: 0,
-      notifs: [],
-      count: 0
-    });
 
   const screens = [
     {
@@ -62,7 +54,7 @@ function Dashboard2({ profile, screen, setScreen, documents, setCount }) {
     },
     {
       screen: "Home > Profile > Notifications",
-      component: <Notifications notifications={notifications} />,
+      component: <Notifications notifs={notifs} />,
     }
   ];
 

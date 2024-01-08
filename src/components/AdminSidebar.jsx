@@ -32,7 +32,7 @@ const AdminSidebar = ({ setScreen, screen, documents, count }) => {
   const handleClick = (index) => {
     setIndex(index);
 
-    if (index === 3 || index > 3) {
+    if (index === 3 || index > 5) {
       setOnService(true);
     } else {
       setOnService(false);
@@ -42,7 +42,7 @@ const AdminSidebar = ({ setScreen, screen, documents, count }) => {
   };
 
   const select = (i, index) => {
-    return i === 3 && index > 3;
+    return i === 3 && index > 5;
   };
 
   return (

@@ -3,11 +3,20 @@ import { useAuth } from "../auth/AuthContext";
 import AdminNavbar2 from "../components/AdminNavbar2";
 import AdminSidebar from "../components/AdminSidebar";
 import Dashboard2 from "../pages/Dashboard2";
-import { getDocuments, onSnapshot } from '../api/services';
+import { getDocuments, getNotifications, onSnapshot } from '../api/services';
 
 const AdminLandingpage = (props) => {
   const [screen, setScreen] = useState(0);
-  const [count, setCount] = useState(0);
+
+  const [notifs, setNotifs] = useReducer((prev, next) => {
+    return { ...prev, ...next }
+  },
+    {
+      fetchState: 0,
+      notifs: [],
+      count: 0
+    });
+
 
   const [documents, setDocuments] = useReducer((prev, next) => {
     return { ...prev, ...next }
@@ -76,6 +85,40 @@ const AdminLandingpage = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    const query = getNotifications();
+
+    try {
+      const unsub = onSnapshot(query, (snapshot) => {
+
+        if (!snapshot) {
+          setNotifs({ fetchState: -1 })
+          return;
+        }
+
+        if (snapshot.empty) {
+          setNotifs({ fetchState: 2 })
+          return;
+        }
+
+        const data = snapshot.docs.map((doc) => doc.data());
+
+        setNotifs({
+          notifs: data,
+          fetchState: 1,
+          count: data.length
+        })
+      });
+
+      return () => {
+        unsub();
+      };
+    } catch (err) {
+      console.log(err);
+      setNotifs({ fetchState: -1 })
+    }
+  }, []);
+
   return (
     <>
       <div className="relative overflow-hidden w-full flex flex-col bg-white">
@@ -84,7 +127,7 @@ const AdminLandingpage = (props) => {
           useAuth={useAuth}
           setScreen={setScreen}
           documents={documents}
-          count={count}
+          notif={notifs['count']}
           className=""
         />{" "}
         {/* removed "profile={props.profile} useAuth={useAuth}" */}
@@ -93,7 +136,7 @@ const AdminLandingpage = (props) => {
             setScreen={setScreen}
             screen={screen}
             documents={documents}
-            count={count}
+            count={0}
             className="flex-1"
           />
           <Dashboard2
@@ -101,7 +144,7 @@ const AdminLandingpage = (props) => {
             screen={screen}
             documents={documents}
             setScreen={setScreen}
-            setCount={setCount}
+            notifs={notifs}
           />{" "}
           {/* removed "profile={props.profile}" */}
         </div>
