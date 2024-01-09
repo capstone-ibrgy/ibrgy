@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
-import { getDocuments, onSnapshot } from '../api/services'
+import data from '../assets/data/content.json'
 import { Error, Upcoming } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
 import Documents from '../screens/user/Documents';
 
-const Services = ({ profile, setScreen, documents }) => {
+const Services = ({ profile, setScreen, documents, demo }) => {
 
   const navigate = useNavigate();
 
@@ -46,8 +46,17 @@ const Services = ({ profile, setScreen, documents }) => {
       <div className={`w-full overflow-auto`}>
         <div className='flex flex-col items-center gap-6'>
           {
-            documents['fetchState'] != 1 ? StateBuilder(`${documents['fetchState']}`) :
-              documents['documents'].map((item, i) => {
+            !demo ?
+              documents['fetchState'] != 1 ? StateBuilder(`${documents['fetchState']}`) :
+                documents['documents'].map((item, i) => {
+                  return (
+                    <Documents onClick={() => {
+                      handleRequest(i);
+                    }} docs={item} />
+                  )
+                })
+              :
+              data['documents'].map((item, i) => {
                 return (
                   <Documents onClick={() => {
                     handleRequest(i);

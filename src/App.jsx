@@ -45,7 +45,7 @@ function App() {
             } />
             <Route path="/services" element={
               <CommonRoute>
-                <Services />
+                <Services demo={true} />
               </CommonRoute>
             } />
             <Route path="/contact-us" element={
