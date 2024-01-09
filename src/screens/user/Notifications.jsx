@@ -9,16 +9,16 @@ const Notifications = ({ notifs, reads }) => {
   const status = ["Requested", "Ready for Pick-up", "Released", "Request Denied"];
 
   return (
-    <div className="w-full h-full overflow-hidden">
+    <div className="w-full h-full overflow-auto">
       <h1 className="text-3xl font-bold my-4">Notifications</h1>
-      <div className="flex flex-col w-full items-center gap-3 py-2 overflow-auto">
+      <div className="flex flex-col w-full h-full items-center gap-3 py-2">
         {notifs['notifs'].map((item) => {
           return (
             <div
               key={item.name}
-              className="flex flex-row w-[90%] h-16 bg-[#1F2F3D] rounded-[20px] text-white items-center cursor-pointer"
+              className="flex flex-row w-[90%] h-full bg-[#1F2F3D] rounded-[20px] text-white items-center cursor-pointer"
             >
-              <div className={`w-20 h-full ${reads.includes(item.id) ? 'bg-[#1F2F3D]' : 'bg-[#FEC51C]'} flex items-center justify-center rounded-[20px] `}>
+              <div className={`w-20 h-16 ${reads.includes(item.id) ? 'bg-[#1F2F3D]' : 'bg-[#FEC51C]'} flex items-center justify-center rounded-[20px] `}>
                 < NotificationsIcon
                   className="rotate-[30deg]"
                   fontSize="large"
