@@ -7,18 +7,13 @@ import { format } from 'date-fns'
 import { CircularProgress } from '@mui/material';
 import { Upcoming, Error } from '@mui/icons-material';
 
-function AdminDashboard({ setScreen }) {
+function AdminDashboard({ setScreen, documents }) {
     const icons = [add, request];
     const options = ['POST DOCUMENT', 'VIEW REQUESTS']
 
     const [entries, setEntries] = useState([])
     const [fetchState, setFetchState] = useState(0)
-    const formType = [
-        "Community Tax Certificate (Cedula)",
-        "Barangay Clearance",
-        "Certificate of Residency",
-        "Certificate of Indigency"
-    ]
+    const status = ["TO PROCESS", "FOR PICK-UP", "RELEASED", "DENIED"]
 
     useEffect(() => {
 
@@ -92,6 +87,17 @@ function AdminDashboard({ setScreen }) {
         )
     }
 
+    const getDocumentName = (form) => {
+        let name = "";
+        documents["documents"].map((item) => {
+            if (item.id === form["data"]["formType"]) {
+                name = item["name"];
+            }
+        });
+
+        return name;
+    };
+
     return (
         <>
             <h1 className='py-4 text-3xl font-bold'>Welcome back, <span className='text-[#1B75BC]'>Administrator</span></h1> {/* replaced {props.profile.firstname} with "Administrator" */}
@@ -150,9 +156,9 @@ function AdminDashboard({ setScreen }) {
                         </select>
                         <p className='font-bold pl-2'>entries</p>
                     </div>
-                    <div className='relative flex flex-col w-full h-[85%] bg-[#1F2F3D] rounded-[20px]'>
+                    <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px] overflow-hidden'>
                         {fetchState != 1 ? StateBuilder(fetchState) : (
-                            <div className='w-full h-[85%] text-white overflow-y-auto'>
+                            <div className='w-full h-[85%] text-white overflow-auto'>
                                 <div className='flex flex-col w-full h-full'>
                                     {
                                         Object.keys(entries).map((date, i) => {
@@ -161,14 +167,16 @@ function AdminDashboard({ setScreen }) {
                                                     <h1 className='py-2 text-sm font-bold'>{
                                                         format(new Timestamp(date, 0).toDate(), 'eeee, MMMM d, yyyy')
                                                     }</h1>
-                                                    <h1 className='text-sm font-bold'>FOR PICK-UP</h1>
                                                     {
                                                         entries[date].map((form, i) => {
                                                             return (
-                                                                <ul key={`li#${i}`} className='px-4 list-disc list-inside'>
-                                                                    <li className='text-sm'>{`${formType[form.data.formTypeId]} - `}
-                                                                        <span className='italic font-light'>{form.name}</span></li>
-                                                                </ul>
+                                                                <>
+                                                                    <h1 className='text-sm font-bold'>{status[form['data'].status]}</h1>
+                                                                    <ul key={`li#${i}`} className='px-4 list-disc list-inside'>
+                                                                        <li className='text-sm'>{`${getDocumentName(form)} - `}
+                                                                            <span className='italic font-light'>{form.name}</span></li>
+                                                                    </ul>
+                                                                </>
                                                             )
                                                         })
                                                     }
@@ -178,8 +186,7 @@ function AdminDashboard({ setScreen }) {
                                     }
                                 </div>
                             </div>)}
-
-                        <h1 className='font-bold text-lg absolute bottom-0 w-full py-1 bg-[#FEC51C] rounded-[20px] text-center align-middle'>
+                        <h1 className='font-bold text-lg absolute bottom-0 w-full py-2 bg-[#FEC51C] rounded-[20px] text-center align-middle'>
                             Calendar
                         </h1>
                     </div>

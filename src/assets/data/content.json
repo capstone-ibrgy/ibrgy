@@ -27,6 +27,12 @@
             "name": "Certificate of Indigency",
             "description": "The official document verifying the resident's financial hardship, qualifying them for social welfare benefits. It serves as proof of their economic disadvantage and is required when applying for government assistance programs, medical aid, or other forms of support for those in need.",
             "price": "Free"
+        },
+        {   
+            "id": "other",
+            "name": "Other Documents",
+            "description": "The official document verifying the resident's financial hardship, qualifying them for social welfare benefits. It serves as proof of their economic disadvantage and is required when applying for government assistance programs, medical aid, or other forms of support for those in need.",
+            "price": "0-50"
         }
     ]
 }

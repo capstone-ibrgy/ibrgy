@@ -11,8 +11,9 @@ import hands2 from "../assets/images/8.png";
 import triangle from "../assets/images/triangle.png";
 import arrow from "../assets/images/Arrow right.png";
 import arrow2 from "../assets/images/Arrow right 3.png";
+import { Badge } from "@mui/material";
 
-const AdminSidebar = ({ setScreen, screen }) => {
+const AdminSidebar = ({ setScreen, screen, documents, count }) => {
   const [side, setSide] = useState(true);
   const [index, setIndex] = useState(0);
   const [onService, setOnService] = useState(false);
@@ -24,13 +25,6 @@ const AdminSidebar = ({ setScreen, screen }) => {
     { label: "Requests", icon: request, selected: request2 },
   ];
 
-  const services = [
-    "Community Tax Certificate (Cedula)",
-    "Barangay Clearance",
-    "Certificate of Residency",
-    "Certificate of Indigency",
-  ];
-
   const handleSide = () => {
     setSide(!side);
   };
@@ -38,28 +32,27 @@ const AdminSidebar = ({ setScreen, screen }) => {
   const handleClick = (index) => {
     setIndex(index);
 
-    if (index === 3 || index > 3) {
+    if (index === 3 || index > 5) {
       setOnService(true);
     } else {
       setOnService(false);
     }
+
     setScreen(index);
   };
 
   const select = (i, index) => {
-    return i === 3 && index > 3;
+    return i === 3 && index > 5;
   };
 
   return (
     <div
-      className={`${
-        side ? "w-[25%]" : "w-[4%] "
-      } flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500`}
+      className={`${side ? "w-[25%]" : "w-[4%] "
+        } flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500 select-none`}
     >
       <div
-        className={`flex ${
-          side ? "p-5 justify-end" : "py-5 justify-center"
-        } w-full `}
+        className={`flex ${side ? "p-5 justify-end" : "py-5 justify-center"
+          } w-full `}
       >
         <img
           onClick={handleSide}
@@ -77,14 +70,13 @@ const AdminSidebar = ({ setScreen, screen }) => {
                   handleClick(i);
                 }}
                 key={items}
-                className={`relative flex flex-row items-center h-14 px-4 w-full text-white border-b gap-3 
-                            ${
-                              (i === screen || select(i, screen)) &&
-                              "bg-[#FEC51C] border-[#1F2F3D]"
-                            } 
+                className={`relative cursor-pointer flex flex-row items-center h-14 px-4 w-full text-white hover:bg-[#FEC51C]/70 border-b gap-3 
+                            ${(i === screen || select(i, screen)) &&
+                  "bg-[#FEC51C] border-[#1F2F3D]"
+                  } 
                             ${i === screen - 1 && "border-[#1F2F3D]"}`}
               >
-                <img
+                {i === 3 ? <Badge className="pt-1" badgeContent={count} color="warning"><img
                   className="w-5 h-5"
                   src={
                     i === screen || select(i, screen)
@@ -92,12 +84,20 @@ const AdminSidebar = ({ setScreen, screen }) => {
                       : items.icon
                   }
                   alt={items.icon}
-                />
+                /></Badge> :
+                  <img
+                    className="w-5 h-5"
+                    src={
+                      i === screen || select(i, screen)
+                        ? items.selected
+                        : items.icon
+                    }
+                    alt={items.icon}
+                  />}
                 {side && (
                   <h1
-                    className={`${
-                      (i === screen || select(i, screen)) && "text-[#1F2F3D]"
-                    }`}
+                    className={`${(i === screen || select(i, screen)) && "text-[#1F2F3D]"
+                      }`}
                   >
                     {items.label}
                   </h1>
@@ -110,26 +110,25 @@ const AdminSidebar = ({ setScreen, screen }) => {
                 )}
               </div>
               {side && onService && i === 3 && (
-                <div className="flex flex-col border-b transition-all ease-in-out duration-500">
-                  {services.map((item, i) => {
+                <div className="flex flex-col border-b h-[250px] transition-all ease-in-out duration-500 overflow-auto">
+                  {documents['documents'].map((item, i) => {
                     return (
                       <div
-                        key={item + items}
+                        key={item.id}
                         onClick={() => {
-                          handleClick(i + 4);
+                          handleClick(i + 6);
                         }}
-                        className={`${
-                          i + 4 === screen
-                            ? "bg-[#FEC51C]/80 text-[#1F2F3D]"
-                            : "text-white"
-                        } relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}
+                        className={`${i + 6 === screen
+                          ? "bg-[#FEC51C]/80 text-[#1F2F3D]"
+                          : "text-white hover:bg-[#FEC51C]/70 "
+                          } relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}
                       >
                         <img
                           className="w-4 h-4"
-                          src={i + 4 === screen ? arrow2 : arrow}
+                          src={i + 6 === screen ? arrow2 : arrow}
                           alt="icon"
                         />
-                        <p className="text-sm">{item}</p>
+                        <p className="text-sm">{item.name}</p>
                       </div>
                     );
                   })}

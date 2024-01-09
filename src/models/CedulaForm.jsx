@@ -5,6 +5,7 @@ export function CedulaForm() {
         return { ...prev, ...next }
     },
         {
+            name: 'Community Tax Certificate (Cedula)',
             formId: null,
             status: 0,
             formType: 0,
@@ -15,6 +16,7 @@ export function CedulaForm() {
             uploaded_docs: null,
             pick_up: '',
             payment_method: 'Cash on pick-up',
+
         });
 
     return { form, updateForm };

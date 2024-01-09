@@ -4,7 +4,8 @@ export function IndigencyForm() {
     const [form, updateForm] = useReducer((prev, next) => {
         return { ...prev, ...next }
     },
-        {   
+        {
+            name: "Certificate of Residency",
             formId: null,
             status: 0,
             formType: 3,

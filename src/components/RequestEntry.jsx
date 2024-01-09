@@ -16,6 +16,10 @@ function RequestEntry({ item }) {
             <div className={`flex flex-row w-28 h-8  bg-[#00FF00]/70 rounded-md text-black items-center px-3 shadow-md`}>
                 <ArrowDownwardIcon fontSize='small' />
                 <p className='text-sm'>Released</p>
+            </div>,
+            <div className={`flex flex-row w-28 h-8  bg-[#E8090C]/70 rounded-md text-white items-center px-3 shadow-md`}>
+                <ArrowDownwardIcon fontSize='small' />
+                <p className='text-sm'>Denied</p>
             </div>
         ]
 

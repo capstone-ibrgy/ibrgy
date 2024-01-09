@@ -3,8 +3,6 @@ import DatePicker from "react-datepicker";
 import doc from '../../assets/images/Community Logo (5).png'
 import upload from '../../assets/images/Community Logo (16).png'
 import data from '../../assets/data/content.json'
-
-import { format } from 'date-fns'
 import { IndigencyForm } from '../../models/IndigencyForm'
 import {
   requestForm,
@@ -13,16 +11,20 @@ import {
   uploadBytesResumable,
   getDownloadURL
 } from '../../api/services'
+import { Backdrop, CircularProgress } from '@mui/material';
+import ClaimingSlip from '../../components/ClaimingSlip';
 
 import CloseIcon from '@mui/icons-material/Close';
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const Indigency = ({ height, profile, setProgress, setShowUpload }) => {
+const Indigency = ({ profile, setProgress, setShowUpload, docu }) => {
 
   const [startDate, setStartDate] = useState();
   const [fileError, setFileError] = useState('');
   const { form, updateForm } = IndigencyForm();
+  const [onUpload, setUpload] = useState(false);
+  const [claim, setClaim] = useState(null);
 
   const hiddenFileInput = useRef(null);
 
@@ -38,7 +40,7 @@ const Indigency = ({ height, profile, setProgress, setShowUpload }) => {
       return
     }
 
-    setShowUpload(true)
+    setUpload(true)
     handleUpload();
   }
 
@@ -50,23 +52,46 @@ const Indigency = ({ height, profile, setProgress, setShowUpload }) => {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        const percent = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgress(percent);
+      () => { },
+      (err) => {
+        console.log(err);
+        setUpload(false);
+        setAlert({
+          show: true,
+          type: 'error',
+          message: 'Something went wrong.'
+        });
       },
-      (err) => console.log(err),
       () => {
 
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
 
+          setUpload(false)
           var newForm = form;
 
           newForm.uploaded_docs = url;
-          requestForm(newForm)
-          setShowUpload(false)
-          resetForm()
+          newForm['cost'] = docu.price;
+
+          requestForm(newForm).then((val) => {
+            if (!val) {
+              return setAlert({
+                show: true,
+                type: 'error',
+                message: 'Something went wrong.'
+              });
+            };
+            setClaim(newForm);
+            resetForm();
+
+          }).catch((err) => {
+            console.log(err);
+            setUpload(false)
+            setAlert({
+              show: true,
+              type: 'error',
+              message: 'Something went wrong.'
+            });
+          });
         });
       }
     );
@@ -100,18 +125,20 @@ const Indigency = ({ height, profile, setProgress, setShowUpload }) => {
   };
 
   return (
-    <div className='w-full h-full'>
+    <div className='w-full h-full overflow-auto'>
       <h1 className='text-3xl font-bold my-2'>Request Form</h1>
       <div
-        style={{ height: height, minHeight: "420px" }}
-        className='relative flex flex-col items-center justify-center'>
+        className='relative flex flex-col h-full items-center'>
         <div
-          className={`flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9] text-[#1F2F3D]`}>
+          className={`relative flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9] text-[#1F2F3D]`}>
+          {onUpload && <div className='flex items-center justify-center absolute w-full h-full bg-white/50 rounded-[20px] z-10'>
+            <CircularProgress />
+          </div>}
           <div className='relative flex flex-row w-full h-16 bg-[#1F2F3D] rounded-[20px] items-center px-6 gap-6'>
             <img src={doc} className='w-14 h-14' />
-            <h1 className='text-white text-xl font-bold'>{data['documents'][3].name}</h1>
+            <h1 className='text-white text-xl font-bold'>{docu.name}</h1>
             <div className='absolute right-[-1px] rounded-[20px] w-28 h-full bg-[#FEC51C] py-3 px-6'>
-              <h1 className='font-bold text-lg text-center leading-tight'>COST: {data['documents'][3].price}</h1>
+              <h1 className='font-bold text-lg text-center leading-tight'>COST: {docu.price == 0 ? 'FREE' : docu.price}</h1>
             </div>
           </div>
           <form onSubmit={handleSubmit} className='flex flex-col w-full flex-1 px-6 py-2 gap-1'>
@@ -135,7 +162,7 @@ const Indigency = ({ height, profile, setProgress, setShowUpload }) => {
               <textarea value={form.purpose} required={true} onChange={(e) => { updateForm({ purpose: e.target.value }) }} className='resize-none border-2 h-12 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2' />
             </div>
             <div className='flex flex-row py-2'>
-              <div className='flex-1 flex flex-row border-2 border-[#1F2F3D] h-full rounded-[10px] items-center justify-center gap-2'>
+              <div className='flex-1 flex flex-row border-2 border-[#1F2F3D] h-42 rounded-[10px] items-center justify-center gap-2'>
                 <div onClick={handleClick} className='text-[#1F2F3D] font-bold px-2 text-sm cursor-pointer'>
                   <input onChange={handleChange}
                     ref={hiddenFileInput} type='file' className='hidden' accept='image/png, image/gif, image/jpeg' />
@@ -180,6 +207,12 @@ const Indigency = ({ height, profile, setProgress, setShowUpload }) => {
           <div className='w-full h-4 bg-[#1F2F3D] rounded-b-[20px]'></div>
         </div>
       </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={!!claim}
+      >
+        {!!claim && <ClaimingSlip form={claim} close={() => { setClaim(null) }} />}
+      </Backdrop>
     </div>
   )
 }

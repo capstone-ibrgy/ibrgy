@@ -1,107 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import AdminDashboard from "../screens/admin/AdminDashboard";
-import { getAllRequestForms, onSnapshot, Timestamp } from "../api/services";
+import { getAllRequestForms, getNotifications, Timestamp } from "../api/services";
 import Barangay from "./Barangay";
-import AdminServices from "./AdminServices";
+import AdminServices from "../screens/admin/AdminServices";
 import Requests from "./Requests";
-import Cedula from "../screens/admin/Cedula";
-import Clearance from "../screens/admin/Clearance";
-import Residency from "../screens/admin/Residency";
-import Indigency from "../screens/admin/Indigency";
 import Profile from "../screens/admin/Profile";
 import AddDocuments from "../screens/admin/AddDocuments";
+import RequestList from "../screens/admin/RequestList";
+import { Alert, Snackbar } from "@mui/material";
+import { UserAlert } from "../models/UserAlert";
+import Notifications from "../screens/admin/Notifications";
+import { onSnapshot } from 'firebase/firestore';
 
-function Dashboard2({ profile, screen, setScreen }) {
-  //const { currentUser, logout } = useAuth();
 
-  const [entries, setEntries] = useState([]);
-  const [fetchState, setFetchState] = useState(0);
+function Dashboard2({ profile, screen, setScreen, documents, notifs, requests, reads }) {
 
-  useEffect(() => {
-    const query = getAllRequestForms();
-
-    try {
-      const unsub = onSnapshot(query, (snapshot) => {
-        if (!snapshot) {
-          setFetchState(-1);
-          return;
-        }
-
-        if (snapshot.empty) {
-          setFetchState(2);
-          return;
-        }
-
-        const forms = snapshot.docs.map((doc) => {
-          const { lastname, firstname, mi } = doc.data()["form"]["profile"];
-
-          return {
-            id: doc.id,
-            data: doc.data(),
-            name: firstname + " " + mi + " " + lastname,
-          };
-        });
-
-        const group = forms.reduce((group, form) => {
-          const { formType } = form.data;
-          group[formType] = group[formType] ?? [];
-          group[formType].push(form);
-          return group;
-        }, {});
-
-        setEntries(group);
-        setFetchState(1);
-      });
-
-      return () => {
-        unsub();
-      };
-    } catch (e) {
-      console.log(e);
-      setFetchState(-1);
-    }
-  }, []);
+  const { alert, setAlert } = UserAlert();
 
   const screens = [
     {
       screen: "Dashboard",
-      component: <AdminDashboard profile={profile} setScreen={setScreen} />,
+      component: <AdminDashboard
+        profile={profile}
+        setScreen={setScreen}
+        documents={documents}
+      />,
     },
     { screen: "The Barangay", component: <Barangay /> },
     {
       screen: "Services",
-      component: <AdminServices setScreen={setScreen} />,
+      component: <AdminServices
+        setAlert={setAlert}
+        setScreen={setScreen} />,
     },
     {
       screen: "Requests",
       component: (
         <Requests
-          fetchState={fetchState}
           setScreen={setScreen}
-          forms={entries}
+          documents={documents}
+          forms={requests}
         />
       ),
     },
     {
-      screen: "Requests > Cedula",
-      component: <Cedula forms={entries["cedula"]} />,
+      screen: "Profile > My Profile", component: <Profile
+        user={profile}
+        setAlert={setAlert}
+      />
     },
     {
-      screen: "Requests > Barangay Clearance",
-      component: <Clearance forms={entries["clearance"]} />,
-    },
-    {
-      screen: "Requests > Certificate of Residency",
-      component: <Residency forms={entries["residency"]} />,
-    },
-    {
-      screen: "Requests > Certificate of Indigency",
-      component: <Indigency forms={entries["indigency"]} />,
-    },
-    { screen: "Profile > My Profile", component: <Profile /> },
-    { screen: "Services > Add Documents", component: <AddDocuments /> },
+      screen: "Home > Profile > Notifications",
+      component: <Notifications notifs={notifs} reads={reads} />,
+    }
   ];
+
+
 
   return (
     <>
@@ -110,11 +65,26 @@ function Dashboard2({ profile, screen, setScreen }) {
           <h1 className="text-sm font-bold">
             {"Home > "}
             <span className="cursor-pointer hover:text-[#1B75BC]">
-              {screens[screen].screen}
+              {screen < 6 ? screens[screen].screen :
+                `Request > ${documents['documents'][screen - 6].name}`}
             </span>
           </h1>
-          {screens[screen].component}
+          {screen < 6 ? screens[screen].component :
+            <RequestList
+              setAlert={setAlert}
+              document={documents['documents'][screen - 6]}
+              fetchState={requests['fetchState']}
+              forms={requests['requests'][documents['documents'][screen - 6].id] || []}
+              screen={screen} />}
         </div>
+        {alert.show && <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          open={alert.show}
+          autoHideDuration={alert.duration}
+          onClose={() => { setAlert({ show: false }) }}
+        >
+          <Alert severity={alert.type}>{alert.message}</Alert>
+        </Snackbar>}
       </div>
     </>
   );

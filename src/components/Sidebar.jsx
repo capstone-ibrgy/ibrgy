@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import burger from '../assets/images/Community Logo (11).png'
 import home from '../assets/images/s.png'
 import home2 from '../assets/images/6.png'
@@ -14,7 +14,7 @@ import triangle from '../assets/images/triangle.png'
 import arrow from '../assets/images/Arrow right.png'
 import arrow2 from '../assets/images/Arrow right 3.png'
 
-const Sidebar = ({ screen, setScreen }) => {
+const Sidebar = ({ services, screen, setScreen }) => {
 
     const [side, setSide] = useState(true);
     const [index, setIndex] = useState(0);
@@ -28,28 +28,22 @@ const Sidebar = ({ screen, setScreen }) => {
         { label: "Contact Us", icon: call, selected: call2 }
     ]
 
-    const services = [
-        "Community Tax Certificate (Cedula)",
-        "Barangay Clearance",
-        "Certificate of Residency",
-        "Certificate of Indigency"
-    ]
-
     const handleSide = () => {
         setSide(!side)
     }
 
     const handleClick = (index) => {
-        if (index === 2 || index > 4) {
+        if (index === 2 || index > 7) {
             setOnService(true)
         } else {
             setOnService(false)
         }
+
         setScreen(index)
     }
 
     const select = (i, index) => {
-        return i === 2 && index > 4 && index < 8;
+        return i === 2 && index > 7;
     }
 
     return (
@@ -58,7 +52,7 @@ const Sidebar = ({ screen, setScreen }) => {
                 <img onClick={handleSide} src={burger} className='self-end w-5 h-5 cursor-pointer' />
             </div>
 
-            <div className='flex flex-col font-arimo font-bold items-center'>
+            <div className='flex  h-full flex-col font-arimo font-bold items-center overflow-auto'>
                 {items.map((items, i) => {
                     return (
                         <>
@@ -69,11 +63,11 @@ const Sidebar = ({ screen, setScreen }) => {
                                 {side && <h1 className={`${(i === screen || select(i, screen)) && 'text-[#1F2F3D]'}`}>{items.label}</h1>}
                                 {(side && screen === i || select(i, screen)) && (<img src={triangle} className='absolute object-cover h-full right-0' />)}
                             </div>
-                            {(side && onService && i === 2) && (<div key={`${items}2#${i}`} className='flex flex-col border-b transition-all ease-in-out duration-500'>
-                                {services.map((item, i) => {
-                                    return (<div key={`${items}#${item}`} onClick={() => { handleClick(i + 5) }} className={`${i + 5 === screen ? 'bg-[#FEC51C]/80 text-[#1F2F3D]' : 'text-white'} relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}>
-                                        <img className='w-4 h-4' src={(i + 5 === screen) ? arrow2 : arrow} alt='icon' />
-                                        <p className='text-sm'>{item}</p>
+                            {(side && onService && i === 2) && (<div key={`${items}2#${i}`} className='flex h-[200px] flex-col border-b transition-all ease-in-out duration-500 overflow-auto'>
+                                {services['documents'].map((item, i) => {
+                                    return (<div key={item.id} onClick={() => { handleClick(i + 8) }} className={`${i + 8 === screen ? 'bg-[#FEC51C]/80 text-[#1F2F3D]' : 'text-white'} relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}>
+                                        <img className='w-4 h-4' src={(i + 8 === screen) ? arrow2 : arrow} alt='icon' />
+                                        <p className='text-sm'>{item.name}</p>
                                     </div>)
                                 })}
                             </div>)}
