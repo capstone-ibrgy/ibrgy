@@ -41,7 +41,7 @@ export default function PrivateRoute({ children }) {
 
     if (currentUser != null) {
 
-        if (profile.userId == null || profile.userId != currentUser.uid) {
+        if (profile.userId == null && profile.userId != currentUser.uid) {
             getUserProfile();
         }
 
