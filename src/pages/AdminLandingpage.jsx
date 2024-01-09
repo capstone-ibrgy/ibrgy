@@ -6,7 +6,11 @@ import Dashboard2 from "../pages/Dashboard2";
 import { getAllRequestForms, getDocuments, getNotifications, onSnapshot } from '../api/services';
 
 const AdminLandingpage = (props) => {
+
+  let ids = JSON.parse(localStorage.getItem("admin_notifications"));
   const [screen, setScreen] = useState(0);
+  const [notifCount, setCount] = useState(0);
+  const [reads, setReads] = useState(ids || []);
 
   const [notifs, setNotifs] = useReducer((prev, next) => {
     return { ...prev, ...next }
@@ -61,6 +65,20 @@ const AdminLandingpage = (props) => {
     });
 
   useEffect(() => {
+    if (!notifs['notifs']) return;
+
+    if (screen == 5) {
+      const notifId = notifs['notifs'].map((item) => item.id);
+      setTimeout(() => {
+        localStorage.setItem("admin_notifications", JSON.stringify(notifId));
+        setReads(notifId)
+
+      }, 5000);
+    }
+
+  }, [screen]);
+
+  useEffect(() => {
     const query = getDocuments();
 
     try {
@@ -111,6 +129,7 @@ const AdminLandingpage = (props) => {
 
         const data = snapshot.docs.map((doc) => doc.data());
 
+        setCount(data.length)
         setNotifs({
           notifs: data,
           fetchState: 1,
@@ -184,7 +203,7 @@ const AdminLandingpage = (props) => {
           useAuth={useAuth}
           setScreen={setScreen}
           documents={documents}
-          notif={notifs['count']}
+          notif={notifCount - reads.length}
           className=""
         />{" "}
         {/* removed "profile={props.profile} useAuth={useAuth}" */}
@@ -203,6 +222,7 @@ const AdminLandingpage = (props) => {
             setScreen={setScreen}
             notifs={notifs}
             requests={requests}
+            reads={reads}
           />{" "}
           {/* removed "profile={props.profile}" */}
         </div>

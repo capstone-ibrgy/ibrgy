@@ -14,7 +14,7 @@ import Notifications from "../screens/admin/Notifications";
 import { onSnapshot } from 'firebase/firestore';
 
 
-function Dashboard2({ profile, screen, setScreen, documents, notifs, requests }) {
+function Dashboard2({ profile, screen, setScreen, documents, notifs, requests, reads }) {
 
   const { alert, setAlert } = UserAlert();
 
@@ -52,7 +52,7 @@ function Dashboard2({ profile, screen, setScreen, documents, notifs, requests })
     },
     {
       screen: "Home > Profile > Notifications",
-      component: <Notifications notifs={notifs} />,
+      component: <Notifications notifs={notifs} reads={reads} />,
     }
   ];
 

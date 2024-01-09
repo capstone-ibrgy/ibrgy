@@ -3,7 +3,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { format } from "date-fns";
 import profileIcon from "../../assets/images/Community Logo (6).png"
 
-const Notifications = ({ notifs }) => {
+const Notifications = ({ notifs, reads }) => {
     const status = ["requested", "Ready for Pick-up"];
 
     const notifBuilder = (item, status) => {
@@ -61,10 +61,10 @@ const Notifications = ({ notifs }) => {
                     return (
                         <div
                             key={item.createdAt}
-                            className="flex flex-row w-[95%] h-16 bg-[#1F2F3D] rounded-[20px] text-white items-center"
+                            className={`flex flex-row w-[95%] h-16 ${reads.includes(item.id) ? 'bg-black/60' : 'bg-[#1F2F3D]'} rounded-[20px] text-white items-center`}
                         >
                             <div className="w-20 h-full flex items-center justify-center ">
-                                <img className="rounded-full w-[62px] h-[62px] object-cover" src={item['from'].userAvatar || profileIcon} alt="" />
+                                <img className="rounded-full w-[62px] h-[62px] object-cover p-2" src={item['from'].userAvatar || profileIcon} alt="" />
                             </div>
                             {notifBuilder(item, item.status)}
                             <p className="px-4 font-light italic">
