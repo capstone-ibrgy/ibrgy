@@ -31,25 +31,25 @@ const Landingpage = (props) => {
         {
           id: "cedula",
           name: "Community Tax Certificate (Cedula)",
-          description: "The official document verifying the resident's financial hardship, qualifying them for social welfare benefits. It serves as proof of their economic disadvantage and is required when applying for government assistance programs, medical aid, or other forms of support for those in need.",
+          description: "An official identification document proving that the holder has paid the required community or residence tax. It includes personal information and is commonly used for various transactions and government-related activities.",
           price: 50
         },
         {
           id: "clearance",
           name: "Barangay Clearance",
-          description: "The official document verifying the resident's financial hardship, qualifying them for social welfare benefits. It serves as proof of their economic disadvantage and is required when applying for government assistance programs, medical aid, or other forms of support for those in need.",
+          description: "A document verifying that the individual or business requesting it is in compliance with community regulations and has settled any necessary fees. It is often required for various transactions, such as business permits or employment purposes.",
           price: 50
         },
         {
           id: "residency",
           name: "Certificate of Residency",
-          description: "The official document verifying the resident's financial hardship, qualifying them for social welfare benefits. It serves as proof of their economic disadvantage and is required when applying for government assistance programs, medical aid, or other forms of support for those in need.",
+          description: "An official document confirming an individual's current residence in the barangay. t is often required for various purposes, such as school enrollment, tax-related matters, or eligibility for certain benefits or services.",
           price: 50
         },
         {
           id: "indigency",
           name: "Certificate of Indigency",
-          description: "The official document verifying the resident's financial hardship, qualifying them for social welfare benefits. It serves as proof of their economic disadvantage and is required when applying for government assistance programs, medical aid, or other forms of support for those in need.",
+          description: "An official document issued to individuals who are economically disadvantaged or financially incapable. It serves as proof of the individual's inability to pay certain fees, allowing them to access government services or avail of assistance programs with reduced or waived charges.",
           price: "Free"
         }
       ],
@@ -64,6 +64,7 @@ const Landingpage = (props) => {
       setTimeout(() => {
         localStorage.setItem("notifications", JSON.stringify(notifId));
         setReads(notifId)
+
       }, 5000);
     }
 

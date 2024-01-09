@@ -28,6 +28,7 @@ function Signup() {
   const cpassword = new TextField('Confirm Password', true, null);
   const [isSigning, setIsSigning] = useState(false);
   const [submit, setSubmit] = useState(false);
+  const [error, setError] = useState('')
 
   const navigate = useNavigate();
   const { signup, loginGoogle } = useAuth();
@@ -64,7 +65,13 @@ function Signup() {
     }
 
     setIsSigning(true);
-    await signup(_email, _password);
+    try {
+      await signup(_email, _password);
+    } catch (e) {
+      console.log(e);
+      setError('Something went wrong, try again.')
+    }
+
     setIsSigning(false);
   }
 
@@ -99,6 +106,7 @@ function Signup() {
                 <CustomInput textField={email} submit={submit} />
                 <CustomInput textField={password} submit={submit} />
                 <CustomInput textField={cpassword} submit={submit} />
+                <p className={`${error ? 'opacity-100' : 'opacity-0'} p-2 h-4 text-xs font-bold text-[#E8090C]`}>{error}</p>
                 <button type='submit' className={`${isSigning ? 'bg-[#1F2F3D]/90' : 'bg-[#1F2F3D]'} mt-6 w-full h-9  rounded-lg`}>
                   {
                     isSigning ? (<div className='flex justify-center items-center gap-4'>
