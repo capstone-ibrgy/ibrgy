@@ -23,28 +23,26 @@ export default function PrivateRoute({ children }) {
 
     const getUserProfile = async () => {
 
+        getUser(currentUser.uid).then((value) => {
 
+            if (value.data() != null) {
+                const userProfile = value.data().profile
+                updateProfile(userProfile)
+                setValid(true);
+            }
+
+            setLoading(false)
+
+        }).catch((e) => {
+            setAlert({ type: ERROR, message: 'Something went wrong, please login again.' })
+            setShow(true);
+        })
     };
 
     if (currentUser != null) {
 
         if (profile.userId == null && profile.userId != currentUser.uid) {
-            getUser(currentUser.uid).then((value) => {
-
-                if (value.data() != null) {
-                    const userProfile = value.data().profile
-                    updateProfile(userProfile)
-                    setValid(true);
-                }
-
-                setLoading(false)
-
-            }).catch((e) => {
-                setAlert({ type: ERROR, message: 'Something went wrong, please login again.' })
-                setShow(true);
-            });
-        } else {
-            setValid(false);
+            getUserProfile();
         }
 
         return (pathname === '/') ? (

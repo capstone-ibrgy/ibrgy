@@ -5,7 +5,7 @@ import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Modal from '../components/Modal'
-import { CircularProgress } from '@mui/material';
+import { Backdrop, CircularProgress } from '@mui/material';
 import DatePicker from "react-datepicker";
 import { addUserProfile } from '../api/services'
 import { UserProfile } from '../models/UserProfile';
@@ -13,6 +13,7 @@ import { UserAlert } from '../models/UserAlert'
 import { useAuth } from '../auth/AuthContext'
 
 import "react-datepicker/dist/react-datepicker.css";
+import PrivacyPolicy from '../components/PrivacyPolicy';
 
 function UserInformation(props) {
 
@@ -21,6 +22,7 @@ function UserInformation(props) {
   const [notAgree, setNotAgree] = useState('');
   const [isSigning, setIsSigning] = useState(false);
   const [show, setShow] = useState(false);
+  const [policy, setPolicy] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const { currentUser, logout } = useAuth();
@@ -111,9 +113,9 @@ function UserInformation(props) {
                         setAgree(!agree);
                       }} type='checkbox'></input>
                     <p className='text-sm font-bold text-[#1F2F3D]'>I agree to the <span onClick={() => {
-
+                      setPolicy(true)
                     }} className='text-[#1B75BC] cursor-pointer'>Terms of Service</span> and <span onClick={() => {
-
+                      setPolicy(true)
                     }} className='text-[#1B75BC] cursor-pointer'>Privacy Policy</span> of this website.</p>
                   </div>
                   <p className={`${(notAgree != null && !agree) ? 'opacity-100' : 'opacity-0'} px-1 py-2 h-8 text-xs font-bold text-[#E8090C]`}>{notAgree}</p>
@@ -129,12 +131,21 @@ function UserInformation(props) {
                   }
                 </button>
               </form>
-
+              <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                onClick={() => { setPolicy(false) }}
+                open={policy}>
+                <PrivacyPolicy />
+              </Backdrop>
             </div>
           </div>
         </div>
         <div className='w-[35%] flex flex-col items-end'>
-          <div onClick={() => { logout() }} className='h-20 cursor-pointer text-md font-bold font-arimo p-10'>
+          <div onClick={() => {
+
+            logout()
+            navigate(0);
+          }} className='h-20 cursor-pointer text-md font-bold font-arimo p-10'>
             Back
           </div>
           <div className='flex flex-col w-full font-arimo italic px-16 font-bold text-[#1F2F3D] text-[26px]'>
