@@ -21,7 +21,11 @@ function Dashboard2({ profile, screen, setScreen, documents, notifs, requests })
   const screens = [
     {
       screen: "Dashboard",
-      component: <AdminDashboard profile={profile} setScreen={setScreen} />,
+      component: <AdminDashboard
+        profile={profile}
+        setScreen={setScreen}
+        documents={documents}
+      />,
     },
     { screen: "The Barangay", component: <Barangay /> },
     {
