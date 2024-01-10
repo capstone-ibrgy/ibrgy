@@ -14,7 +14,7 @@ import Notifications from "../screens/admin/Notifications";
 import { onSnapshot } from 'firebase/firestore';
 
 
-function Dashboard2({ profile, screen, setScreen, documents, notifs, requests, reads }) {
+function Dashboard2({ profile, screen, setScreen, documents, notifs, requests, reads, rawRequests }) {
 
   const { alert, setAlert } = UserAlert();
 
@@ -48,6 +48,7 @@ function Dashboard2({ profile, screen, setScreen, documents, notifs, requests, r
       screen: "Profile > My Profile", component: <Profile
         user={profile}
         setAlert={setAlert}
+        rawRequests={rawRequests}
       />
     },
     {

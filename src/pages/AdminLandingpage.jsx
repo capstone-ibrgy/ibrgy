@@ -11,6 +11,7 @@ const AdminLandingpage = (props) => {
   const [screen, setScreen] = useState(0);
   const [notifCount, setCount] = useState(0);
   const [reads, setReads] = useState(ids || []);
+  const [rawRequests, setRawRequests] = useState([]);
 
   const [notifs, setNotifs] = useReducer((prev, next) => {
     return { ...prev, ...next }
@@ -178,7 +179,7 @@ const AdminLandingpage = (props) => {
           group[formType].push(form);
           return group;
         }, {});
-
+        setRawRequests(forms);
         setRequests({
           requests: group,
           fetchState: 1,
@@ -223,8 +224,8 @@ const AdminLandingpage = (props) => {
             notifs={notifs}
             requests={requests}
             reads={reads}
-          />{" "}
-          {/* removed "profile={props.profile}" */}
+            rawRequests={rawRequests}
+          />
         </div>
       </div>
     </>
