@@ -16,7 +16,7 @@ const Notifications = ({ notifs, reads }) => {
           return (
             <div
               key={item.name}
-              className="flex flex-row w-[90%] h-full bg-[#1F2F3D] rounded-[20px] text-white items-center cursor-pointer"
+              className="flex flex-row w-[90%] h-16 bg-[#1F2F3D] rounded-[20px] text-white items-center cursor-pointer"
             >
               <div className={`w-20 h-16 ${reads.includes(item.id) ? 'bg-[#1F2F3D]' : 'bg-[#FEC51C]'} flex items-center justify-center rounded-[20px] `}>
                 < NotificationsIcon

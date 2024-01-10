@@ -13,19 +13,25 @@ import Profile from '../screens/user/Profile';
 import { Alert, Snackbar } from '@mui/material';
 import { UserAlert } from '../models/UserAlert';
 import RequestForms from '../screens/user/RequestForms';
-import { getMyNotifications } from '../api/services';
+import { getRequestForms, onSnapshot } from '../api/services';
 
 function Dashboard({ screen, setScreen, documents, profile, notifs, reads }) {
 
     const [height, setHeight] = useState(400)
     const { alert, setAlert } = UserAlert();
+    const [entries, setEntries] = useState([])
+    const [fetchState, setFetchState] = useState(0)
+    const [rawRequests, setRawRequests] = useState([])
 
     const screens = [
         {
             screen: "Dashboard", component: <UserDashboard
                 documents={documents}
                 setScreen={setScreen}
-                profile={profile} />
+                profile={profile}
+                fetchState={fetchState}
+                entries={entries}
+            />
         },
         { screen: "Citizen's Charts", component: <Citizens height={height} /> },
         {
@@ -41,13 +47,15 @@ function Dashboard({ screen, setScreen, documents, profile, notifs, reads }) {
             screen: "Home > Profile > My Profile", component: <Profile
                 user={profile}
                 setAlert={setAlert}
+                rawRequests={rawRequests}
             />
         },
         {
             screen: "Home > Profile > Notifications", component: <Notifications
                 reads={reads}
                 notifs={notifs}
-                profile={profile} />
+                profile={profile}
+            />
         },
 
     ];
@@ -80,6 +88,46 @@ function Dashboard({ screen, setScreen, documents, profile, notifs, reads }) {
             setAlert={setAlert}
         />
     }
+
+    useEffect(() => {
+
+        const query = getRequestForms(profile.userId)
+
+        try {
+            const unsub = onSnapshot(query, snapshot => {
+                if (!snapshot) {
+                    setFetchState(-1)
+                    return
+                }
+
+                if (snapshot.empty) {
+                    setFetchState(2)
+                    return
+                }
+
+                const forms = snapshot.docs.map(doc => ({ data: doc.data() }));
+
+                const group = forms.reduce((group, form) => {
+                    const { pick_up } = form.data.form;
+                    group[pick_up['seconds']] = group[pick_up['seconds']] ?? [];
+                    group[pick_up['seconds']].push(form);
+                    return group;
+                }, {});
+
+                setRawRequests(forms)
+                setEntries(group)
+                setFetchState(1)
+            })
+
+            return () => {
+                unsub()
+            }
+
+        } catch {
+            setFetchState(-1)
+        }
+
+    }, []);
 
     return (
         <>

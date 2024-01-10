@@ -8,52 +8,10 @@ import info from '../../assets/images/Community Logo (13).png'
 import flag from '../../assets/images/d.png'
 import phone from '../../assets/images/g.png'
 
-function UserDashboard({ profile, setScreen, documents }) {
+function UserDashboard({ profile, setScreen, documents, fetchState, entries }) {
     const icons = [info, flag, phone];
     const options = ['About Us', "Citizen's Charter", 'Contact Us']
     const status = ['FOR APPROVAL', 'READY FOR PICK-UP', 'RELEASED', 'REQUEST DENIED'];
-
-    const [entries, setEntries] = useState([])
-    const [fetchState, setFetchState] = useState(0)
-
-    useEffect(() => {
-
-        const query = getRequestForms(profile.userId)
-
-        try {
-            const unsub = onSnapshot(query, snapshot => {
-                if (!snapshot) {
-                    setFetchState(-1)
-                    return
-                }
-
-                if (snapshot.empty) {
-                    setFetchState(2)
-                    return
-                }
-
-                const forms = snapshot.docs.map(doc => ({ data: doc.data() }));
-
-                const group = forms.reduce((group, form) => {
-                    const { pick_up } = form.data.form;
-                    group[pick_up['seconds']] = group[pick_up['seconds']] ?? [];
-                    group[pick_up['seconds']].push(form);
-                    return group;
-                }, {});
-
-                setEntries(group)
-                setFetchState(1)
-            })
-
-            return () => {
-                unsub()
-            }
-
-        } catch {
-            setFetchState(-1)
-        }
-
-    }, []);
 
     const StateBuilder = (state) => {
 
