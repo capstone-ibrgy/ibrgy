@@ -7,6 +7,7 @@ import {
     signInWithRedirect,
     GoogleAuthProvider
 } from 'firebase/auth'
+import Loader from "../components/Loader"
 
 const AuthContext = React.createContext()
 
@@ -72,7 +73,7 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider value={value}>
-            {!loading && children}
+            {!loading ? children : <Loader message='Loading, please wait...' />}
         </AuthContext.Provider>
     )
 }
