@@ -1,7 +1,11 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import AdminDashboard from "../screens/admin/AdminDashboard";
-import { getAllRequestForms, getNotifications, Timestamp } from "../api/services";
+import {
+  getAllRequestForms,
+  getNotifications,
+  Timestamp,
+} from "../api/services";
 import Barangay from "./Barangay";
 import AdminServices from "../screens/admin/AdminServices";
 import Requests from "./Requests";
@@ -11,28 +15,35 @@ import RequestList from "../screens/admin/RequestList";
 import { Alert, Snackbar } from "@mui/material";
 import { UserAlert } from "../models/UserAlert";
 import Notifications from "../screens/admin/Notifications";
-import { onSnapshot } from 'firebase/firestore';
+import { onSnapshot } from "firebase/firestore";
 
-
-function Dashboard2({ profile, screen, setScreen, documents, notifs, requests, reads, rawRequests }) {
-
+function Dashboard2({
+  profile,
+  screen,
+  setScreen,
+  documents,
+  notifs,
+  requests,
+  reads,
+  rawRequests,
+}) {
   const { alert, setAlert } = UserAlert();
 
   const screens = [
     {
       screen: "Dashboard",
-      component: <AdminDashboard
-        profile={profile}
-        setScreen={setScreen}
-        documents={documents}
-      />,
+      component: (
+        <AdminDashboard
+          profile={profile}
+          setScreen={setScreen}
+          documents={documents}
+        />
+      ),
     },
-    { screen: "The Barangay", component: <Barangay /> },
+    { screen: "The Barangay", component: <Barangay setAlert={setAlert} /> },
     {
       screen: "Services",
-      component: <AdminServices
-        setAlert={setAlert}
-        setScreen={setScreen} />,
+      component: <AdminServices setAlert={setAlert} setScreen={setScreen} />,
     },
     {
       screen: "Requests",
@@ -45,19 +56,16 @@ function Dashboard2({ profile, screen, setScreen, documents, notifs, requests, r
       ),
     },
     {
-      screen: "Profile > My Profile", component: <Profile
-        user={profile}
-        setAlert={setAlert}
-        rawRequests={rawRequests}
-      />
+      screen: "Profile > My Profile",
+      component: (
+        <Profile user={profile} setAlert={setAlert} rawRequests={rawRequests} />
+      ),
     },
     {
       screen: "Home > Profile > Notifications",
       component: <Notifications notifs={notifs} reads={reads} />,
-    }
+    },
   ];
-
-
 
   return (
     <>
@@ -66,26 +74,38 @@ function Dashboard2({ profile, screen, setScreen, documents, notifs, requests, r
           <h1 className="text-sm font-bold">
             {"Home > "}
             <span className="cursor-pointer hover:text-[#1B75BC]">
-              {screen < 6 ? screens[screen].screen :
-                `Request > ${documents['documents'][screen - 6].name}`}
+              {screen < 6
+                ? screens[screen].screen
+                : `Request > ${documents["documents"][screen - 6].name}`}
             </span>
           </h1>
-          {screen < 6 ? screens[screen].component :
+          {screen < 6 ? (
+            screens[screen].component
+          ) : (
             <RequestList
               setAlert={setAlert}
-              document={documents['documents'][screen - 6]}
-              fetchState={requests['fetchState']}
-              forms={requests['requests'][documents['documents'][screen - 6].id] || []}
-              screen={screen} />}
+              document={documents["documents"][screen - 6]}
+              fetchState={requests["fetchState"]}
+              forms={
+                requests["requests"][documents["documents"][screen - 6].id] ||
+                []
+              }
+              screen={screen}
+            />
+          )}
         </div>
-        {alert.show && <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          open={alert.show}
-          autoHideDuration={alert.duration}
-          onClose={() => { setAlert({ show: false }) }}
-        >
-          <Alert severity={alert.type}>{alert.message}</Alert>
-        </Snackbar>}
+        {alert.show && (
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            open={alert.show}
+            autoHideDuration={alert.duration}
+            onClose={() => {
+              setAlert({ show: false });
+            }}
+          >
+            <Alert severity={alert.type}>{alert.message}</Alert>
+          </Snackbar>
+        )}
       </div>
     </>
   );

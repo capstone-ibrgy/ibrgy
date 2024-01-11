@@ -35,6 +35,14 @@ const getUser = (userId) => {
     return getDoc(doc(db, "profiles", userId));
 }
 
+const getBarangay = () => {
+    return getDoc(doc(db, "barangay", 'TSWkJ9nGq8dHy2aI4PyD'));
+}
+
+const setBarangay = (details) => {
+    return setDoc(doc(db, "barangay", 'TSWkJ9nGq8dHy2aI4PyD'), {details});
+}
+
 const requestForm = async (form) => {
 
     const notif = {
@@ -143,6 +151,8 @@ export {
     getUser,
     requestForm,
     getRequestForms,
+    getBarangay,
+    setBarangay,
     getDocuments,
     updateDocument,
     addDocument,
