@@ -151,7 +151,7 @@ const Residency = ({ profile, setAlert, docu }) => {
                 <div onClick={handleClick} className='text-[#1F2F3D] font-bold px-2 text-sm cursor-pointer text-ellipsis'>
                   <input onChange={handleChange}
                     ref={hiddenFileInput} type='file' className='hidden' accept='image/png, image/gif, image/jpeg' />
-                  {!form.uploaded_docs ? "Upload Zone Clearance and/or Other Documents" : "Chosen file: " + (form.uploaded_docs.name.length > 30) ? form.uploaded_docs.name.substring(0, 30) : form.uploaded_docs.name}
+                  {!form.uploaded_docs ? "Upload Zone Clearance and/or Other Documents" : "Chosen file: " + form.uploaded_docs.name}
                 </div>
                 {!form.uploaded_docs ? <img className='h-6' src={upload} alt="" /> : <CloseIcon className='cursor-pointer' onClick={() => { updateForm({ uploaded_docs: null }) }} fontSize='small' />}
               </div>

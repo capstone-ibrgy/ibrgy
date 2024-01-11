@@ -18,6 +18,7 @@ export default function UserSelector({ currentUser }) {
     const [valid, setValid] = useState(false);
     const { alert, setAlert, ERROR } = UserAlert();
     const { profile, updateProfile } = UserProfile();
+    const { logout } = useAuth();
 
     const getUserProfile = async () => {
 

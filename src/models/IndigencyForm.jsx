@@ -5,7 +5,7 @@ export function IndigencyForm() {
         return { ...prev, ...next }
     },
         {
-            name: "Certificate of Residency",
+            name: "Certificate of Indigency",
             formId: null,
             status: 0,
             formType: 3,
