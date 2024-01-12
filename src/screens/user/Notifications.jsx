@@ -9,9 +9,9 @@ const Notifications = ({ notifs, reads }) => {
   const status = ["Requested", "Ready for Pick-up", "Released", "Request Denied"];
 
   return (
-    <div className="w-full h-full overflow-auto">
+    <div className="w-full h-full overflow-hidden">
       <h1 className="text-3xl font-bold my-4">Notifications</h1>
-      <div className="flex flex-col w-full h-full items-center gap-3 py-2">
+      <div className="flex flex-col w-full h-full items-center gap-3 py-2 overflow-auto">
         {notifs['notifs'].map((item) => {
           return (
             <div
