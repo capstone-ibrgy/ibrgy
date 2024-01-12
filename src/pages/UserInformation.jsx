@@ -114,8 +114,6 @@ function UserInformation(props) {
                       }} type='checkbox'></input>
                     <p className='text-sm font-bold text-[#1F2F3D]'>I agree to the <span onClick={() => {
                       setPolicy(true)
-                    }} className='text-[#1B75BC] cursor-pointer'>Terms of Service</span> and <span onClick={() => {
-                      setPolicy(true)
                     }} className='text-[#1B75BC] cursor-pointer'>Privacy Policy</span> of this website.</p>
                   </div>
                   <p className={`${(notAgree != null && !agree) ? 'opacity-100' : 'opacity-0'} px-1 py-2 h-8 text-xs font-bold text-[#E8090C]`}>{notAgree}</p>

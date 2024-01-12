@@ -10,8 +10,8 @@ const Notifications = ({ notifs, reads }) => {
 
   return (
     <div className="w-full h-full overflow-hidden">
-      <h1 className="text-3xl font-bold my-4">Notifications</h1>
-      <div className="flex flex-col w-full h-full items-center gap-3 py-2 overflow-auto">
+      <h1 className="text-3xl font-bold my-3">Notifications</h1>
+      <div className="flex flex-col w-full h-full items-center gap-2 my-2 overflow-auto">
         {notifs['notifs'].map((item) => {
           return (
             <div
