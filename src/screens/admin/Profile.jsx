@@ -14,7 +14,7 @@ import {
 } from '../../api/services'
 import { AdminProfile } from '../../models/AdminProfile';
 
-const Profile = ({ user, setAlert }) => {
+const Profile = ({ user, setAlert, rawRequests }) => {
 
   const hiddenFileInput = useRef(null);
   const [fileError, setFileError] = useState("");
@@ -23,12 +23,13 @@ const Profile = ({ user, setAlert }) => {
   const [userHolder, setUserHolder] = useState(user);
   const [isLoading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [status, setStatus] = useState([0, 0, 0, 0])
 
   const requests = [
-    { label: "To Pick up", content: "" },
-    { label: "Completed", content: "" },
-    { label: "Cancelled", content: "" },
-    { label: "Denied", content: "" }
+    { label: "To Pick up", content: `${status[0]} ${status[0] == 1 ? 'entry' : 'entries'}` },
+    { label: "Completed", content: `${status[1]} ${status[1] == 1 ? 'entry' : 'entries'}` },
+    { label: "Cancelled", content: `${status[2]} ${status[2] == 1 ? 'entry' : 'entries'}` },
+    { label: "Denied", content: `${status[3]} ${status[3] == 1 ? 'entry' : 'entries'}` }
   ]
 
   const length = requests.length
@@ -156,7 +157,26 @@ const Profile = ({ user, setAlert }) => {
       </DialogActions>
     </Dialog>)
   }
+  useEffect(() => {
 
+    const group = rawRequests.reduce((group, form) => {
+      const { status } = form.data;
+
+      group[status] = group[status] ?? [];
+      group[status].push(form);
+      return group;
+    }, {});
+
+
+    let temp = [0,0,0,0];
+
+    temp[0] = !group[0] ? 0 : group[0].length;
+    temp[1] = !group[1] ? 0 : group[1].length;
+    temp[2] = !group[2] ? 0 : group[2].length;
+    temp[3] = !group[3] ? 0 : group[3].length;
+
+    setStatus(temp)
+  }, [rawRequests])
 
   return (
     <div className='w-full h-full'>
@@ -176,13 +196,13 @@ const Profile = ({ user, setAlert }) => {
 
             </div>
             <div className='border-b-2 border-[#1F2F3D]'>
-              <h2 className='text-lg text-center font-bold my-2'>MY REQUESTS</h2>
+              <h2 className='text-lg text-center font-bold my-2'>REQUESTS</h2>
             </div>
             {requests.map((requests, i) => {
               return (
                 <div key={requests.label} className={`${i === (length - 1) ? '' : 'border-b-2 border-[#1F2F3D]'} h-full`}>
                   <h2 className='text-md font-bold mt-1 ml-1'>{requests.label}</h2>
-                  <div className='text-md mt-1 ml-1'>{requests.content}</div>
+                  <div className='text-md mt-1 ml-4'>{requests.content}</div>
                 </div>
               )
             })}

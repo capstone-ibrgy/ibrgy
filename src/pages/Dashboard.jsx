@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer, useState } from 'react'
-import { useAuth } from '../auth/AuthContext'
 import UserDashboard from '../screens/user/UserDashboard';
 import Citizens from './Citizens';
 import Services from './Services';
@@ -11,82 +10,129 @@ import Residency from '../screens/user/Residency'
 import Indigency from '../screens/user/Indigency'
 import OtherDocs from '../screens/user/OtherDocs'
 import Notifications from '../screens/user/Notifications'
-import UploadModal from '../components/UploadModal';
 import Profile from '../screens/user/Profile';
 import { Alert, Snackbar } from '@mui/material';
 import { UserAlert } from '../models/UserAlert';
-import { getDocuments, onSnapshot } from '../api/services';
 import RequestForms from '../screens/user/RequestForms';
+import { getRequestForms, onSnapshot } from '../api/services';
 
-function Dashboard({ screen, setScreen, documents, profile }) {
+function Dashboard({ screen, setScreen, documents, profile, notifs, reads }) {
 
-    const { currentUser, logout } = useAuth();
     const [height, setHeight] = useState(400)
-
-    const [showUpload, setShowUpload] = useState(false);
-    const [progress, setProgress] = useState(0);
     const { alert, setAlert } = UserAlert();
-
-
-    useEffect(() => {
-        function handleResize() {
-            setHeight(Math.round(window.innerHeight * 0.7))
-        }
-
-        const eventL = window.addEventListener('resize', handleResize)
-
-        return eventL
-    }, [height])
+    const [entries, setEntries] = useState([])
+    const [fetchState, setFetchState] = useState(0)
+    const [rawRequests, setRawRequests] = useState([])
 
 
     const screens = [
         {
             screen: "Dashboard", component: <UserDashboard
+                documents={documents}
                 setScreen={setScreen}
                 profile={profile}
-                height={height} />
+                fetchState={fetchState}
+                entries={entries}
+            />
         },
         { screen: "Citizen's Charts", component: <Citizens height={height} /> },
         {
             screen: "Services", component: <Services
                 profile={profile}
-                height={height}
-                setScreen={setScreen} />
+                setScreen={setScreen}
+                documents={documents}
+            />
         },
-        { screen: "About Us", component: <AboutUs height={height} /> },
-        { screen: "Contact Us", component: <Contact height={height} /> },
+        { screen: "About Us", component: <AboutUs /> },
+        { screen: "Contact Us", component: <Contact /> },
         {
             screen: "Home > Profile > My Profile", component: <Profile
-                height={height}
                 user={profile}
-                setProgress={setProgress}
-                setShowUpload={setShowUpload}
                 setAlert={setAlert}
+                rawRequests={rawRequests}
             />
         },
         {
             screen: "Home > Profile > Notifications", component: <Notifications
-                height={height}
+                reads={reads}
+                notifs={notifs}
                 profile={profile}
-                setProgress={setProgress}
-                setShowUpload={setShowUpload} />
+            />
         },
 
     ];
 
     const FormSelector = (form) => {
-        if (form.id == 'cedula') return <Cedula profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
-        else if (form.id == 'clearance') return <Clearance profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
-        else if (form.id == 'indigency') return <Indigency profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
-        else if (form.id == 'residency') return <Residency profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+        if (form.id == 'cedula') return <Cedula
+            docu={form}
+            profile={profile}
+            setAlert={setAlert}
+        />
+        else if (form.id == 'clearance') return <Clearance
+            docu={form}
+            profile={profile}
+            setAlert={setAlert}
+        />
+        else if (form.id == 'indigency') return <Indigency
+            docu={form}
+            profile={profile}
+            setAlert={setAlert}
+        />
+        else if (form.id == 'residency') return <Residency
+            docu={form}
+            profile={profile}
+            setAlert={setAlert}
+        />
 
-        console.log(form)
-        return <RequestForms documents={form} profile={profile} setProgress={setProgress} setShowUpload={setShowUpload} />
+        return <RequestForms
+            documents={form}
+            profile={profile}
+            setAlert={setAlert}
+        />
     }
+
+    useEffect(() => {
+
+        const query = getRequestForms(profile.userId)
+
+        try {
+            const unsub = onSnapshot(query, snapshot => {
+                if (!snapshot) {
+                    setFetchState(-1)
+                    return
+                }
+
+                if (snapshot.empty) {
+                    setFetchState(2)
+                    return
+                }
+
+                const forms = snapshot.docs.map(doc => ({ data: doc.data() }));
+
+                const group = forms.reduce((group, form) => {
+                    const { pick_up } = form.data.form;
+                    group[pick_up['seconds']] = group[pick_up['seconds']] ?? [];
+                    group[pick_up['seconds']].push(form);
+                    return group;
+                }, {});
+
+                setRawRequests(forms)
+                setEntries(group)
+                setFetchState(1)
+            })
+
+            return () => {
+                unsub()
+            }
+
+        } catch {
+            setFetchState(-1)
+        }
+
+    }, []);
 
     return (
         <>
-            <UploadModal show={showUpload} progress={progress} />
             <div className='mt-16 flex flex-col w-full py-6 font-arimo text-[#1F2F3D]'>
                 <div className='w-[85%] h-full self-center'>
                     <h1 className='text-sm font-bold' >{'Home > '}

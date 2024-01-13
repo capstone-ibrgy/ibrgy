@@ -9,8 +9,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import CommonRoute from "./components/CommonRoute";
+import { Troubleshoot } from "@mui/icons-material";
+import { useEffect } from "react";
 
 function App() {
+
+  useEffect(() => {
+
+  }, [])
+
+
   return (
     <>
       <BrowserRouter>
@@ -45,7 +53,7 @@ function App() {
             } />
             <Route path="/services" element={
               <CommonRoute>
-                <Services />
+                <Services demo={Troubleshoot} />
               </CommonRoute>
             } />
             <Route path="/contact-us" element={

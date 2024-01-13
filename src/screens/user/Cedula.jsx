@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import doc from '../../assets/images/Community Logo (5).png'
 import upload from '../../assets/images/Community Logo (16).png'
-import data from '../../assets/data/content.json'
-import { format } from 'date-fns'
 import { CedulaForm } from '../../models/CedulaForm'
 import {
   requestForm,
@@ -15,13 +13,17 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import UploadModal from '../../components/UploadModal'
 
-const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
+import { Backdrop, CircularProgress } from '@mui/material'
+import ClaimingSlip from '../../components/ClaimingSlip'
+
+const Cedula = ({ profile, docu, setAlert }) => {
 
   const [startDate, setStartDate] = useState();
   const [fileError, setFileError] = useState('');
   const { form, updateForm } = CedulaForm();
+  const [onUpload, setUpload] = useState(false);
+  const [claim, setClaim] = useState(null);
 
   const hiddenFileInput = useRef(null);
 
@@ -43,7 +45,7 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
         payment: 'Cash on pick-up'
       })
 
-    setShowUpload(true)
+    setUpload(true);
     handleUpload();
   }
 
@@ -55,23 +57,46 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        const percent = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgress(percent);
+      () => { },
+      (err) => {
+        console.log(err);
+        setUpload(false);
+        setAlert({
+          show: true,
+          type: 'error',
+          message: 'Something went wrong.'
+        });
       },
-      (err) => console.log(err),
       () => {
 
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
 
+          setUpload(false)
           var newForm = form;
 
           newForm.uploaded_docs = url;
-          requestForm(newForm)
-          setShowUpload(false)
-          resetForm()
+          newForm['cost'] = docu.price;
+
+          requestForm(newForm).then((val) => {
+            if (!val) {
+              return setAlert({
+                show: true,
+                type: 'error',
+                message: 'Something went wrong.'
+              });
+            };
+            setClaim(newForm);
+            resetForm();
+
+          }).catch((err) => {
+            console.log(err);
+            setUpload(false)
+            setAlert({
+              show: true,
+              type: 'error',
+              message: 'Something went wrong.'
+            });
+          });
         });
       }
     );
@@ -110,29 +135,32 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
       <h1 className='text-3xl font-bold my-2'>Request Form</h1>
       <div
         className='h-full relative flex flex-col items-center'>
-        <div className={`flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9]`}>
+        <div className={`relative flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9]`}>
+          {onUpload && <div className='flex items-center justify-center absolute w-full h-full bg-white/50 rounded-[20px] z-10'>
+            <CircularProgress />
+          </div>}
           <div className='relative flex flex-row w-full h-16 bg-[#1F2F3D]  rounded-[20px] items-center px-6 gap-6'>
             <img src={doc} className='w-14 h-14' />
-            <h1 className='text-white text-xl font-bold'>{data['documents'][0].name}</h1>
+            <h1 className='text-white text-xl font-bold'>{docu.name}</h1>
             <div className='absolute right-[-1px] rounded-[20px] w-28 h-full bg-[#FEC51C] py-3 px-6'>
-              <h1 className='font-bold text-lg text-center leading-tight'>COST: {data['documents'][0].price} Php</h1>
+              <h1 className='font-bold text-lg text-center leading-tight'>COST: {docu.price} Php</h1>
             </div>
           </div>
           <form onSubmit={handleSubmit} className='flex flex-col w-full flex-1 px-6 py-4 gap-2'>
             <div className='flex flex-row gap-2'>
               <div className='flex-1 flex flex-col'>
                 <label className='font-bold text-[#1F2F3D] text-sm py-1'>Height (in cm)</label>
-                <input value={form.height} required={true} onChange={(e) => { updateForm({ height: e.target.value }) }} className='border-2 h-12 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2' />
+                <input value={form.height} required onChange={(e) => { updateForm({ height: e.target.value }) }} className='border-2 h-12 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2' />
               </div>
               <div className='flex-1 flex flex-col'>
                 <label className='font-bold text-[#1F2F3D] text-sm py-1'>Weight (in kg)</label>
-                <input value={form.weight} required={true} onChange={(e) => { updateForm({ weight: e.target.value }) }} className='border-2 h-12 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2' />
+                <input value={form.weight} required onChange={(e) => { updateForm({ weight: e.target.value }) }} className='border-2 h-12 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2' />
               </div>
               <div className='flex-1 flex flex-col'>
                 <label className='font-bold text-[#1F2F3D] text-sm py-1'>Monthly Income</label>
                 <select onChange={(e) => {
                   updateForm({ income: e.target.value })
-                }} require={true} name="income" id="income" className='border-2 h-12 w-full border-[#1F2F3D] rounded-[10px] bg-[#D9D9D9] px-2'>
+                }} require name="income" id="income" className='border-2 h-12 w-full border-[#1F2F3D] rounded-[10px] bg-[#D9D9D9] px-2'>
                   <option value="Below Php 10,000">below Php 10,000</option>
                   <option value="Php 10,000 - Php 20,000">Php 10,000 - Php 20,000</option>
                   <option value="Php 20,000 - Php 40,000">Php 20,000 - Php 40,000</option>
@@ -158,7 +186,7 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
                     placeholderText='Month Day, Year'
                     dateFormat={['MMMM dd, yyyy']}
                     selected={startDate}
-                    required={true}
+                    required
                     onSelect={(e) => {
                       if (e != null) {
                         updateForm({ pick_up: e })
@@ -189,6 +217,12 @@ const Cedula = ({ height, profile, setProgress, setShowUpload }) => {
           <div className='w-full h-4 bg-[#1F2F3D] rounded-b-[20px]'></div>
         </div>
       </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={!!claim}
+      >
+        {!!claim && <ClaimingSlip form={claim} close={() => { setClaim(null) }} />}
+      </Backdrop>
     </div>
   )
 }

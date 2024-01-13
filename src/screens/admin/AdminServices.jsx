@@ -103,7 +103,7 @@ const AdminServices = ({ setScreen, setAlert }) => {
                 setAdded([1]);
                 setOnAdd(true);
               }}
-              className='bg-[#FEC51C] rounded-[20px] p-2 w-16 cursor-pointer'>
+              className='bg-[#FEC51C] rounded-[20px] p-2 w-16 cursor-pointer shadow-lg'>
               <img src={add} alt="add" className='w-12 h-12' />
             </div>
           </div>}

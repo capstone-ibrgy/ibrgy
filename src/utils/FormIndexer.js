@@ -17,6 +17,8 @@ const indexFields = (form, document) => {
         { label: "Occupation", current: form.form.profile.occupation }
     ];
 
+    console.log(form);
+
     if (form.formTypeId == 0) {
         const requiredFields = [
             { label: "Height (in cm)", current: form.form.height },
@@ -25,19 +27,21 @@ const indexFields = (form, document) => {
         ];
 
         fields = [profileFields, requiredFields];
-    } else if (form.formTypeId < 0 && form.formTypeId > 4) {
+    } else if (form.formTypeId > 0 && form.formTypeId < 4) {
         const requiredFields = [
             { label: "Purpose", current: form.form.purpose }
         ];
 
         fields = [profileFields, requiredFields];
     } else {
+
+        console.log("tae")
         let requiredFields = [];
 
-        requiredFields = document['fields'].map((item) => {
+        requiredFields = document['fields'].map((item, i) => {
             return {
                 label: item.label,
-                current: form.form[item.label.toLowerCase()]
+                current: form.form['fields'][i].value
             }
         })
 

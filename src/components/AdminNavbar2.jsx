@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import { useAuth } from '../auth/AuthContext'
 import logo from "../assets/images/logo.png";
-import profile from "../assets/images/Community Logo (6).png"
+import profileIcon from "../assets/images/Community Logo (6).png"
 import arrow from "../assets/images/Arrow 1.png"
 import arrow2 from "../assets/images/Arrow down 3.png"
 import profile2 from "../assets/images/16.png"
 import logoutIcon from "../assets/images/18.png"
+import notifs from "../assets/images/17.png";
+import { Badge } from "@mui/material";
+import { Notifications } from "@mui/icons-material";
 
-const AdminNavbar2 = ({ setScreen, screen, useAuth }) => {
+const AdminNavbar2 = ({ setScreen, screen, useAuth, profile, notif }) => {
 
     const { currentUser, logout } = useAuth();
 
     const [drop, setDrop] = useState(false);
     const [index, setIndex] = useState(-1);
 
-
     const items = [
         { label: "Profile", icon: profile2 },
+        { label: "Notifications", icon: notifs },
         { label: "Log Out", icon: logoutIcon }
     ]
 
@@ -28,7 +31,7 @@ const AdminNavbar2 = ({ setScreen, screen, useAuth }) => {
         setDrop(false)
         let actual_index = index + 4
 
-        if (actual_index === 5) {
+        if (actual_index === 6) {
             logout()
             return
         }
@@ -39,15 +42,29 @@ const AdminNavbar2 = ({ setScreen, screen, useAuth }) => {
 
     return (
         <div className="bg-[#FEC51C] w-full fixed top-0 rounded-b-[30px] h-16 px-7 grid-cols-3 items-center">
-            <div className="flex h-full justify-between items-center pl-12">
+            <div className="flex h-full items-center pl-12">
                 <img src={logo} className="h-[45px] w-[145px]" />
-                <div></div>
+                <div className="flex-1"></div>
+                <div className="w-16 text-[32px] flex items-center">
+                    <Badge
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }} badgeContent={notif} color="warning">
+                        <Notifications
+                            onClick={() => {
+                                setScreen(5)
+                            }}
+                            className="rotate-[20deg] cursor-pointer"
+                            fontSize="inherit"
+                            color="inherit"
+                        />
+                    </Badge>
+                </div>
                 <div className='flex flex-col items-center text-white bg-[#1f2f3d7f] font-arimo py-2 h-16'>
                     <div className="flex flex-row items-center gap-12 px-4">
-                        <div className="w-[48px] h-[48px]">
-                            <img src={profile} alt="" />
-                        </div>
-                        <p className="font-arimo">Administrator</p> {/* removed {props.profile.firstname}, replaced with "Administrator" */}
+                        <img className="rounded-full w-[48px] h-[48px] object-cover" src={profile.userAvatar || profileIcon} alt="" />
+                        <p className="font-arimo">{profile.firstname}</p> {/* removed {props.profile.firstname}, replaced with "Administrator" */}
                         <div
                             onClick={handleDrop}
                             className="h-auto w-[20px]">

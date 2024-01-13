@@ -35,7 +35,26 @@ const getUser = (userId) => {
     return getDoc(doc(db, "profiles", userId));
 }
 
-const requestForm = (form) => {
+const getBarangay = () => {
+    return getDoc(doc(db, "barangay", 'TSWkJ9nGq8dHy2aI4PyD'));
+}
+
+const setBarangay = (details) => {
+    return setDoc(doc(db, "barangay", 'TSWkJ9nGq8dHy2aI4PyD'), {details});
+}
+
+const requestForm = async (form) => {
+
+    const notif = {
+        from: form.profile,
+        message: form.name,
+        status: form.status,
+        createdAt: new Date(),
+        read: false
+    };
+
+    await addNotification(notif);
+
     const formType = ["cedula", "clearance", "residency", "indigency", "added"]
     return addDoc(collection(db, "forms"), {
         "formType": form.formType > 3 ? form.name.toString().toLowerCase() : formType[form.formType],
@@ -45,6 +64,42 @@ const requestForm = (form) => {
         "status": 0,
         form
     });
+}
+
+const createNotification = async (form, status) => {
+
+    const notif = {
+        from: form.profile,
+        message: form.name,
+        status: status,
+        createdAt: new Date(),
+        read: false
+    };
+
+    await addNotification(notif);
+}
+
+const addNotification = (notification) => {
+
+    return addDoc(collection(db, "notifications"), {
+        from: notification.from,
+        status: notification.status,
+        message: notification.message,
+        createdAt: notification.createdAt,
+        read: notification.read
+    });
+}
+
+const getNotifications = () => {
+    const docRef = collection(db, "notifications");
+
+    return query(docRef, where('status', '==', 0), orderBy('createdAt', 'desc'))
+}
+
+const getMyNotifications = (userId) => {
+    const docRef = collection(db, "notifications");
+
+    return query(docRef, where('from.userId', '==', userId), orderBy('createdAt', 'desc'))
 }
 
 const getAllRequestForms = () => {
@@ -96,10 +151,16 @@ export {
     getUser,
     requestForm,
     getRequestForms,
+    getBarangay,
+    setBarangay,
     getDocuments,
     updateDocument,
     addDocument,
     getAllRequestForms,
+    addNotification,
+    getNotifications,
+    getMyNotifications,
+    createNotification,
     updateFormStatus,
     ref,
     uploadBytesResumable,

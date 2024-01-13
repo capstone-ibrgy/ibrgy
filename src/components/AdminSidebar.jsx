@@ -11,8 +11,9 @@ import hands2 from "../assets/images/8.png";
 import triangle from "../assets/images/triangle.png";
 import arrow from "../assets/images/Arrow right.png";
 import arrow2 from "../assets/images/Arrow right 3.png";
+import { Badge } from "@mui/material";
 
-const AdminSidebar = ({ setScreen, screen, documents }) => {
+const AdminSidebar = ({ setScreen, screen, documents, count }) => {
   const [side, setSide] = useState(true);
   const [index, setIndex] = useState(0);
   const [onService, setOnService] = useState(false);
@@ -24,13 +25,6 @@ const AdminSidebar = ({ setScreen, screen, documents }) => {
     { label: "Requests", icon: request, selected: request2 },
   ];
 
-  const services = [
-    "Community Tax Certificate (Cedula)",
-    "Barangay Clearance",
-    "Certificate of Residency",
-    "Certificate of Indigency",
-  ];
-
   const handleSide = () => {
     setSide(!side);
   };
@@ -38,24 +32,23 @@ const AdminSidebar = ({ setScreen, screen, documents }) => {
   const handleClick = (index) => {
     setIndex(index);
 
-    if (index === 3 || index > 3) {
+    if (index === 3 || index > 5) {
       setOnService(true);
     } else {
       setOnService(false);
     }
 
-    console.log(index)
     setScreen(index);
   };
 
   const select = (i, index) => {
-    return i === 3 && index > 3;
+    return i === 3 && index > 5;
   };
 
   return (
     <div
       className={`${side ? "w-[25%]" : "w-[4%] "
-        } flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500`}
+        } flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500 select-none`}
     >
       <div
         className={`flex ${side ? "p-5 justify-end" : "py-5 justify-center"
@@ -77,13 +70,13 @@ const AdminSidebar = ({ setScreen, screen, documents }) => {
                   handleClick(i);
                 }}
                 key={items}
-                className={`relative flex flex-row items-center h-14 px-4 w-full text-white border-b gap-3 
+                className={`relative cursor-pointer flex flex-row items-center h-14 px-4 w-full text-white hover:bg-[#FEC51C]/70 border-b gap-3 
                             ${(i === screen || select(i, screen)) &&
                   "bg-[#FEC51C] border-[#1F2F3D]"
                   } 
                             ${i === screen - 1 && "border-[#1F2F3D]"}`}
               >
-                <img
+                {i === 3 ? <Badge className="pt-1" badgeContent={count} color="warning"><img
                   className="w-5 h-5"
                   src={
                     i === screen || select(i, screen)
@@ -91,7 +84,16 @@ const AdminSidebar = ({ setScreen, screen, documents }) => {
                       : items.icon
                   }
                   alt={items.icon}
-                />
+                /></Badge> :
+                  <img
+                    className="w-5 h-5"
+                    src={
+                      i === screen || select(i, screen)
+                        ? items.selected
+                        : items.icon
+                    }
+                    alt={items.icon}
+                  />}
                 {side && (
                   <h1
                     className={`${(i === screen || select(i, screen)) && "text-[#1F2F3D]"
@@ -118,7 +120,7 @@ const AdminSidebar = ({ setScreen, screen, documents }) => {
                         }}
                         className={`${i + 6 === screen
                           ? "bg-[#FEC51C]/80 text-[#1F2F3D]"
-                          : "text-white"
+                          : "text-white hover:bg-[#FEC51C]/70 "
                           } relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}
                       >
                         <img

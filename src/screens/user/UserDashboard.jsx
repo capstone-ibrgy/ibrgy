@@ -1,65 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { getRequestForms, onSnapshot, Timestamp } from '../../api/services'
 import { format } from 'date-fns'
-import { CircularProgress } from '@mui/material';
+import { Backdrop, CircularProgress } from '@mui/material';
 import { Upcoming, Error } from '@mui/icons-material';
 import document from '../../assets/images/Community Logo (5).png'
 import info from '../../assets/images/Community Logo (13).png'
 import flag from '../../assets/images/d.png'
 import phone from '../../assets/images/g.png'
 
-function UserDashboard({ profile, setScreen }) {
+function UserDashboard({ profile, setScreen, documents, fetchState, entries }) {
     const icons = [info, flag, phone];
     const options = ['About Us', "Citizen's Charter", 'Contact Us']
-
-    const [entries, setEntries] = useState([])
-    const [fetchState, setFetchState] = useState(0)
-    const formType = [
-        "Community Tax Certificate (Cedula)",
-        "Barangay Clearance",
-        "Certificate of Residency",
-        "Certificate of Indigency",
-        "Other Documents"
-    ]
-
-    useEffect(() => {
-
-        const query = getRequestForms(profile.userId)
-
-        try {
-            const unsub = onSnapshot(query, snapshot => {
-                if (!snapshot) {
-                    setFetchState(-1)
-                    return
-                }
-
-                if (snapshot.empty) {
-                    setFetchState(2)
-                    return
-                }
-
-                const forms = snapshot.docs.map(doc => ({ data: doc.data() }));
-
-                const group = forms.reduce((group, form) => {
-                    const { pick_up } = form.data.form;
-                    group[pick_up['seconds']] = group[pick_up['seconds']] ?? [];
-                    group[pick_up['seconds']].push(form);
-                    return group;
-                }, {});
-
-                setEntries(group)
-                setFetchState(1)
-            })
-
-            return () => {
-                unsub()
-            }
-
-        } catch {
-            setFetchState(-1)
-        }
-
-    }, []);
+    const status = ['FOR APPROVAL', 'READY FOR PICK-UP', 'RELEASED', 'REQUEST DENIED'];
 
     const StateBuilder = (state) => {
 
@@ -86,13 +38,27 @@ function UserDashboard({ profile, setScreen }) {
         )
     }
 
+    const getDocumentName = (form) => {
+        let name = "";
+        documents["documents"].map((item) => {
+            if (item.id === form["data"]["formType"]) {
+                name = item["name"];
+            }
+        });
+
+        return name;
+    };
+
+
     return (
         <>
             <h1 className='py-4 text-3xl font-bold'>Welcome back, <span className='text-[#1B75BC]'>{profile.firstname}</span></h1>
             <div className='w-full h-[82%] flex flex-row gap-5'>
                 <div className='flex-1 '>
                     <div className='flex flex-col h-full gap-4'>
-                        <div onClick={() => { }} className='cursor-pointer bg-[#FEC51C] pt-2 h-[60%] w-full rounded-[20px]'>
+                        <div onClick={() => {
+                            setScreen(2)
+                        }} className='cursor-pointer bg-[#FEC51C] pt-2 h-[60%] w-full rounded-[20px]'>
                             <div className='relative w-full flex flex-col justify-center items-center rounded-[20px] h-full bg-[#1F2F3D]'>
                                 <img src={document} alt='doc' className='mb-12 w-40 h-40' />
                                 <div className='absolute bottom-0 flex w-full h-12 bg-[#FEC51C] rounded-[20px] justify-center items-center'>
@@ -132,9 +98,9 @@ function UserDashboard({ profile, setScreen }) {
                         </select>
                         <p className='font-bold pl-2'>entries</p>
                     </div>
-                    <div className='relative flex flex-col w-full h-[85%] bg-[#1F2F3D] rounded-[20px]'>
+                    <div className='relative flex flex-col w-full h-full bg-[#1F2F3D] rounded-[20px] overflow-hidden'>
                         {fetchState != 1 ? StateBuilder(fetchState) : (
-                            <div className='w-full h-[85%] text-white overflow-y-auto'>
+                            <div className='w-full h-[85%] text-white overflow-auto'>
                                 <div className='flex h-full flex-col w-full'>
                                     {
                                         Object.keys(entries).map((date, i) => {
@@ -143,13 +109,15 @@ function UserDashboard({ profile, setScreen }) {
                                                     <h1 className='py-2 text-sm font-bold'>{
                                                         format(new Timestamp(date, 0).toDate(), 'eeee, MMMM d, yyyy')
                                                     }</h1>
-                                                    <h1 className='text-sm font-bold'>FOR APPROVAL</h1>
                                                     {
                                                         entries[date].map((form, i) => {
                                                             return (
-                                                                <ul key={`li#${i}`} className='px-4 list-disc list-inside'>
-                                                                    <li className='text-sm'>{formType[form.data.formTypeId]}</li>
-                                                                </ul>
+                                                                <><h1 className='text-sm font-bold'>{status[form.data.status]}</h1>
+                                                                    <ul key={`li#${i}`} className='px-4 list-disc list-inside'>
+                                                                        <li className='text-sm'>{getDocumentName(form)}</li>
+                                                                    </ul>
+                                                                </>
+
                                                             )
                                                         })
                                                     }
@@ -159,7 +127,7 @@ function UserDashboard({ profile, setScreen }) {
                                     }
                                 </div>
                             </div>)}
-                        <h1 className='font-bold text-lg absolute bottom-0 w-full py-1 bg-[#FEC51C] rounded-[20px] text-center align-middle'>
+                        <h1 className='font-bold text-lg absolute bottom-0 w-full py-2 bg-[#FEC51C] rounded-[20px] text-center align-middle'>
                             Calendar
                         </h1>
                     </div>

@@ -39,7 +39,6 @@ const Sidebar = ({ services, screen, setScreen }) => {
             setOnService(false)
         }
 
-        console.log(index)
         setScreen(index)
     }
 
