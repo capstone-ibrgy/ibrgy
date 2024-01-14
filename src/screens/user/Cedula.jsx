@@ -26,6 +26,7 @@ const Cedula = ({ profile, docu, setAlert }) => {
   const [claim, setClaim] = useState(null);
 
   const hiddenFileInput = useRef(null);
+  const date = new Date();
 
   useEffect(() => {
     updateForm({ profile: profile })
@@ -186,7 +187,8 @@ const Cedula = ({ profile, docu, setAlert }) => {
                     placeholderText='Month Day, Year'
                     dateFormat={['MMMM dd, yyyy']}
                     selected={startDate}
-                    required
+                    minDate={date}
+                    required={true}
                     onSelect={(e) => {
                       if (e != null) {
                         updateForm({ pick_up: e })

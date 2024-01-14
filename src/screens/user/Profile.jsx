@@ -17,6 +17,7 @@ import { UserProfile } from '../../models/UserProfile';
 const Profile = ({ user, setAlert, rawRequests }) => {
 
   const hiddenFileInput = useRef(null);
+  const [startDate, setStartDate] = useState();
   const [fileError, setFileError] = useState("");
   const [fileImage, setFileImage] = useState(null);
   const { profile, updateProfile } = UserProfile();
@@ -31,6 +32,17 @@ const Profile = ({ user, setAlert, rawRequests }) => {
     { label: "Completed", content: `${status[2]} ${status[2] == 1 ? 'request' : 'requests'}` },
     { label: "Denied", content: `${status[3]} ${status[3] == 1 ? 'request' : 'requests'}` }
   ]
+
+  const genderDrop = [
+    {label: 'Male', value: 'Male'},
+    {label: "Female", value: 'Female'}
+  ]
+  const civilDrop = [
+    {label: 'Single', value: 'Single'},
+    {label: "Married", value: 'Married'},
+    {label: 'Divorced', value: 'Divorced'},
+    {label: 'Widowed', value: 'Widowed'}
+  ] 
 
   const length = requests.length
 
@@ -256,20 +268,21 @@ const Profile = ({ user, setAlert, rawRequests }) => {
               <div className='flex flex-col w-16 font-semibold'>
                 <label>Age</label>
                 <input
-                  value={profile.age}
+                  value={startDate == null ? profile.age : profile.age = calculate_age(startDate)}
                   onChange={(e) => { updateProfile({ age: e.target.value }) }}
                   type="text"
+                  disabled={true}
                   placeholder={userHolder.age}
                   className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2' />
               </div>
               <div className='flex flex-col w-full font-semibold'>
-                <label>Gender</label>
+                <label>Sex</label>
                 <input
                   value={profile.gender}
                   onChange={(e) => { updateProfile({ gender: e.target.value }) }}
                   type="text"
                   placeholder={userHolder.gender}
-                  className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2' />
+                  className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'/>
               </div>
               <div className='flex flex-col w-full font-semibold'>
                 <label>Date of Birth</label>
@@ -278,6 +291,7 @@ const Profile = ({ user, setAlert, rawRequests }) => {
                   dateFormat={['MMMM dd, yyyy']}
                   selected={profile.birthdate}
                   onChange={(date) => {
+                    setStartDate(date)
                     updateProfile({ birthdate: date })
                   }}
                   className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-full' />
@@ -294,12 +308,37 @@ const Profile = ({ user, setAlert, rawRequests }) => {
             </div>
             <div className='flex flex-col w-full font-semibold'>
               <label>Address</label>
-              <input
-                value={profile.address}
-                onChange={(e) => { updateProfile({ address: e.target.value }) }}
-                type="text"
-                placeholder={userHolder.address}
-                className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2' />
+              <div className='flex flex-col w-full gap-2'>
+                <div className='relative flex flex-row w-full gap-2'>
+                  <input
+                    value={profile.zone}
+                    onChange={(e) => { updateProfile({ zone: e.target.value }) }}
+                    type="text"
+                    placeholder={userHolder.zone}
+                    className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-full' />
+                  <input
+                    value={profile.barangay}
+                    onChange={(e) => { updateProfile({ barangay: e.target.value }) }}
+                    type="text"
+                    placeholder={userHolder.barangay}
+                    className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-full' />
+                </div>
+                <div className='relative flex flex-row w-full gap-2'>
+                  <input
+                    value={profile.city}
+                    onChange={(e) => { updateProfile({ city: e.target.value }) }}
+                    type="text"
+                    placeholder={userHolder.city}
+                    className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-full' />
+                  <input
+                    value={profile.zip}
+                    onChange={(e) => { updateProfile({ zip: e.target.value }) }}
+                    type="text"
+                    placeholder={userHolder.zip}
+                    className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-48' />
+                </div>
+              </div>
+              
             </div>
             <div className='flex flex-row gap-x-2'>
               <div className='flex flex-col w-full font-semibold'>
@@ -356,6 +395,18 @@ const Profile = ({ user, setAlert, rawRequests }) => {
       {show && showDialog()}
     </div>
   )
+}
+
+const calculate_age = (dob) => {
+  var today = new Date();
+  var birthDate = new Date(dob);  // create a date object directly from `dob1` argument
+  var age_now = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+  {
+      age_now--;
+  }
+  return age_now;
 }
 
 export default Profile

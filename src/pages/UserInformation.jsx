@@ -31,11 +31,26 @@ function UserInformation(props) {
   const navigate = useNavigate();
 
   const location = useLocation();
+  const date = new Date();
+
+  const genderDrop = [
+    {label: 'Male', value: 'Male'},
+    {label: "Female", value: 'Female'}
+  ]
+  const civilDrop = [
+    {label: 'Single', value: 'Single'},
+    {label: "Married", value: 'Married'},
+    {label: 'Divorced', value: 'Divorced'},
+    {label: 'Widowed', value: 'Widowed'}
+  ]
+
 
   useEffect(() => {
     updateProfile({
       userId: currentUser.uid,
-      userAvatar: currentUser.photoURL
+      userAvatar: currentUser.photoURL,
+      gender: 'Male',
+      civilstatus: 'Single'
     })
   }, [])
 
@@ -73,14 +88,15 @@ function UserInformation(props) {
                   <CustomInput customStyle='w-24 flex flex-col' label='M.I.' fieldkey='mi' value={profile.mi} required={true} updateProfile={updateProfile} />
                 </div>
                 <div className='relative w-full flex flex-row gap-2'>
-                  <CustomInput customStyle='w-24 flex flex-col' label='Age' fieldkey='age' value={profile.age} required={true} updateProfile={updateProfile} />
-                  <CustomInput customStyle='flex-1 flex flex-col' label='Gender' fieldkey='gender' value={profile.gender} required={true} updateProfile={updateProfile} />
+                  <CustomInput customStyle='w-24 flex flex-col' disabled={true} label='Age' fieldkey='age' value={startDate == null ? profile.age : profile.age = calculate_age(startDate)} required={true} updateProfile={updateProfile} />
+                  <CustomDropdown customStyle='flex-1 flex flex-col' label='Sex' fieldkey='gender' options={genderDrop} value={profile.gender == null ? profile.gender = 'Male' : profile.gender} required={true} updateProfile={updateProfile} />
                   <div className='flex-1 flex flex-col'>
                     <label className='text-xs p-1 font-bold'>Date of Birth</label>
                     <DatePicker
                       placeholderText='Month Day, Year'
                       dateFormat={['MMMM dd, yyyy']}
                       required={true}
+                      maxDate={date}
                       onSelect={(e) => {
                         if (e != null) {
                           updateProfile({ birthdate: e })
@@ -95,11 +111,16 @@ function UserInformation(props) {
                   </div>
                   <CalendarTodayRoundedIcon className='px-[3px] cursor-pointer right-2 top-7 absolute opacity-90' />
                 </div>
-                <CustomInput customStyle='flex-1 flex flex-col' placeholder='Hospital/Clinic/Barangay, City/Municipality, Province, Country' label='Place of Birth' fieldkey='birthplace' value={profile.birthplace} required={true} updateProfile={updateProfile} />
-                <CustomInput customStyle='flex-1 flex flex-col' placeholder='Street, Zone, Barangay, City/Municipality, Zip Code, Province' label='Address' fieldkey='address' value={profile.address} required={true} updateProfile={updateProfile} />
+                <CustomInput customStyle='flex-1 flex flex-col' placeholder='Barangay, City/Municipality, Province, Country' label='Place of Birth' fieldkey='birthplace' value={profile.birthplace} required={true} updateProfile={updateProfile} />
+                <div className='w-full flex flex-row gap-2'>
+                  <CustomInput customStyle='flex-1 flex flex-col' placeholder='Zone' label='Address' fieldkey='zone' value={profile.zone} required={true} updateProfile={updateProfile} />
+                  <CustomInput customStyle='flex-1 flex flex-col' placeholder='Barangay' label='' fieldkey='barangay' value={profile.barangay} required={true} updateProfile={updateProfile} />
+                  <CustomInput customStyle='flex-1 flex flex-col' placeholder='City/Municipality' label='' fieldkey='city' value={profile.city} required={true} updateProfile={updateProfile} />
+                  <CustomInput customStyle='flex-1 flex flex-col w-[10%]' placeholder='Zip Code' label='' fieldkey='zip' value={profile.zip} required={true} updateProfile={updateProfile} />
+                </div>
                 <div className='w-full flex flex-row gap-2'>
                   <CustomInput customStyle='flex-1 flex flex-col' label='Nationality' fieldkey='national' value={profile.national} required={true} updateProfile={updateProfile} />
-                  <CustomInput customStyle='flex-1 flex flex-col' label='Civil Status' fieldkey='civilstatus' value={profile.civilstatus} required={true} updateProfile={updateProfile} />
+                  <CustomDropdown customStyle='flex-1 flex flex-col' label='Civil Status' fieldkey='civilstatus' options={civilDrop} value={profile.civilstatus} required={true} updateProfile={updateProfile} />
                 </div>
                 <div className='w-full flex flex-row gap-2'>
                   <CustomInput customStyle='flex-1 flex flex-col' label='Occupation' fieldkey='occupation' value={profile.occupation} required={true} updateProfile={updateProfile} />
@@ -169,20 +190,54 @@ function UserInformation(props) {
   )
 }
 
-function CustomInput({ label, fieldkey, value, placeholder, pattern, required, updateProfile, customStyle }) {
+function CustomInput({ label, fieldkey, value, placeholder, pattern, required, updateProfile, customStyle, disabled }) {
 
   return (
     <div className={customStyle}>
-      <label className='text-xs p-1 font-bold'>{label}</label>
+      <label className='text-xs p-1 font-bold h-6'>{label}</label>
       <input type={"text"} value={value} className='px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-8 rounded-lg'
         required={required}
         pattern={pattern}
         placeholder={placeholder}
+        disabled={disabled == null ? false : disabled}
         onChange={(e) => {
           updateProfile({ [fieldkey]: e.target.value })
         }} />
     </div>
   );
+}
+
+function CustomDropdown({ label, fieldkey, value, placeholder, pattern, required, updateProfile, customStyle, options}) {
+
+  return (
+    <div className={customStyle}>
+      <label className='text-xs p-1 font-bold'>{label}</label>
+      <select value={value} className='px-2 border-2 text-[#1F2F3D] border-[#1F2F3D] h-8 rounded-lg'
+        required={required}
+        pattern={pattern}
+        placeholder={placeholder}
+        options={options}
+        onChange={(e) => {
+          updateProfile({ [fieldkey]: e.target.value })
+        }} >
+          {options.map((option) => (
+            <option value={option.value}>{option.label}</option>
+          ))}
+      </select>
+    </div>
+  );
+}
+
+const calculate_age = (dob) => {
+  var today = new Date();
+  var birthDate = new Date(dob);  // create a date object directly from `dob1` argument
+  var age_now = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+  {
+      age_now--;
+  }
+  return age_now;
 }
 
 export default UserInformation

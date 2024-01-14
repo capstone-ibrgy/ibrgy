@@ -29,9 +29,9 @@ const AdminNavbar2 = ({ setScreen, screen, useAuth, profile, notif }) => {
 
     const handleClick = (index) => {
         setDrop(false)
-        let actual_index = index + 4
+        let actual_index = index + 5
 
-        if (actual_index === 6) {
+        if (actual_index === 7) {
             logout()
             return
         }
@@ -53,7 +53,7 @@ const AdminNavbar2 = ({ setScreen, screen, useAuth, profile, notif }) => {
                         }} badgeContent={notif} color="warning">
                         <Notifications
                             onClick={() => {
-                                setScreen(5)
+                                setScreen(6)
                             }}
                             className="rotate-[20deg] cursor-pointer"
                             fontSize="inherit"

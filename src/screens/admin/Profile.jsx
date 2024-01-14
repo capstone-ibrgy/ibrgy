@@ -258,9 +258,10 @@ const Profile = ({ user, setAlert, rawRequests }) => {
               <div className='flex flex-col w-16 font-semibold'>
                 <label>Age</label>
                 <input
-                  value={profile.age}
+                  value={startDate == null ? profile.age : profile.age = calculate_age(startDate)}
                   onChange={(e) => { updateProfile({ age: e.target.value }) }}
                   type="text"
+                  disabled={true}
                   placeholder={userHolder.age}
                   className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2' />
               </div>
@@ -280,6 +281,7 @@ const Profile = ({ user, setAlert, rawRequests }) => {
                   dateFormat={['MMMM dd, yyyy']}
                   selected={profile.birthdate}
                   onChange={(date) => {
+                    setStartDate(date)
                     updateProfile({ birthdate: date })
                   }}
                   className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-full' />
@@ -329,6 +331,18 @@ const Profile = ({ user, setAlert, rawRequests }) => {
       {show && showDialog()}
     </div>
   )
+}
+
+const calculate_age = (dob) => {
+  var today = new Date();
+  var birthDate = new Date(dob);  // create a date object directly from `dob1` argument
+  var age_now = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+  {
+      age_now--;
+  }
+  return age_now;
 }
 
 export default Profile

@@ -26,6 +26,7 @@ const Residency = ({ profile, setAlert, docu }) => {
   const [claim, setClaim] = useState(null);
 
   const hiddenFileInput = useRef(null);
+  const date = new Date();
 
   useEffect(() => {
     updateForm({ profile: profile })
@@ -162,6 +163,7 @@ const Residency = ({ profile, setAlert, docu }) => {
                     placeholderText='Month Day, Year'
                     dateFormat={['MMMM dd, yyyy']}
                     selected={startDate}
+                    minDate={date}
                     required={true}
                     onSelect={(e) => {
                       if (e != null) {
