@@ -100,11 +100,12 @@ const AdminServices = ({ setScreen, setAlert }) => {
           {!onAdd && <div className='flex w-[90%] justify-end'>
             <div
               onClick={() => {
-                setAdded([documents.length]);
+                setAdded([1]);
                 setOnAdd(true);
               }}
               className='bg-[#FEC51C] rounded-[20px] p-2 w-16 cursor-pointer shadow-lg'>
               <img src={add} alt="add" className='w-12 h-12' />
+              {console.log(documents.length)}
             </div>
           </div>}
         </div>

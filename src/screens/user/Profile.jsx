@@ -26,6 +26,8 @@ const Profile = ({ user, setAlert, rawRequests }) => {
   const [show, setShow] = useState(false);
   const [status, setStatus] = useState([0, 0, 0, 0])
 
+  const date = new Date();
+
   const requests = [
     { label: "To Process", content: `${status[0]} ${status[0] == 1 ? 'request' : 'requests'}` },
     { label: "To Pick-up", content: `${status[1]} ${status[1] == 1 ? 'request' : 'requests'}` },
@@ -277,12 +279,15 @@ const Profile = ({ user, setAlert, rawRequests }) => {
               </div>
               <div className='flex flex-col w-full font-semibold'>
                 <label>Sex</label>
-                <input
-                  value={profile.gender}
+                <select
                   onChange={(e) => { updateProfile({ gender: e.target.value }) }}
                   type="text"
                   placeholder={userHolder.gender}
-                  className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'/>
+                  className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'>
+                  {genderDrop.map((option) => (
+                    <option value={option.value} selected={userHolder.gender == option.value}>{option.label}</option>
+                  ))}
+                </select>
               </div>
               <div className='flex flex-col w-full font-semibold'>
                 <label>Date of Birth</label>
@@ -290,6 +295,7 @@ const Profile = ({ user, setAlert, rawRequests }) => {
                   placeholderText={format(userHolder.birthdate.toDate(), 'MMMM dd, yyyy')}
                   dateFormat={['MMMM dd, yyyy']}
                   selected={profile.birthdate}
+                  maxDate={date}
                   onChange={(date) => {
                     setStartDate(date)
                     updateProfile({ birthdate: date })
@@ -352,12 +358,15 @@ const Profile = ({ user, setAlert, rawRequests }) => {
               </div>
               <div className='flex flex-col w-full font-semibold'>
                 <label>Civil Status</label>
-                <input
-                  value={profile.civilstatus}
+                <select
                   onChange={(e) => { updateProfile({ civilstatus: e.target.value }) }}
                   type="text"
                   placeholder={userHolder.civilstatus}
-                  className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2' />
+                  className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2' >
+                    {civilDrop.map((option) => (
+                    <option value={option.value} selected={userHolder.civilstatus == option.value}>{option.label}</option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className='flex flex-row gap-x-2'>

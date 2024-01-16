@@ -32,9 +32,15 @@ const Profile = ({ user, setAlert, rawRequests }) => {
     { label: "Denied", content: `${status[3]} ${status[3] == 1 ? 'entry' : 'entries'}` }
   ]
 
+  const genderDrop = [
+    {label: 'Male', value: 'Male'},
+    {label: "Female", value: 'Female'}
+  ]
+
   const length = requests.length
 
   const [startDate, setStartDate] = useState();
+  const date = new Date();
 
   const handleClose = () => {
     setShow(false)
@@ -267,12 +273,15 @@ const Profile = ({ user, setAlert, rawRequests }) => {
               </div>
               <div className='flex flex-col w-full font-semibold'>
                 <label>Gender</label>
-                <input
-                  value={profile.gender}
+                <select
                   onChange={(e) => { updateProfile({ gender: e.target.value }) }}
                   type="text"
                   placeholder={userHolder.gender}
-                  className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2' />
+                  className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2'>
+                  {genderDrop.map((option) => (
+                    <option value={option.value} selected={userHolder.gender == option.value}>{option.label}</option>
+                  ))}
+                </select>
               </div>
               <div className='flex flex-col w-full font-semibold'>
                 <label>Date of Birth</label>
@@ -280,6 +289,7 @@ const Profile = ({ user, setAlert, rawRequests }) => {
                   placeholderText={format(userHolder.birthdate.toDate(), 'MMMM dd, yyyy')}
                   dateFormat={['MMMM dd, yyyy']}
                   selected={profile.birthdate}
+                  maxDate={date}
                   onChange={(date) => {
                     setStartDate(date)
                     updateProfile({ birthdate: date })
@@ -289,12 +299,36 @@ const Profile = ({ user, setAlert, rawRequests }) => {
             </div>
             <div className='flex flex-col w-full font-semibold'>
               <label>Address</label>
-              <input
-                value={profile.address}
-                onChange={(e) => { updateProfile({ address: e.target.value }) }}
-                type="text"
-                placeholder={userHolder.address}
-                className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2' />
+              <div className='flex flex-col w-full gap-2'>
+                <div className='relative flex flex-row w-full gap-2'>
+                  <input
+                    value={profile.zone}
+                    onChange={(e) => { updateProfile({ zone: e.target.value }) }}
+                    type="text"
+                    placeholder={userHolder.zone}
+                    className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-full' />
+                  <input
+                    value={profile.barangay}
+                    onChange={(e) => { updateProfile({ barangay: e.target.value }) }}
+                    type="text"
+                    placeholder={userHolder.barangay}
+                    className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-full' />
+                </div>
+                <div className='relative flex flex-row w-full gap-2'>
+                  <input
+                    value={profile.city}
+                    onChange={(e) => { updateProfile({ city: e.target.value }) }}
+                    type="text"
+                    placeholder={userHolder.city}
+                    className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-full' />
+                  <input
+                    value={profile.zip}
+                    onChange={(e) => { updateProfile({ zip: e.target.value }) }}
+                    type="text"
+                    placeholder={userHolder.zip}
+                    className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-48' />
+                </div>
+              </div>
             </div>
             <div className='flex flex-row gap-x-2'>
               <div className='flex flex-col w-full font-semibold'>
