@@ -116,7 +116,7 @@ function UserInformation(props) {
                   <CustomInput customStyle='flex-1 flex flex-col' placeholder='Zone' label='Address' fieldkey='zone' value={profile.zone} required={true} updateProfile={updateProfile} />
                   <CustomInput customStyle='flex-1 flex flex-col' placeholder='Barangay' label='' fieldkey='barangay' value={profile.barangay} required={true} updateProfile={updateProfile} />
                   <CustomInput customStyle='flex-1 flex flex-col' placeholder='City/Municipality' label='' fieldkey='city' value={profile.city} required={true} updateProfile={updateProfile} />
-                  <CustomInput customStyle='flex-1 flex flex-col w-[10%]' placeholder='Zip Code' label='' fieldkey='zip' value={profile.zip} required={true} updateProfile={updateProfile} />
+                  <CustomInput customStyle='flex-1 flex flex-col w-[10%]' placeholder='Province' label='' fieldkey='province' value={profile.province} required={true} updateProfile={updateProfile} />
                 </div>
                 <div className='w-full flex flex-row gap-2'>
                   <CustomInput customStyle='flex-1 flex flex-col' label='Nationality' fieldkey='national' value={profile.national} required={true} updateProfile={updateProfile} />

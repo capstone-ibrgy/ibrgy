@@ -337,10 +337,10 @@ const Profile = ({ user, setAlert, rawRequests }) => {
                     placeholder={userHolder.city}
                     className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-full' />
                   <input
-                    value={profile.zip}
-                    onChange={(e) => { updateProfile({ zip: e.target.value }) }}
+                    value={profile.province}
+                    onChange={(e) => { updateProfile({ province: e.target.value }) }}
                     type="text"
-                    placeholder={userHolder.zip}
+                    placeholder={userHolder.province}
                     className='border-2 border-[#1F2F3D] placeholder-[#1B75BC] rounded-lg h-10 p-2 w-48' />
                 </div>
               </div>

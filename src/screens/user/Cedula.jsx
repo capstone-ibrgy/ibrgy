@@ -27,7 +27,7 @@ const Cedula = ({ profile, docu, setAlert }) => {
 
   const hiddenFileInput = useRef(null);
   const date = new Date();
-
+require
   useEffect(() => {
     updateForm({ profile: profile })
   }, []);
@@ -161,7 +161,7 @@ const Cedula = ({ profile, docu, setAlert }) => {
                 <label className='font-bold text-[#1F2F3D] text-sm py-1'>Monthly Income</label>
                 <select onChange={(e) => {
                   updateForm({ income: e.target.value })
-                }} require name="income" id="income" className='border-2 h-12 w-full border-[#1F2F3D] rounded-[10px] bg-[#D9D9D9] px-2'>
+                }} required name="income" id="income" className='border-2 h-12 w-full border-[#1F2F3D] rounded-[10px] bg-[#D9D9D9] px-2'>
                   <option value="Below Php 10,000">below Php 10,000</option>
                   <option value="Php 10,000 - Php 20,000">Php 10,000 - Php 20,000</option>
                   <option value="Php 20,000 - Php 40,000">Php 20,000 - Php 40,000</option>

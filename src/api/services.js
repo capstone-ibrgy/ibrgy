@@ -56,6 +56,7 @@ const requestForm = async (form) => {
     const notif = {
         from: form.profile,
         message: form.name,
+        reason: null,
         status: form.status,
         createdAt: new Date(),
         read: false
@@ -74,11 +75,12 @@ const requestForm = async (form) => {
     });
 }
 
-const createNotification = async (form, status) => {
+const createNotification = async (form, status, reason) => {
 
     const notif = {
         from: form.profile,
         message: form.name,
+        reason: reason,
         status: status,
         createdAt: new Date(),
         read: false
@@ -93,6 +95,7 @@ const addNotification = (notification) => {
         from: notification.from,
         status: notification.status,
         message: notification.message,
+        reason: notification.reason,
         createdAt: notification.createdAt,
         read: notification.read
     });

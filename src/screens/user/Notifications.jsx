@@ -25,9 +25,10 @@ const Notifications = ({ notifs, reads }) => {
                   color="inherit"
                 />
               </div>
-              <div className="text-lg flex-1 px-4">
+              <div className="text-lg flex-1 px-4 flex flex-row">
                 <span className="font-bold">{status[item.status]}</span>
-                {`: ${item["message"]}`}
+                {`: ${item["message"]} `}
+                <p className='px-1 font-light italic'>{item["reason"] === null ? '' : item["reason"]}</p>
               </div>
               <p className="px-4 font-light italic">
                 {format(item["createdAt"].toDate(), "MMMM dd")} at{" "}
