@@ -50,7 +50,7 @@ function RequestViewer({ form, close, document, setAlert }) {
                 message: 'The request has been confirmed.'
             });
 
-            createNotification(form['form'], 1, answer.reason);
+            createNotification(form['form'], 1, null);
             close();
         }).catch((err) => {
             console.log(err);
@@ -146,7 +146,6 @@ function RequestViewer({ form, close, document, setAlert }) {
                             title={showDialog.title}
                             content={showDialog.content}
                             action1={() => {
-                                setDeny(true);
                                 showDialog.action();
                                 setDialog(null)
                             }}
@@ -176,7 +175,11 @@ function RequestViewer({ form, close, document, setAlert }) {
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                     open={deny}
                 >
-                    {deny && <DenyReason denyRequest={handleDenyRequest} />}
+                    {deny && <DenyReason
+                        close={() => {
+                            setDeny(false)
+                        }}
+                        denyRequest={handleDenyRequest} />}
                 </Backdrop>
             </div>
         </div>

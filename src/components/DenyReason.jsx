@@ -1,14 +1,14 @@
+import { Close } from '@mui/icons-material';
 import React, { useState } from 'react'
 
 
-const DenyReason = ({ denyRequest }) => {
+const DenyReason = ({ denyRequest, close }) => {
 
     const [reason, setReason] = useState(null);
     const onSubmit = (e) => {
         e.preventDefault();
 
         denyRequest(reason);
-
     }
 
     return (
@@ -17,8 +17,11 @@ const DenyReason = ({ denyRequest }) => {
                 <div className='flex flex-col w-full h-full items-center justify-center font-arimo text-white'>
                     <div className='flex flex-col w-[460px] h-[450px] bg-[#a41f1f] rounded-[20px] pb-4'>
                         <div className='relative flex flex-row w-full h-16 items-center px-4'>
-                            <div className='flex h-10 w-full items-center justify-center'>
-                                <h1 className='font-bold text-xl'>Reason for Denial</h1>
+                            <div className='flex h-10 w-full items-center justify-between'>
+                                <h1 className='font-bold text-xl text-center w-full'>Reason for Denial</h1>
+                                <Close onClick={() => {
+                                    close();
+                                }} className='cursor-pointer' />
                             </div>
                         </div>
                         <form
