@@ -14,7 +14,6 @@ function RequestViewer({ form, close, document, setAlert }) {
     const [showDialog, setDialog] = useState(false);
     const [showDocs, setShowDocs] = useState(false);
     const [deny, setDeny] = useState(false);
-    const [reason, setReason] = useState(null);
 
     useEffect(() => {
         const fields = indexFields(form, document);
@@ -22,16 +21,15 @@ function RequestViewer({ form, close, document, setAlert }) {
         setFields(fields);
     }, [form]);
 
-    const handleDenyRequest = () => {
+    const handleDenyRequest = (reason) => {
         updateFormStatus(form.id, 3).then((val) => {
             setAlert({
                 show: true,
                 type: 'success',
-                message: 'The request has been denied successfully.'
+                message: 'The request has been denied.'
             });
 
             createNotification(form['form'], 3, reason);
-            setReason(null)
             close();
         }).catch((err) => {
             console.log(err);
@@ -124,13 +122,7 @@ function RequestViewer({ form, close, document, setAlert }) {
                                             title: 'Deny Request',
                                             content: 'Are you sure you want to deny this request?',
                                             action: () => {
-                                                setDeny((prevDeny) => {
-                                                    if (!prevDeny) {
-                                                        console.log(prevDeny); // Log the previous value
-                                                        handleDenyRequest();
-                                                    }
-                                                    return true; // Set the new value
-                                                 })
+                                                setDeny(true)
                                             }
                                         })
                                     }}
@@ -184,7 +176,7 @@ function RequestViewer({ form, close, document, setAlert }) {
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                     open={deny}
                 >
-                    {deny && <DenyReason setDeny={setDeny} setReason={setReason}/>}
+                    {deny && <DenyReason denyRequest={handleDenyRequest} />}
                 </Backdrop>
             </div>
         </div>

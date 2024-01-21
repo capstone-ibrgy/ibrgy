@@ -81,7 +81,7 @@ const AdminServices = ({ setScreen, setAlert }) => {
     <div className='flex flex-col w-full h-full'>
       <h1 className='text-3xl font-bold font-arimo mt-2 mb-4'>Documents Offered</h1>
       <div className={`h-full w-full overflow-auto`}>
-        <div className='flex flex-col items-center gap-6'>
+        <div className='flex flex-col items-center gap-6 h-full py-2'>
           {
             fetchState != 1 ? StateBuilder(`${fetchState}`) :
               documents.map((item, i) => {

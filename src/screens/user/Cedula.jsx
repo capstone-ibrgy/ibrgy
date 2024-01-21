@@ -27,7 +27,7 @@ const Cedula = ({ profile, docu, setAlert }) => {
 
   const hiddenFileInput = useRef(null);
   const date = new Date();
-require
+
   useEffect(() => {
     updateForm({ profile: profile })
   }, []);
