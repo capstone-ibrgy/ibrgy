@@ -40,7 +40,7 @@ const getBarangay = () => {
 }
 
 const setBarangay = (details) => {
-    return setDoc(doc(db, "barangay", 'TSWkJ9nGq8dHy2aI4PyD'), {details});
+    return setDoc(doc(db, "barangay", 'TSWkJ9nGq8dHy2aI4PyD'), { details });
 }
 
 const getContact = () => {
@@ -48,7 +48,7 @@ const getContact = () => {
 }
 
 const setContact = (data) => {
-    return setDoc(doc(db, "contact", 'tNYjFWfr8epQ52f7AZwt'), {data});
+    return setDoc(doc(db, "contact", 'tNYjFWfr8epQ52f7AZwt'), { data });
 }
 
 const requestForm = async (form) => {
@@ -64,10 +64,9 @@ const requestForm = async (form) => {
 
     await addNotification(notif);
 
-    const formType = ["cedula", "clearance", "residency", "indigency", "added"]
     return addDoc(collection(db, "forms"), {
-        "formType": form.formType > 3 ? form.name.toString().toLowerCase() : formType[form.formType],
-        "formTypeId": form.formType,
+        "formType": form.formType,
+        "formTypeId": form.formTypeId,
         "userId": form.profile.userId,
         "createdAt": Timestamp.now(),
         "status": 0,
@@ -145,7 +144,8 @@ const addDocument = (document) => {
         description: document.description,
         id: document.id,
         price: document.price,
-        fields: document.fields
+        fields: document.fields,
+        createdAt: new Date()
     });
 }
 

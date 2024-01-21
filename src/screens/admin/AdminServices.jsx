@@ -38,6 +38,11 @@ const AdminServices = ({ setScreen, setAlert }) => {
         }
 
         const docs = snapshot.docs.map((doc) => doc.data());
+
+        docs.sort(function (a, b) {
+          return new Date(a.createdAt.toDate()) - new Date(b.createdAt.toDate());
+        });
+
         setDocuments(docs)
         setFetchState(1)
       })

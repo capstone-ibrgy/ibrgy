@@ -30,7 +30,8 @@ const RequestForms = ({ profile, setAlert, documents }) => {
             name: documents.name,
             formId: null,
             status: 0,
-            formType: 4,
+            formType: documents.id,
+            formTypeId: 4,
             profile: null,
             income: "Below Php 10,000",
             uploaded_docs: null,
@@ -90,6 +91,10 @@ const RequestForms = ({ profile, setAlert, documents }) => {
 
                     newForm.uploaded_docs = url;
                     newForm['cost'] = documents.price;
+
+                    if (form.formType == "other documents") {
+                        newForm['name'] = form.fields[0].value;
+                    }
 
                     requestForm(newForm).then((val) => {
                         if (!val) {
