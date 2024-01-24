@@ -68,13 +68,13 @@ const AdminLandingpage = (props) => {
   useEffect(() => {
     if (!notifs['notifs']) return;
 
-    if (screen == 5) {
+    if (screen == 6) {
       const notifId = notifs['notifs'].map((item) => item.id);
       setTimeout(() => {
         localStorage.setItem("admin_notifications", JSON.stringify(notifId));
         setReads(notifId)
 
-      }, 5000);
+      }, 1000);
     }
 
   }, [screen]);
@@ -94,7 +94,12 @@ const AdminLandingpage = (props) => {
           return
         }
 
-        const docs = snapshot.docs.map((doc) => doc.data());
+        let docs = snapshot.docs.map((doc) => doc.data());
+
+        docs.sort(function (a, b) {
+          return new Date(a.createdAt.toDate()) - new Date(b.createdAt.toDate());
+        });
+
         setDocuments({
           documents: docs,
           fetchState: 1,
@@ -206,8 +211,7 @@ const AdminLandingpage = (props) => {
           documents={documents}
           notif={notifCount - reads.length}
           className=""
-        />{" "}
-        {/* removed "profile={props.profile} useAuth={useAuth}" */}
+        />
         <div className="h-screen flex flex-row">
           <AdminSidebar
             setScreen={setScreen}

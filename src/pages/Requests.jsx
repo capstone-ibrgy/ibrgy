@@ -42,7 +42,7 @@ const Requests = ({ setScreen, forms, fetchState, documents }) => {
                 <div
                   key={item}
                   onClick={() => {
-                    handleClick(i + 6);
+                    handleClick(i + 7);
                   }}
                   className="flex flex-col w-[90%] rounded-[20px] cursor-pointer  hover:ring ring-[#FEC51C]"
                 >

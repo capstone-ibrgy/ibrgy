@@ -114,10 +114,10 @@ const HTMLTemplate = (form) => {
         <div class="slip-container">
             <div class="doc-header">
                 <p>Republic of the Philippines</p>
-                <p>{{REGION}}, {{REGION_NAME}}</p>
-                <p>Province of {{PROVINCE}}</p>
-                <p>Municipality of {{MUNICIPALITY}}</p>
-                <p>Barangay {{BARANGAY}}</p>
+                <p>Region 10, Northern Mindanao</p>
+                <p>Province of Misamis Oriental</p>
+                <p>City of Cagayan de Oro</p>
+                <p>Barangay Carmen</p>
             </div>
             <h1 class="doc-title">CLAIMING SLIP</h1>
             <div class="line-border"></div>
@@ -149,7 +149,7 @@ const HTMLTemplate = (form) => {
                 </div>
                 <div>
                     <label>Address:</label>
-                    <p>${form.profile.address}</p>
+                    <p>${form.profile.zone} ${form.profile.barangay} ${form.profile.city} ${form.profile.province}</p>
                 </div>
                 <div>
                     <label>Date of Birth:</label>

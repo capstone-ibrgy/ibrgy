@@ -16,6 +16,7 @@ import { Alert, Snackbar } from "@mui/material";
 import { UserAlert } from "../models/UserAlert";
 import Notifications from "../screens/admin/Notifications";
 import { onSnapshot } from "firebase/firestore";
+import AdminContact from "./AdminContact";
 
 function Dashboard2({
   profile,
@@ -55,6 +56,7 @@ function Dashboard2({
         />
       ),
     },
+    { screen: "Contact Us", component: <AdminContact setAlert={setAlert} /> },
     {
       screen: "Profile > My Profile",
       component: (
@@ -74,20 +76,20 @@ function Dashboard2({
           <h1 className="text-sm font-bold">
             {"Home > "}
             <span className="cursor-pointer hover:text-[#1B75BC]">
-              {screen < 6
+              {screen < 7
                 ? screens[screen].screen
-                : `Request > ${documents["documents"][screen - 6].name}`}
+                : `Request > ${documents["documents"][screen - 7].name}`}
             </span>
           </h1>
-          {screen < 6 ? (
+          {screen < 7 ? (
             screens[screen].component
           ) : (
             <RequestList
               setAlert={setAlert}
-              document={documents["documents"][screen - 6]}
+              document={documents["documents"][screen - 7]}
               fetchState={requests["fetchState"]}
               forms={
-                requests["requests"][documents["documents"][screen - 6].id] ||
+                requests["requests"][documents["documents"][screen - 7].id] ||
                 []
               }
               screen={screen}

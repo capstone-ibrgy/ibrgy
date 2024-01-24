@@ -18,7 +18,7 @@ function NewDocument({ cancel, setAlert }) {
             id: "",
             description: "",
             price: "",
-            fields: []
+            fields: [],
         });
 
     const handleSubmit = (e) => {

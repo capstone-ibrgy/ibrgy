@@ -8,6 +8,7 @@ import Cedula from '../screens/user/Cedula'
 import Clearance from '../screens/user/Clearance'
 import Residency from '../screens/user/Residency'
 import Indigency from '../screens/user/Indigency'
+import OtherDocs from '../screens/user/OtherDocs'
 import Notifications from '../screens/user/Notifications'
 import Profile from '../screens/user/Profile';
 import { Alert, Snackbar } from '@mui/material';
@@ -22,6 +23,7 @@ function Dashboard({ screen, setScreen, documents, profile, notifs, reads }) {
     const [entries, setEntries] = useState([])
     const [fetchState, setFetchState] = useState(0)
     const [rawRequests, setRawRequests] = useState([])
+
 
     const screens = [
         {

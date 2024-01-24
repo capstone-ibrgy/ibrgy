@@ -5,6 +5,7 @@ import RequestEntry from "../../components/RequestEntry";
 import releaseIcon from '../../assets/images/release.png'
 
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import SearchIcon from '@mui/icons-material/Search';
 import { Backdrop, CircularProgress } from "@mui/material";
 import RequestViewer from "./RequestViewer";
 import { Upcoming, Error, Close } from "@mui/icons-material";
@@ -15,6 +16,10 @@ function RequestList({ forms, document, setAlert, screen, fetchState }) {
     const [rows, setRows] = useState([]);
     const [form, setForm] = useState(null);
     const [release, setRelease] = useState(null);
+    const [searchInput, setSearchInput] = useState('');
+    const [filteredResults, setFilteredResults] = useState([]);
+
+    const statuses = ['Processing', 'For Pick-up', 'Released', 'Denied']
 
     useEffect(() => {
         var rows = [];
@@ -33,6 +38,7 @@ function RequestList({ forms, document, setAlert, screen, fetchState }) {
                 date: format(data.createdAt.toDate(), "MMMM d, yyyy"),
                 pick_up: format(data.form.pick_up.toDate(), "MMMM d, yyyy"),
                 status: !data.status ? 0 : data.status,
+                actual_status: statuses[!data.status ? 0 : data.status],
                 data
             };
 
@@ -67,6 +73,19 @@ function RequestList({ forms, document, setAlert, screen, fetchState }) {
         )
     }
 
+    const searchItems = (searchValue) => {
+        setSearchInput(searchValue)
+        if (searchInput !== '') {
+            const filteredData = rows.filter((item) => {
+                return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+            })
+            setFilteredResults(filteredData)
+        }
+        else{
+            setFilteredResults(rows)
+        }
+    }
+
     return (
         <div className="flex flex-col w-full h-full font-arimo">
             <h1 className="text-3xl font-bold mt-3 mb-1">Requests List</h1>
@@ -75,25 +94,17 @@ function RequestList({ forms, document, setAlert, screen, fetchState }) {
                     <div className="absolute px-6 flex flex-row h-20 bg-[#1F2F3D] rounded-[20px] w-full items-center">
                         <img src={doc} className="h-20 w-20" />
                         <h1 className="text-2xl font-bold mx-4 flex-1">{document.name}</h1>
-                        <div className="h-12 flex flex-row px-5 items-center">
-                            <p className="pr-2">Show</p>
-                            <select
-                                name="show"
-                                id="show"
-                                className="bg-[#1F2F3D] border-2 border-white"
-                            >
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                            <p className="font-bold pl-2">entries</p>
+                        <div className="h-10 flex flex-row px-2 items-center bg-white rounded-lg">
+                            <input type="text" placeholder='Search...' 
+                            className="p-1 rounded-md text-[#1F2F3D] focus:outline-none"
+                            onChange={(e) => searchItems(e.target.value)}
+                            onKeyDown={(e) => {
+                                if(e.key === 'Enter'){
+                                    searchItems(e.target.value)
+                                }
+                            }}
+                            />
+                            <SearchIcon className="text-[#1F2F3D] cursor-pointer" onClick={() => searchItems(searchInput)} />
                         </div>
                     </div>
                     <div className="flex flex-row w-full h-32 rounded-t-[20px] border-2 border-[#1F2F3D] items-end">
@@ -110,7 +121,8 @@ function RequestList({ forms, document, setAlert, screen, fetchState }) {
                     <div className="flex flex-col w-full h-full my-3 select-none overflow-auto">
                         {fetchState != 1 ? StateBuilder(`${fetchState}`) :
                             rows.length == 0 ? StateBuilder("2") :
-                                rows.map((item) => {
+                                searchInput.length > 1 ?
+                                filteredResults.map((item) => {
                                     return (
                                         <div
                                             key={item.id}
@@ -130,7 +142,36 @@ function RequestList({ forms, document, setAlert, screen, fetchState }) {
                                             <RequestEntry id={item.id} item={item} />
                                         </div>
                                     );
-                                })}
+                                })
+                                :
+                                rows.map((item) => {
+                                    return (
+                                        <div
+                                            key={item.id}
+                                            onClick={() => {
+
+                                                if (item['data'].status == 2) return setAlert({
+                                                    show: true,
+                                                    type: 'info',
+                                                    message: 'This request has been completed.'
+                                                });
+
+                                                if (item['data'].status == 3) return setAlert({
+                                                    show: true,
+                                                    type: 'info',
+                                                    message: 'This request has been denied.'
+                                                });
+
+                                                if (item['data'].status != 1) return setForm(item.data);
+
+                                                setRelease(item['data']);
+
+                                            }} className="h-12 w-full">
+                                            <RequestEntry id={item.id} item={item} />
+                                        </div>
+                                    );
+                                })
+                                }
                     </div>
                 </div>
                 <Backdrop

@@ -9,6 +9,8 @@ import flag2 from "../assets/images/Community Logo (10).png";
 import hands from "../assets/images/f.png";
 import hands2 from "../assets/images/8.png";
 import triangle from "../assets/images/triangle.png";
+import call from '../assets/images/g.png'
+import call2 from '../assets/images/10.png'
 import arrow from "../assets/images/Arrow right.png";
 import arrow2 from "../assets/images/Arrow right 3.png";
 import { Badge } from "@mui/material";
@@ -23,6 +25,7 @@ const AdminSidebar = ({ setScreen, screen, documents, count }) => {
     { label: "The Barangay", icon: flag, selected: flag2 },
     { label: "Services", icon: hands, selected: hands2 },
     { label: "Requests", icon: request, selected: request2 },
+    { label: "Contact Us", icon: call, selected: call2 }
   ];
 
   const handleSide = () => {
@@ -32,7 +35,7 @@ const AdminSidebar = ({ setScreen, screen, documents, count }) => {
   const handleClick = (index) => {
     setIndex(index);
 
-    if (index === 3 || index > 5) {
+    if (index === 3 || index > 6) {
       setOnService(true);
     } else {
       setOnService(false);
@@ -42,7 +45,7 @@ const AdminSidebar = ({ setScreen, screen, documents, count }) => {
   };
 
   const select = (i, index) => {
-    return i === 3 && index > 5;
+    return i === 3 && index > 6;
   };
 
   return (
@@ -116,16 +119,16 @@ const AdminSidebar = ({ setScreen, screen, documents, count }) => {
                       <div
                         key={item.id}
                         onClick={() => {
-                          handleClick(i + 6);
+                          handleClick(i + 7);
                         }}
-                        className={`${i + 6 === screen
+                        className={`${i + 7 === screen
                           ? "bg-[#FEC51C]/80 text-[#1F2F3D]"
                           : "text-white hover:bg-[#FEC51C]/70 "
                           } relative w-full px-6 py-3 flex flex-row items-center gap-3 cursor-pointer`}
                       >
                         <img
                           className="w-4 h-4"
-                          src={i + 6 === screen ? arrow2 : arrow}
+                          src={i + 7 === screen ? arrow2 : arrow}
                           alt="icon"
                         />
                         <p className="text-sm">{item.name}</p>

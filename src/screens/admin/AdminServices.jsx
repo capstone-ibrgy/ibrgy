@@ -38,6 +38,11 @@ const AdminServices = ({ setScreen, setAlert }) => {
         }
 
         const docs = snapshot.docs.map((doc) => doc.data());
+
+        docs.sort(function (a, b) {
+          return new Date(a.createdAt.toDate()) - new Date(b.createdAt.toDate());
+        });
+
         setDocuments(docs)
         setFetchState(1)
       })
@@ -81,7 +86,7 @@ const AdminServices = ({ setScreen, setAlert }) => {
     <div className='flex flex-col w-full h-full'>
       <h1 className='text-3xl font-bold font-arimo mt-2 mb-4'>Documents Offered</h1>
       <div className={`h-full w-full overflow-auto`}>
-        <div className='flex flex-col items-center gap-6'>
+        <div className='flex flex-col items-center gap-6 h-full py-2'>
           {
             fetchState != 1 ? StateBuilder(`${fetchState}`) :
               documents.map((item, i) => {
@@ -105,6 +110,7 @@ const AdminServices = ({ setScreen, setAlert }) => {
               }}
               className='bg-[#FEC51C] rounded-[20px] p-2 w-16 cursor-pointer shadow-lg'>
               <img src={add} alt="add" className='w-12 h-12' />
+              {console.log(documents.length)}
             </div>
           </div>}
         </div>

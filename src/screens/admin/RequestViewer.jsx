@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import doc from "../../assets/images/Community Logo (5).png";
 import { Close } from '@mui/icons-material';
 import { indexFields } from '../../utils/FormIndexer';
@@ -6,12 +6,14 @@ import { format } from 'date-fns';
 import PopupDialog from '../../components/PopupDialog';
 import { createNotification, updateFormStatus } from '../../api/services';
 import { Backdrop } from '@mui/material';
+import DenyReason from '../../components/DenyReason';
 
 function RequestViewer({ form, close, document, setAlert }) {
 
     const [fields, setFields] = useState([[], []]);
     const [showDialog, setDialog] = useState(false);
     const [showDocs, setShowDocs] = useState(false);
+    const [deny, setDeny] = useState(false);
 
     useEffect(() => {
         const fields = indexFields(form, document);
@@ -19,15 +21,15 @@ function RequestViewer({ form, close, document, setAlert }) {
         setFields(fields);
     }, [form]);
 
-    const handleDenyRequest = () => {
+    const handleDenyRequest = (reason) => {
         updateFormStatus(form.id, 3).then((val) => {
             setAlert({
                 show: true,
                 type: 'success',
-                message: 'The request has been denied successfully.'
+                message: 'The request has been denied.'
             });
 
-            createNotification(form['form'], 3);
+            createNotification(form['form'], 3, reason);
             close();
         }).catch((err) => {
             console.log(err);
@@ -48,7 +50,7 @@ function RequestViewer({ form, close, document, setAlert }) {
                 message: 'The request has been confirmed.'
             });
 
-            createNotification(form['form'], 1);
+            createNotification(form['form'], 1, null);
             close();
         }).catch((err) => {
             console.log(err);
@@ -120,7 +122,7 @@ function RequestViewer({ form, close, document, setAlert }) {
                                             title: 'Deny Request',
                                             content: 'Are you sure you want to deny this request?',
                                             action: () => {
-                                                handleDenyRequest();
+                                                setDeny(true)
                                             }
                                         })
                                     }}
@@ -168,6 +170,16 @@ function RequestViewer({ form, close, document, setAlert }) {
                             className="w-full h-full"
                         />
                     </div>
+                </Backdrop>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={deny}
+                >
+                    {deny && <DenyReason
+                        close={() => {
+                            setDeny(false)
+                        }}
+                        denyRequest={handleDenyRequest} />}
                 </Backdrop>
             </div>
         </div>

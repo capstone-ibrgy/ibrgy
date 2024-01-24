@@ -27,6 +27,7 @@ const Indigency = ({ profile, setProgress, setShowUpload, docu }) => {
   const [claim, setClaim] = useState(null);
 
   const hiddenFileInput = useRef(null);
+  const date = new Date();
 
   useEffect(() => {
     updateForm({ profile: profile })
@@ -177,6 +178,7 @@ const Indigency = ({ profile, setProgress, setShowUpload, docu }) => {
                     placeholderText='Month Day, Year'
                     dateFormat={['MMMM dd, yyyy']}
                     selected={startDate}
+                    minDate={date}
                     required={true}
                     onSelect={(e) => {
                       if (e != null) {

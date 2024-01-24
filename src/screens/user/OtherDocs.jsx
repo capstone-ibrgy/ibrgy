@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
+import DatePicker from "react-datepicker";
 import doc from '../../assets/images/Community Logo (5).png'
 import upload from '../../assets/images/Community Logo (16).png'
-import { ResidencyForm } from '../../models/ResidencyForm'
+import data from '../../assets/data/content.json'
+
+import { format } from 'date-fns'
+import { IndigencyForm } from '../../models/IndigencyForm'
 import {
   requestForm,
   ref,
@@ -9,24 +13,18 @@ import {
   uploadBytesResumable,
   getDownloadURL
 } from '../../api/services'
+
 import CloseIcon from '@mui/icons-material/Close';
 
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { Backdrop, CircularProgress } from '@mui/material';
-import ClaimingSlip from '../../components/ClaimingSlip';
-
-const Residency = ({ profile, setAlert, docu }) => {
+const OtherDocs = ({ height, profile, setProgress, setShowUpload }) => {
 
   const [startDate, setStartDate] = useState();
   const [fileError, setFileError] = useState('');
-  const { form, updateForm } = ResidencyForm();
-  const [onUpload, setUpload] = useState(false);
-  const [claim, setClaim] = useState(null);
+  const { form, updateForm } = IndigencyForm();
 
   const hiddenFileInput = useRef(null);
-  const date = new Date();
 
   useEffect(() => {
     updateForm({ profile: profile })
@@ -40,7 +38,7 @@ const Residency = ({ profile, setAlert, docu }) => {
       return
     }
 
-    setUpload(true)
+    setShowUpload(true)
     handleUpload();
   }
 
@@ -52,46 +50,23 @@ const Residency = ({ profile, setAlert, docu }) => {
 
     uploadTask.on(
       "state_changed",
-      () => { },
-      (err) => {
-        console.log(err);
-        setUpload(false);
-        setAlert({
-          show: true,
-          type: 'error',
-          message: 'Something went wrong.'
-        });
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(percent);
       },
+      (err) => console.log(err),
       () => {
 
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
 
-          setUpload(false)
           var newForm = form;
 
           newForm.uploaded_docs = url;
-          newForm['cost'] = docu.price;
-
-          requestForm(newForm).then((val) => {
-            if (!val) {
-              return setAlert({
-                show: true,
-                type: 'error',
-                message: 'Something went wrong.'
-              });
-            };
-            setClaim(newForm);
-            resetForm();
-
-          }).catch((err) => {
-            console.log(err);
-            setUpload(false)
-            setAlert({
-              show: true,
-              type: 'error',
-              message: 'Something went wrong.'
-            });
-          });
+          requestForm(newForm)
+          setShowUpload(false)
+          resetForm()
         });
       }
     );
@@ -99,7 +74,7 @@ const Residency = ({ profile, setAlert, docu }) => {
 
   const resetForm = () => {
     updateForm({
-      nickname: '',
+      type: '',
       purpose: '',
       uploaded_docs: null,
       pick_up: '',
@@ -125,31 +100,32 @@ const Residency = ({ profile, setAlert, docu }) => {
   };
 
   return (
-    <div className='w-full h-full overflow-auto'>
+    <div className='w-full h-full'>
       <h1 className='text-3xl font-bold my-2'>Request Form</h1>
       <div
-        className='relative flex flex-col items-center h-full'>
-        <div className={`relative flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9] text-[#1F2F3D]`}>
-          {onUpload && <div className='flex items-center justify-center absolute w-full h-full bg-white/50 rounded-[20px] z-10'>
-            <CircularProgress />
-          </div>}
-          <div className='relative flex flex-row w-full h-16 bg-[#1F2F3D]  rounded-[20px] items-center px-6 gap-6'>
+        style={{ height: height, minHeight: "420px" }}
+        className='relative flex flex-col items-center justify-center'>
+        <div
+          className={`flex flex-col w-[80%] rounded-[20px] bg-[#D9D9D9] text-[#1F2F3D]`}>
+          <div className='relative flex flex-row w-full h-16 bg-[#1F2F3D] rounded-[20px] items-center px-6 gap-6'>
             <img src={doc} className='w-14 h-14' />
-            <h1 className='text-white text-xl font-bold'>{docu.name}</h1>
+            <h1 className='text-white text-xl font-bold'>{data['documents'][4].name}</h1>
             <div className='absolute right-[-1px] rounded-[20px] w-28 h-full bg-[#FEC51C] py-3 px-6'>
-              <h1 className='font-bold text-lg text-center leading-tight'>COST: {docu.price} Php</h1>
+              <h1 className='font-bold text-lg text-center leading-tight'>COST: {data['documents'][4].price}</h1>
             </div>
           </div>
           <form onSubmit={handleSubmit} className='flex flex-col w-full flex-1 px-6 py-2 gap-1'>
+            <div className='flex-1 flex flex-col w-1/3'>
+            <label className='py-1 font-bold text-sm'>Type of Document</label>
+              <textarea value={form.type} required={true} onChange={(e) => { updateForm({ type: e.target.value }) }} className='resize-none border-2 h-12 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2' />
+            </div>
             <div className='flex-1 flex flex-col w-full'>
               <label className='py-1 font-bold text-sm'>Purpose</label>
-              <textarea
-                value={form.purpose} required={true} onChange={(e) => { updateForm({ purpose: e.target.value }) }}
-                className='resize-none border-2 h-16 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2' />
+              <textarea value={form.purpose} required={true} onChange={(e) => { updateForm({ purpose: e.target.value }) }} className='resize-none border-2 h-12 border-[#1F2F3D] bg-[#D9D9D9] rounded-[10px] px-2' />
             </div>
             <div className='flex flex-row py-2'>
-              <div className='flex-1 flex flex-row border-2 border-[#1F2F3D] h-42 rounded-[10px] items-center justify-center gap-2'>
-                <div onClick={handleClick} className='text-[#1F2F3D] font-bold px-2 text-sm cursor-pointer text-ellipsis'>
+              <div className='flex-1 flex flex-row border-2 border-[#1F2F3D] h-full rounded-[10px] items-center justify-center gap-2'>
+                <div onClick={handleClick} className='text-[#1F2F3D] font-bold px-2 text-sm cursor-pointer'>
                   <input onChange={handleChange}
                     ref={hiddenFileInput} type='file' className='hidden' accept='image/png, image/gif, image/jpeg' />
                   {!form.uploaded_docs ? "Upload Zone Clearance and/or Other Documents" : "Chosen file: " + form.uploaded_docs.name}
@@ -163,13 +139,11 @@ const Residency = ({ profile, setAlert, docu }) => {
                     placeholderText='Month Day, Year'
                     dateFormat={['MMMM dd, yyyy']}
                     selected={startDate}
-                    minDate={date}
                     required={true}
                     onSelect={(e) => {
                       if (e != null) {
                         updateForm({ pick_up: e })
                       }
-
                     }}
                     onChange={(e) => {
                       setStartDate(e)
@@ -185,7 +159,7 @@ const Residency = ({ profile, setAlert, docu }) => {
                 </div>
               </div>
             </div>
-            <div className='flex flex-row w-full h-16 justify-between'>
+            <div className='flex flex-row w-full h-14 justify-between'>
               <p className={`${!fileError && 'opacity-0'} ml-2 flex-1 text-sm font-semibold text-red-600`}>{fileError}</p>
               <button type='submit' className='self-center cursor-pointer h-10 flex items-center justify-center ml-2 w-1/3 rounded-[10px] drop-shadow-lg bg-[#FEC51C]'>
                 <h1 className='font-bold'>Submit</h1>
@@ -195,14 +169,8 @@ const Residency = ({ profile, setAlert, docu }) => {
           <div className='w-full h-4 bg-[#1F2F3D] rounded-b-[20px]'></div>
         </div>
       </div>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={!!claim}
-      >
-        {!!claim && <ClaimingSlip form={claim} close={() => { setClaim(null) }} />}
-      </Backdrop>
     </div>
   )
 }
 
-export default Residency
+export default OtherDocs

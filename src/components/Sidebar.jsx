@@ -46,6 +46,10 @@ const Sidebar = ({ services, screen, setScreen }) => {
         return i === 2 && index > 7;
     }
 
+    useEffect(() => {
+        console.log(services)
+    }, [])
+
     return (
         <div className={`${side ? 'w-[25%]' : 'w-[4%] '} flex flex-col pt-16 h-full bg-[#1F2F3D] ease-in-out duration-500`}>
             <div className={`flex ${side ? 'p-5 justify-end' : 'py-5 justify-center'} w-full `}>

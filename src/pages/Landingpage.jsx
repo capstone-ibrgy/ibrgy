@@ -86,6 +86,11 @@ const Landingpage = (props) => {
         }
 
         const docs = snapshot.docs.map((doc) => doc.data());
+
+        docs.sort(function (a, b) {
+          return new Date(a.createdAt.toDate()) - new Date(b.createdAt.toDate());
+        });
+
         setDocuments({
           documents: docs,
           fetchState: 1,
@@ -142,7 +147,6 @@ const Landingpage = (props) => {
       setNotifs({ fetchState: -1 })
     }
   }, []);
-
 
   return <>
     <div className='relative overflow-hidden w-full flex flex-col bg-white'>

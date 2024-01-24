@@ -46,17 +46,8 @@ const Services = ({ profile, setScreen, documents, demo }) => {
       <div className={`w-full overflow-auto`}>
         <div className='flex flex-col items-center gap-6'>
           {
-            !demo ?
-              documents['fetchState'] != 1 ? StateBuilder(`${documents['fetchState']}`) :
-                documents['documents'].map((item, i) => {
-                  return (
-                    <Documents onClick={() => {
-                      handleRequest(i);
-                    }} docs={item} />
-                  )
-                })
-              :
-              data['documents'].map((item, i) => {
+            documents['fetchState'] != 1 ? StateBuilder(`${documents['fetchState']}`) :
+              documents['documents'].map((item, i) => {
                 return (
                   <Documents onClick={() => {
                     handleRequest(i);

@@ -40,7 +40,15 @@ const getBarangay = () => {
 }
 
 const setBarangay = (details) => {
-    return setDoc(doc(db, "barangay", 'TSWkJ9nGq8dHy2aI4PyD'), {details});
+    return setDoc(doc(db, "barangay", 'TSWkJ9nGq8dHy2aI4PyD'), { details });
+}
+
+const getContact = () => {
+    return getDoc(doc(db, "contact", 'tNYjFWfr8epQ52f7AZwt'));
+}
+
+const setContact = (data) => {
+    return setDoc(doc(db, "contact", 'tNYjFWfr8epQ52f7AZwt'), { data });
 }
 
 const requestForm = async (form) => {
@@ -48,6 +56,7 @@ const requestForm = async (form) => {
     const notif = {
         from: form.profile,
         message: form.name,
+        reason: null,
         status: form.status,
         createdAt: new Date(),
         read: false
@@ -55,10 +64,9 @@ const requestForm = async (form) => {
 
     await addNotification(notif);
 
-    const formType = ["cedula", "clearance", "residency", "indigency", "added"]
     return addDoc(collection(db, "forms"), {
-        "formType": form.formType > 3 ? form.name.toString().toLowerCase() : formType[form.formType],
-        "formTypeId": form.formType,
+        "formType": form.formType,
+        "formTypeId": form.formTypeId,
         "userId": form.profile.userId,
         "createdAt": Timestamp.now(),
         "status": 0,
@@ -66,11 +74,12 @@ const requestForm = async (form) => {
     });
 }
 
-const createNotification = async (form, status) => {
+const createNotification = async (form, status, reason) => {
 
     const notif = {
         from: form.profile,
         message: form.name,
+        reason: reason,
         status: status,
         createdAt: new Date(),
         read: false
@@ -85,6 +94,7 @@ const addNotification = (notification) => {
         from: notification.from,
         status: notification.status,
         message: notification.message,
+        reason: notification.reason,
         createdAt: notification.createdAt,
         read: notification.read
     });
@@ -134,7 +144,8 @@ const addDocument = (document) => {
         description: document.description,
         id: document.id,
         price: document.price,
-        fields: document.fields
+        fields: document.fields,
+        createdAt: new Date()
     });
 }
 
@@ -153,6 +164,8 @@ export {
     getRequestForms,
     getBarangay,
     setBarangay,
+    getContact,
+    setContact,
     getDocuments,
     updateDocument,
     addDocument,
